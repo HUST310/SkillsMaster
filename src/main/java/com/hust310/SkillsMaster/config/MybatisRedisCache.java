@@ -72,7 +72,7 @@ public class MybatisRedisCache implements Cache {
     @Override
     public void clear() {
         log.debug("清空缓存");
-        Set<String> keys = getRedisTemplate().keys("*:" + this.id + "*");
+        Set<String> keys = getRedisTemplate().keys(this.id);
         if (!CollectionUtils.isEmpty(keys)) {
             getRedisTemplate().delete(keys);
         }

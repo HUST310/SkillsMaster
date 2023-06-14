@@ -14,6 +14,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 @CacheNamespace(implementation = MybatisRedisCache.class, eviction = MybatisRedisCache.class)
+//@CacheNamespace
 public interface UserMapper extends BaseMapper<User> {
 
 }

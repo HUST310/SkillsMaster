@@ -13,17 +13,16 @@ class SkillsMasterApplicationTests {
 
     @Test
     void testInsert() {
-        User user = new User();
-        user.setAccount(2);
-        user.setUsername("jiangming");
-        user.setPassword("123456");
-        userService.save(user);
     }
 
     @Test
     void test() {
-
+        User user = new User();
+        user.setAccount(1);
+        user.setUsername("ji1");
+        user.setPassword("123456");
         System.out.println(userService.list());
+        userService.saveOrUpdate(user);
         System.out.println(userService.list());
 
     }
