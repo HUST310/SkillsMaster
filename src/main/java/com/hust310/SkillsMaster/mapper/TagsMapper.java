@@ -1,7 +1,9 @@
 package com.hust310.SkillsMaster.mapper;
 
-import com.hust310.SkillsMaster.domain.Tags;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.hust310.SkillsMaster.config.MybatisRedisCache;
+import com.hust310.SkillsMaster.domain.Tags;
+import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -11,6 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
 * @Entity com.hust310.SkillsMaster.domain.Tags
 */
 @Mapper
+@CacheNamespace(implementation = MybatisRedisCache.class, eviction = MybatisRedisCache.class)
 public interface TagsMapper extends BaseMapper<Tags> {
 
 }

@@ -2,8 +2,8 @@ package com.hust310.SkillsMaster.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hust310.SkillsMaster.domain.Comments;
-import com.hust310.SkillsMaster.service.CommentsService;
 import com.hust310.SkillsMaster.mapper.CommentsMapper;
+import com.hust310.SkillsMaster.service.CommentsService;
 import org.springframework.stereotype.Service;
 
 /**

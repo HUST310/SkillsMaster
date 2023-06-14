@@ -1,7 +1,7 @@
 package com.hust310.SkillsMaster.service;
 
-import com.hust310.SkillsMaster.domain.Follow;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hust310.SkillsMaster.domain.Follow;
 
 /**
 * @author 25972

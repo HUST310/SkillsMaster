@@ -6,6 +6,11 @@ spring:
     url: jdbc:mysql://localhost:3306/skill_master?characterEncoding=utf-8
     username: root
     password: 123456
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    cache-enabled: true

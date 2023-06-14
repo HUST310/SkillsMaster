@@ -2,8 +2,8 @@ package com.hust310.SkillsMaster.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hust310.SkillsMaster.domain.Follow;
-import com.hust310.SkillsMaster.service.FollowService;
 import com.hust310.SkillsMaster.mapper.FollowMapper;
+import com.hust310.SkillsMaster.service.FollowService;
 import org.springframework.stereotype.Service;
 
 /**

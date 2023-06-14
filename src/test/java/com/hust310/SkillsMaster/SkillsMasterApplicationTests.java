@@ -20,4 +20,11 @@ class SkillsMasterApplicationTests {
         userService.save(user);
     }
 
+    @Test
+    void test() {
+
+        System.out.println(userService.list());
+        System.out.println(userService.list());
+
+    }
 }
