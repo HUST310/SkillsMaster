@@ -14,7 +14,7 @@ class SkillsMasterApplicationTests {
     @Test
     void testInsert() {
         User user = new User();
-        user.setAccount(1);
+        user.setAccount(2);
         user.setUsername("jiangming");
         user.setPassword("123456");
         userService.save(user);
