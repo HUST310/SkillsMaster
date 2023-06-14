@@ -1,6 +1,7 @@
 package com.hust310.SkillsMaster;
 
-import com.hust310.SkillsMaster.dao.UserMapper;
+import com.hust310.SkillsMaster.domain.User;
+import com.hust310.SkillsMaster.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,11 +9,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class SkillsMasterApplicationTests {
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Test
-    void contextLoads() {
-        System.out.println(userMapper.selectList(null));
+    void testInsert() {
+        User user = new User();
+        user.setAccount(1);
+        user.setUsername("jiangming");
+        user.setPassword("123456");
+        userService.save(user);
     }
 
 }
