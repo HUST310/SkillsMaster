@@ -13,11 +13,12 @@
             <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
             <result property="time" column="time" jdbcType="TIMESTAMP"/>
             <result property="state" column="state" jdbcType="OTHER"/>
+            <result property="logout" column="logout" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         account,password,username,
         gender,signature,avatar,
-        time,state
+        time,state,logout
     </sql>
 </mapper>
