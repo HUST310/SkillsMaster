@@ -1,31 +1,16 @@
 package com.hust310.SkillsMaster.controller;
 
-import com.hust310.SkillsMaster.domain.User;
-import com.hust310.SkillsMaster.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
-@RestController
+@Controller
 public class UserController {
-    @Autowired
-    private UserService userService;
-
-    @GetMapping("/hello")
-    public String getHello() {
-        return "hello";
+    @GetMapping("index")//页面的url地址
+    public String getindex(Model model)//对应函数
+    {
+        model.addAttribute("name", "bigsai");
+        return "index";//与templates中index.html对应
     }
 
-    @GetMapping("/user/getAll")
-    public List<User> getUser() {
-        return userService.list();
-    }
-
-    @GetMapping("/user/modify")
-    public void modifyUser(@RequestBody User user) {
-        userService.saveOrUpdate(user);
-    }
 }
