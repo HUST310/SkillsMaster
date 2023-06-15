@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hust310.SkillsMaster.mapper.TagsMapper">
+
+    <resultMap id="BaseResultMap" type="com.hust310.SkillsMaster.domain.Tags">
+            <result property="uid" column="uid" jdbcType="VARCHAR"/>
+            <result property="tag" column="tag" jdbcType="VARCHAR"/>
+            <result property="time" column="time" jdbcType="TIMESTAMP"/>
+            <result property="state" column="state" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        uid,tag,time,
+        state
+    </sql>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hust310.SkillsMaster.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.hust310.SkillsMaster.domain.User">
+            <id property="account" column="account" jdbcType="INTEGER"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="gender" column="gender" jdbcType="OTHER"/>
+            <result property="signature" column="signature" jdbcType="VARCHAR"/>
+            <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+            <result property="time" column="time" jdbcType="TIMESTAMP"/>
+            <result property="state" column="state" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        account,password,username,
+        gender,signature,avatar,
+        time,state
+    </sql>
+</mapper>
