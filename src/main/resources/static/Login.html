@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>桌面</title>
+		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+        <link rel="stylesheet" href="css/style.css">
+
+		<link rel="stylesheet" type="text/css" href="css/demo.css" />
+		<!--必要样式-->
+		<link rel="stylesheet" type="text/css" href="css/component.css" />
+		<!--[if IE]>
+		<script src="js/html5.js"></script>
+		<![endif]-->
+    <style>
+        #app {
+            background-color: #13283b;
+            margin: 200px 450px;
+            border-color: #384a62;
+            border-radius: 20px;
+            padding: 20px 20px;
+            border-style: solid;
+            border-width: 5px;
+            position: relative;
+            left:400px;
+            width: 480px;
+            bottom: 150px;
+            opacity:0.8;
+        }
+        #register{
+            position: relative;
+            bottom: 48px;
+            left: 140px;
+        }
+        #maintext{
+            position: relative;
+            top: 45px;
+            right: 20px;
+        }
+        #title{
+            font-size: 100px;
+            color: white;
+            left: 200px;
+            position: relative;
+            top:250px;
+        }
+        #app .btn{
+            position: relative;
+            bottom: 60px;
+        }
+
+    </style>
+</head>
+<body>
+<script src="js/vue.js"></script>
+<script src="element-ui/lib/index.js"></script>
+<script src="js/axios-0.18.0.js"></script>
+<link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
+<div class="container demo-1">
+    <div class="content">
+        <div id="large-header" class="large-header">
+            <div style="position:absolute;left:0px; top:0px;"  class="time" id="time" data-hours="" data-minutes="">
+                <div class="content">
+                    <i id="title">Skills Master</i>
+                    <div id="app">
+                        <el-form ref="form" :model="form" id="maintext" label-width="80px">
+                            <el-form-item label="账号">
+                                <el-input v-model="form.accountNumber" @blur="formValid"></el-input>
+                            </el-form-item>
+                            <el-form-item label="密码">
+                                <el-input  v-model="form.password" show-password></el-input>
+                            </el-form-item>
+                            <div hidden="hidden" id="formationCheck1">
+                                <el-form-item>
+                                    <template>
+                                        <el-alert
+                                                title="账号格式正确"
+                                                type="success"
+                                                show-icon
+                                                :closable="false" disabled="true">
+                                        </el-alert>
+                                    </template>
+                                </el-form-item>
+                            </div>
+                            <div hidden="hidden" id="formationCheck2">
+                                <el-form-item>
+                                    <template>
+                                        <el-alert
+                                                title="账号格式错误，请输入9位数字"
+                                                type="error"
+                                                show-icon
+                                                :closable="false" disabled="true">
+                                        </el-alert>
+                                    </template>
+                                </el-form-item>
+                            </div>
+
+                            <el-form-item label="">
+                                <el-checkbox-group v-model="form.type">
+                                    <el-checkbox label="记住密码" name="type"></el-checkbox>
+                                </el-checkbox-group>
+                                <el-link href="./register.html" id="register" target="_blank">注册账号</el-link>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" class="btn" size="medium" @click="onSubmit">登录</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </div>
+                </div>
+            </div>
+            <canvas  id="demo-canvas"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="js/TweenLite.min.js"></script>
+<script src="js/EasePack.min.js"></script>
+<script src="js/rAF.js"></script>
+<script src="js/demo-1.js"></script>
+
+<script src='js/Rx.min.js'></script>
+<script src='js/rxcss.min.js'></script>
+<script src="js/index.js"></script>
+
+<script>
+    new Vue( {
+        el:"#app",
+        data() {
+            return {
+                form: {
+                    accountNumber: '',
+                    password:'',
+                    type:''
+                }
+            }
+        },
+        methods: {
+            onSubmit() {
+                axios({
+                    method: "post",
+                    url:"/Login/login",
+                    data:{
+                        id:this.form.accountNumber,
+                        password: this.form.password
+                    }
+                }).then(resp=>{
+                    if(resp.data=="account error")
+                    {
+                        this.$message.error('账户不存在！');
+                    }
+                    else if(resp.data=="password error")
+                    {
+                        this.$message.error('密码输入错误！');
+                    }
+                    else{
+                        this.$message({
+                            message: '登录成功！',
+                            type: 'success'
+                        });
+                        document.location="./FriendFeed.html"
+                    }
+                });
+            },
+
+            formValid(){
+                let reg=/^\d{9}$/;
+                if(reg.test(this.form.accountNumber))
+                {
+                    document.getElementById("formationCheck2").hidden=true;
+                    document.getElementById("formationCheck1").hidden=false;
+                }
+                else
+                {
+                    document.getElementById("formationCheck1").hidden=true;
+                    document.getElementById("formationCheck2").hidden=false;
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
