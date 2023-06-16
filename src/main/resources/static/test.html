@@ -14,6 +14,21 @@
         .el-aside {
             color: #333;
         }
+
+        .form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .el-form--inline .el-form-item {
+            flex: 1 0 40%;
+            align-items: center;
+        }
+          .form-item-full {
+              flex: 100% !important;
+          }
+
     </style>
 </head>
 <body>
@@ -80,69 +95,20 @@
                 </el-dropdown>
                 <span>博客</span>
             </el-header>
-            <div style="border-style: double;border-width: thick;">
-                <br />
-                <el-form>
-                    <el-row>
-                        <el-col span="8">
-                            <i style="position:relative;left:10px;font-size: 1.2em;">博客管理</i>
-                            <div style="position:relative;left:10px;top:10px;">
-                                <el-button type="primary" icon="el-icon-circle-plus">新增</el-button>
-                                <el-button type="primary" icon="el-icon-edit">修改</el-button>
-                                <el-button type="danger" icon="el-icon-delete">删除</el-button>
-                            </div>
-                        </el-col>
-                        <el-col span="6">
-                            <el-form-item style="position:relative;right:100px;top:35px;">
-                                <el-input placeholder="请输入内容"
-                                v-model="input"
-                                clearable> <el-button slot="append" icon="el-icon-search"></el-button></el-input>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                </el-form>
-                <el-select v-model="value1" multiple placeholder="请选择">
-                    <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </el-option>
-                </el-select>
-                <template>
-                    <el-table
-                            ref="multipleTable"
-                            :data="tableData"
-                            tooltip-effect="dark"
-                            style="width: 100%"
-                            @selection-change="handleSelectionChange">
-                        <el-table-column
-                                type="selection"
-                                width="55">
-                        </el-table-column>
-                        <el-table-column
-                                label="日期"
-                                width="120">
-                            <template slot-scope="scope">{{ scope.row.date }}</template>
-                        </el-table-column>
-                        <el-table-column
-                                prop="name"
-                                label="姓名"
-                                width="120">
-                        </el-table-column>
-                        <el-table-column
-                                prop="address"
-                                label="地址"
-                                show-overflow-tooltip>
-                        </el-table-column>
-                    </el-table>
-                    <div style="margin-top: 20px">
-                        <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button>
-                        <el-button @click="toggleSelection()">取消选择</el-button>
-                    </div>
-                </template>
 
-            </div>
+            <el-form :inline="true" label-width="140px" label-position="right"
+                     :class="['form', isEdit ? 'contract-form-noedit' : '']">
+                <el-form-item class="form-item-full event">
+                    <el-button type="primary" @click="btnEdit">编辑</el-button>
+                </el-form-item>
+                <el-form-item label-width="auto" label="Approved by">
+                    <el-input v-model="input" placeholder="Approved by" />
+                </el-form-item>
+                <el-form-item label-width="auto" label="Approved by">
+                    <el-input v-model="input" placeholder="Approved by" />
+                </el-form-item>
+            </el-form>
+
         </el-container>
     </el-container>
 </div>
@@ -156,12 +122,17 @@
     new Vue({
         el: '#app',
         data() {
+
             const item = {
                 date: '2016-05-02',
                 name: '王小虎',
                 address: '上海市普陀区金沙江路 1518 弄'
             };
             return {
+                formInline:{
+                    user:'',
+                    region:''
+                },
                 input: '',
                 tableData: Array(10).fill(item),
                 multipleSelection: []

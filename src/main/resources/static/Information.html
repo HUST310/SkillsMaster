@@ -25,6 +25,11 @@
       position: relative;
       font-size: 20px;
     }
+    #title2{
+      left: 20px;
+      position: relative;
+      font-size: 20px;
+    }
     .input{
       max-width: 300px ;
 
@@ -32,7 +37,7 @@
 
     #changeAvatar {
       width: 100px;
-      margin-top: 3%;
+      margin-top: 4%;
       margin-left:4%;
       position: absolute;
     }
@@ -135,7 +140,9 @@
       <el-divider></el-divider>
       <div style="border-style: double;border-width: thick;">
         <br />
-        <el-form ref="form" :model="sizeForm" label-width="80px" size="mini" id="ChangeList" style="float: left">
+        <el-form>
+        <el-row>
+          <el-form ref="form" :model="sizeForm" label-width="80px" size="mini" id="ChangeList" style="float: left">
           <el-row >
             <div id="title" class="demonstration" style="float: left">基本资料</div>
           </el-row>
@@ -143,7 +150,7 @@
         <div style="position: relative;
           left: 100px;">
           <el-form-item label="昵称">
-            <el-input class="input"   style="width: 200px"></el-input>
+            <el-input class="input" v-model="sizeForm.name"  style="width: 200px"></el-input>
           </el-form-item>
           <el-form-item label="个人简介">
             <el-input class="input" type="textarea"  v-model="sizeForm.signature" style="width: 250px"></el-input>
@@ -162,7 +169,7 @@
           </el-form-item>
 
         </el-form>
-        <div id="changeAvatar">
+          <div id="changeAvatar">
           <el-upload
                   class="avatar-uploader"
                   action="#"
@@ -172,10 +179,35 @@
                   :before-upload="beforeAvatarUpload">
             <img v-if="sizeForm.imageUrl" :src="sizeForm.imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-
           </el-upload>
-
         </div>
+
+          <el-form ref="form" :model="sizeForm" label-width="80px" size="mini" id="ChangeList"
+                   style="float: left;left: 120px;position: relative;">
+              <el-row >
+                <div id="title2" class="demonstration" style="float: left">修改密码</div>
+              </el-row>
+              <hr>
+              <div >
+                <el-form-item label="原密码">
+                  <el-input class="input"  v-model="input1" show-password style="width: 300px"></el-input>
+                </el-form-item>
+                <el-form-item label="新密码">
+                  <el-input class="input"  v-model="input2" show-password style="width: 300px"></el-input>
+                </el-form-item>
+                <el-form-item label="确认密码">
+                  <el-input class="input"  v-model="input3" show-password style="width: 300px"></el-input>
+                </el-form-item>
+              </div>
+              <el-form-item>
+                <el-button type="primary" size="middle" @click="onSubmit">
+                  确认修改</el-button>
+              </el-form-item>
+
+            </el-form>
+
+        </el-row>
+        </el-form>
       </div>
     </el-container>
   </el-container>
@@ -202,7 +234,10 @@
       return {
         sizeForm: {
         },
-        avatar:''
+        avatar:'',
+        input1:'',
+        input2:'',
+        input3:'',
       }
     },
     methods: {
