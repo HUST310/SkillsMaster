@@ -10,51 +10,31 @@ import lombok.Data;
 
 /**
  * 
- * @TableName user
+ * @TableName test
  */
-@TableName(value ="user")
+@TableName(value ="test")
 @Data
-public class User implements Serializable {
+public class Test implements Serializable {
     /**
-     * 账号
+     * 
      */
     @TableId(type = IdType.AUTO)
-    private Integer account;
+    private Integer id;
 
     /**
-     * 密码
+     * 
      */
-    private String password;
+    private Integer a;
 
     /**
-     * 用户昵称
+     * 
      */
-    private String username;
+    private Date b;
 
     /**
-     * 性别
+     * 
      */
-    private Object gender;
-
-    /**
-     * 用户签名
-     */
-    private String signature;
-
-    /**
-     * 用户头像
-     */
-    private String avatar;
-
-    /**
-     * 用户创建时间
-     */
-    private Date time;
-
-    /**
-     * 账号状态
-     */
-    private Object state;
+    private Object c;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

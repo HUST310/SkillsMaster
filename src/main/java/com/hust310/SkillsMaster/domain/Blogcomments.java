@@ -10,49 +10,54 @@ import lombok.Data;
 
 /**
  * 
- * @TableName user
+ * @TableName blogcomments
  */
-@TableName(value ="user")
+@TableName(value ="blogcomments")
 @Data
-public class User implements Serializable {
+public class Blogcomments implements Serializable {
     /**
-     * 账号
+     * 唯一标识
      */
     @TableId(type = IdType.AUTO)
-    private Integer account;
+    private Integer uid;
 
     /**
-     * 密码
+     * 回复的对象
      */
-    private String password;
+    private Integer receiver;
 
     /**
-     * 用户昵称
+     * 评论者
      */
-    private String username;
+    private Integer commentor;
 
     /**
-     * 性别
+     * 被回复者
      */
-    private Object gender;
+    private Integer commentee;
 
     /**
-     * 用户签名
-     */
-    private String signature;
-
-    /**
-     * 用户头像
-     */
-    private String avatar;
-
-    /**
-     * 用户创建时间
+     * 评论时间
      */
     private Date time;
 
     /**
-     * 账号状态
+     * 评论内容
+     */
+    private String content;
+
+    /**
+     * 点赞数量
+     */
+    private Integer likes;
+
+    /**
+     * 评论数量
+     */
+    private Integer comment;
+
+    /**
+     * 评论的状态
      */
     private Object state;
 

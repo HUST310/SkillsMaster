@@ -1,30 +1,30 @@
 package com.hust310.SkillsMaster.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * 
- * @TableName comments
+ * @TableName ccomments
  */
-@TableName(value ="comments")
+@TableName(value ="ccomments")
 @Data
-public class Comments implements Serializable {
+public class Ccomments implements Serializable {
     /**
      * 唯一标识
      */
-    @TableId
-    private String uid;
+    @TableId(type = IdType.AUTO)
+    private Integer uid;
 
     /**
      * 回复的对象
      */
-    private String receiver;
+    private Integer receiver;
 
     /**
      * 评论者
@@ -49,7 +49,7 @@ public class Comments implements Serializable {
     /**
      * 点赞数量
      */
-    private Integer like;
+    private Integer likes;
 
     /**
      * 评论数量
