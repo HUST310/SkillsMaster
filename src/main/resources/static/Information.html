@@ -33,7 +33,7 @@
     #changeAvatar {
       width: 100px;
       margin-top: 3%;
-      margin-left: 7%;
+      margin-left:4%;
       position: absolute;
     }
 
@@ -140,24 +140,25 @@
             <div id="title" class="demonstration" style="float: left">基本资料</div>
           </el-row>
           <hr>
-<div style="position: relative;
-     left: 150px;">
-
+        <div style="position: relative;
+          left: 100px;">
           <el-form-item label="昵称">
-            <el-input class="input"   v-model="sizeForm.name"></el-input>
+            <el-input class="input"   style="width: 200px"></el-input>
           </el-form-item>
           <el-form-item label="个人简介">
-            <el-input class="input" type="textarea"  v-model="sizeForm.signature"></el-input>
+            <el-input class="input" type="textarea"  v-model="sizeForm.signature" style="width: 250px"></el-input>
           </el-form-item>
           <el-form-item label="性别">
-            <el-select v-model="sizeForm.region" placeholder="请选择性别">
+            <el-select v-model="sizeForm.region" placeholder="请选择性别" style="width: 150px">
               <el-option label="男" value="男"></el-option>
               <el-option label="女" value="女"></el-option>
             </el-select>
           </el-form-item>
-</div>
+        </div>
           <el-form-item>
-            <el-button type="primary" size="middle" @click="onSubmit">提交</el-button>
+            <el-button type="primary" size="middle" @click="onSubmit"
+                       style="position: relative;left: 100px;">
+              提交</el-button>
           </el-form-item>
 
         </el-form>
@@ -210,7 +211,7 @@
         form.append("name", this.sizeForm.name);
         form.append("signature", this.sizeForm.signature);
         form.append("region", this.sizeForm.region);
-
+        form.append("avatar", this.avatar);
         axios({
           method: "post",
           url: "/Info/modifyInfo",
