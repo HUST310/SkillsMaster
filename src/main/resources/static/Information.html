@@ -208,7 +208,7 @@
       onSubmit() {
         let form = new FormData();
         form.append("name", this.sizeForm.name);
-        form.append("name", this.sizeForm.signature);
+        form.append("signature", this.sizeForm.signature);
         form.append("region", this.sizeForm.region);
 
         axios({
