@@ -42,19 +42,19 @@
                 <div>管理模块</div>
                 <el-menu-item index="3">
                     <i class="el-icon-s-management"></i>
-                    <span slot="title">博客管理</span>
+                    <span slot="title"> <el-link href="./BlogManage.html">博客管理</el-link></span>
                 </el-menu-item>
                 <el-menu-item index="4">
                     <i class="el-icon-price-tag"></i>
-                    <span slot="title">标签管理</span>
+                    <span slot="title"><el-link href="./Label.html">标签管理</el-link></span>
                 </el-menu-item>
                 <el-menu-item index="5">
                     <i class="el-icon-s-comment"></i>
-                    <span slot="title">评论管理</span>
+                    <span slot="title"><el-link href="./Comments.html">评论管理</el-link></span>
                 </el-menu-item>
                 <el-menu-item index="6">
                     <i class="el-icon-star-on"></i>
-                    <span slot="title">关注管理</span>
+                    <span slot="title"><el-link href="./Follow.html">关注管理</el-link></span>
                 </el-menu-item>
                 <br />
                 <div>个人模块</div>
@@ -102,7 +102,10 @@
                     </el-row>
                 </el-form>
                 <el-main>
-                    <el-table :data="tableData"  height="500">
+                    <el-table :data="tableData"  height="500"
+                              ref="multipleTable"
+                              tooltip-effect="dark"
+                              @selection-change="handleSelectionChange">
                         <el-table-column
                                 type="selection"
                                 width="55">
@@ -134,16 +137,29 @@
     new Vue({
         el: '#app',
         data() {
-            const item = {
-                title: '黄洋洋xx往事',
-                number: '114514',
-                lable: '爱情、动作',
-                data: '2016-05-02'
-            };
             return {
-                input: '',
-                tableData: Array(10).fill(item)
-
+                tableData: [{
+                    title: '黄洋洋xx往事',
+                    number: '114514',
+                    lable: '爱情、动作',
+                    data: '2016-05-02',
+                }, {
+                    title: '黄洋洋xx往事',
+                    number: '114514',
+                    lable: '爱情、动作',
+                    data: '2016-05-02',
+                }, {
+                    title: '黄洋洋xx往事',
+                    number: '114514',
+                    lable: '爱情、动作',
+                    data: '2016-05-02',
+                }],
+                multipleSelection: []
+            }
+        },
+        methods: {
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
             }
         }
     })

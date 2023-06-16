@@ -5,65 +5,152 @@
     <!-- import CSS -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <style>
-        #app {
-            background-color: #d7d8d9;
-            border-color: #f1f1f1;
+        .el-header {
+            background-color: #B3C0D1;
+            color: #333;
+            line-height: 60px;
+        }
+
+        .el-aside {
+            color: #333;
         }
     </style>
 </head>
 <body>
-<script src="js/vue.js"></script>
-<script src="element-ui/lib/index.js"></script>
-<script src="js/axios-0.18.0.js"></script>
-<div >
-    <el-row class="tac" >
-        <el-col :span="5" id="app">
-            <h5>My-1</h5>
-            <el-menu
-                    default-active="2"
-                    class="el-menu-vertical-demo"
-                    @open="handleOpen"
-                    @close="handleClose"
-                    background-color="#545c64"
-                    text-color="#fff"
-                    active-text-color="#ffd04b">
-                <el-submenu index="1">
-                    <template slot="title">
-                        <i class="el-icon-location"></i>
-                        <span>导航一</span>
-                    </template>
-                    <el-menu-item-group>
-                        <template slot="title">博客管理</template>
-                        <el-menu-item index="1-1">选项1</el-menu-item>
-                        <el-menu-item index="1-2">选项2</el-menu-item>
-                        <el-menu-item index="1-3">选项3</el-menu-item>
-                        <el-menu-item index="1-3">选项3</el-menu-item>
-                    </el-menu-item-group>
-                </el-submenu>
-                <el-menu-item index="2">
-                    <i class="el-icon-menu"></i>
-                    <span slot="title">导航二</span>
-                </el-menu-item>
+<div id="app">
+    <el-container style="height: 730px; border: 1px solid #eee">
+        <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+            <el-menu :default-openeds="['1', '3']">
+                <i class="el-icon-edit" style="height: 50px;font-size: 1.2em;position: relative;
+                   top: 15px;"> My blog </i>
+                <div style="border:1px solid #CCC"></div>
+                <i class="el-icon-user-solid"
+                   style="height: 50px;
+                   font-size: 1.2em;
+                   position: relative;
+                   top: 15px;">     姜明 </i>
+                <div style="border:1px solid #CCC"></div>
 
+                <el-menu-item index="1">
+                    <i class="el-icon-pie-chart"></i>
+                    <span slot="title">数据展示</span>
+                </el-menu-item>
+                <el-menu-item index="2">
+                    <i class="el-icon-magic-stick"></i>
+                    <span slot="title">发布博客</span>
+                </el-menu-item>
+                <br />
+                <div>管理模块</div>
+                <el-menu-item index="3">
+                    <i class="el-icon-s-management"></i>
+                    <span slot="title"> <el-link href="./BlogManage.html">博客管理</el-link></span>
+                </el-menu-item>
+                <el-menu-item index="4">
+                    <i class="el-icon-price-tag"></i>
+                    <span slot="title"><el-link href="./Label.html">标签管理</el-link></span>
+                </el-menu-item>
+                <el-menu-item index="5">
+                    <i class="el-icon-s-comment"></i>
+                    <span slot="title"><el-link href="./Comments.html">评论管理</el-link></span>
+                </el-menu-item>
+                <el-menu-item index="6">
+                    <i class="el-icon-star-on"></i>
+                    <span slot="title"><el-link href="./Follow.html">关注管理</el-link></span>
+                </el-menu-item>
+                <br />
+                <div>个人模块</div>
+                <el-menu-item index="7">
+                    <i class="el-icon-user"></i>
+                    <span slot="title">个人信息</span>
+                </el-menu-item>
+                <el-menu-item index="8">
+                    <i class="el-icon-lock"></i>
+                    <span slot="title">修改密码</span>
+                </el-menu-item>
+                <el-menu-item index="9">
+                    <i class="el-icon-error"></i>
+                    <span slot="title">退出登录</span>
+                </el-menu-item>
             </el-menu>
-        </el-col>
-        <h5>My-blog2</h5>
-    </el-row>
-    <h5>My-blog3</h5>
+        </el-aside>
+
+        <el-container>
+            <el-header style="text-align: right; font-size: 12px">
+                <el-dropdown>
+                    <i class="el-icon-setting" style="margin-right: 15px"></i>
+                </el-dropdown>
+                <span>博客</span>
+            </el-header>
+            <div style="border-style: double;border-width: thick;">
+                <br />
+                <el-form>
+                    <el-row>
+                        <el-col span="8">
+
+                            <div style="position:relative;left:10px;top:10px;">
+                                <i style="position:relative;left:10px;font-size: 1.2em;">关注管理</i>
+                                <el-button type="danger" icon="el-icon-delete"
+                                           style="position:relative;left:40px;">
+                                    批量取关</el-button>
+                            </div>
+                    </el-row>
+                </el-form>
+                <el-main>
+                    <el-table :data="tableData"  height="500">
+                        <el-table-column
+                                type="selection"
+                                width="55">
+                        </el-table-column>
+                        <el-table-column prop="name" label="昵称" width="200">
+                        </el-table-column>
+                        <el-table-column prop="introduction" label="简介" width="340">
+                        </el-table-column>
+                        <el-table-column prop="data" label="关注时间" width="240">
+                        </el-table-column>
+                        <el-table-column  width="120">
+                            <el-button type="primary">查看主页</el-button>
+                        </el-table-column>
+                        <el-table-column  width="120">
+                            <el-button type="danger">取消关注</el-button>
+                        </el-table-column>
+                    </el-table>
+                </el-main>
+            </div>
+        </el-container>
+    </el-container>
 </div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 
 <script>
-    new Vue( {
-        el:"#app",
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                tableData: [{
+                    name: '黄洋洋',
+                    introduction: '洋洋今天吃什么',
+                    data: '2016-05-02'
+                }, {
+                    name: '黄洋洋',
+                    introduction: '洋洋今天吃什么',
+                    data: '2016-05-02'
+                }, {
+                    name: '黄洋洋',
+                    introduction: '洋洋今天吃什么',
+                    data: '2016-05-02'
+                }],
+                multipleSelection: []
+            }
+        },
         methods: {
-            handleOpen(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleClose(key, keyPath) {
-                console.log(key, keyPath);
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
             }
         }
-    });
+    })
 </script>
-</body>
 </html>

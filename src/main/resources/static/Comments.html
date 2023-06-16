@@ -42,19 +42,19 @@
                 <div>管理模块</div>
                 <el-menu-item index="3">
                     <i class="el-icon-s-management"></i>
-                    <span slot="title">博客管理</span>
+                    <span slot="title"> <el-link href="./BlogManage.html">博客管理</el-link></span>
                 </el-menu-item>
                 <el-menu-item index="4">
                     <i class="el-icon-price-tag"></i>
-                    <span slot="title">标签管理</span>
+                    <span slot="title"><el-link href="./Label.html">标签管理</el-link></span>
                 </el-menu-item>
                 <el-menu-item index="5">
                     <i class="el-icon-s-comment"></i>
-                    <span slot="title">评论管理</span>
+                    <span slot="title"><el-link href="./Comments.html">评论管理</el-link></span>
                 </el-menu-item>
                 <el-menu-item index="6">
                     <i class="el-icon-star-on"></i>
-                    <span slot="title">关注管理</span>
+                    <span slot="title"><el-link href="./Follow.html">关注管理</el-link></span>
                 </el-menu-item>
                 <br />
                 <div>个人模块</div>
@@ -99,13 +99,16 @@
                                 type="selection"
                                 width="55">
                         </el-table-column>
-                        <el-table-column prop="title" label="标题" width="240">
+                        <el-table-column prop="text" label="评论内容" width="250">
                         </el-table-column>
-                        <el-table-column prop="number" label="浏览量" width="240">
+                        <el-table-column prop="data" label="评论时间" width="140">
                         </el-table-column>
-                        <el-table-column prop="lable" label="标签分类" width="240">
+                        <el-table-column prop="id" label="评论人" width="140">
                         </el-table-column>
-                        <el-table-column prop="data" label="添加时间" width="240">
+                        <el-table-column prop="blog" label="评论文章" width="140">
+                        </el-table-column>
+                        <el-table-column  width="200">
+                            <el-button type="primary">查看</el-button>
                         </el-table-column>
                         <el-table-column label="审核" width="200">
                             <el-button type="success">通过</el-button>
@@ -127,16 +130,29 @@
     new Vue({
         el: '#app',
         data() {
-            const item = {
-                title: '黄洋洋xx往事',
-                number: '114514',
-                lable: '爱情、动作',
-                data: '2016-05-02'
-            };
             return {
-                input: '',
-                tableData: Array(10).fill(item)
-
+                tableData: [{
+                    text: '杰哥不要',
+                    data: '2016-05-02',
+                    id: '刘梦祥',
+                    blog: '黄洋洋xx往事'
+                }, {
+                    text: '杰哥不要',
+                    data: '2016-05-02',
+                    id: '刘梦祥',
+                    blog: '黄洋洋xx往事'
+                }, {
+                    text: '杰哥不要',
+                    data: '2016-05-02',
+                    id: '刘梦祥',
+                    blog: '黄洋洋xx往事'
+                }],
+                multipleSelection: []
+            }
+        },
+        methods: {
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
             }
         }
     })

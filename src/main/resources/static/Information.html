@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <style>
+    .el-header {
+      background-color: #B3C0D1;
+      color: #333;
+      line-height: 60px;
+    }
+
+    .el-aside {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <el-container style="height: 730px; border: 1px solid #eee">
+    <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+      <el-menu :default-openeds="['1', '3']">
+        <i class="el-icon-edit" style="height: 50px;font-size: 1.2em;position: relative;
+                   top: 15px;"> My blog </i>
+        <div style="border:1px solid #CCC"></div>
+        <i class="el-icon-user-solid"
+           style="height: 50px;
+                   font-size: 1.2em;
+                   position: relative;
+                   top: 15px;">     姜明 </i>
+        <div style="border:1px solid #CCC"></div>
+        <el-menu-item index="1">
+          <i class="el-icon-pie-chart"></i>
+          <span slot="title">数据展示</span>
+        </el-menu-item>
+        <el-menu-item index="2">
+          <i class="el-icon-magic-stick"></i>
+          <span slot="title">发布博客</span>
+        </el-menu-item>
+        <br />
+        <div>管理模块</div>
+        <el-menu-item index="3">
+          <i class="el-icon-s-management"></i>
+          <span slot="title"> <el-link href="./BlogManage.html">博客管理</el-link></span>
+        </el-menu-item>
+        <el-menu-item index="4">
+          <i class="el-icon-price-tag"></i>
+          <span slot="title"><el-link href="./Label.html">标签管理</el-link></span>
+        </el-menu-item>
+        <el-menu-item index="5">
+          <i class="el-icon-s-comment"></i>
+          <span slot="title"><el-link href="./Comments.html">评论管理</el-link></span>
+        </el-menu-item>
+        <el-menu-item index="6">
+          <i class="el-icon-star-on"></i>
+          <span slot="title"><el-link href="./Follow.html">关注管理</el-link></span>
+        </el-menu-item>
+        <br />
+        <div>个人模块</div>
+        <el-menu-item index="7">
+          <i class="el-icon-user"></i>
+          <span slot="title">个人信息</span>
+        </el-menu-item>
+        <el-menu-item index="8">
+          <i class="el-icon-lock"></i>
+          <span slot="title">修改密码</span>
+        </el-menu-item>
+        <el-menu-item index="9">
+          <i class="el-icon-error"></i>
+          <span slot="title">退出登录</span>
+        </el-menu-item>
+      </el-menu>
+    </el-aside>
+
+    <el-container>
+      <el-header style="text-align: right; font-size: 12px">
+        <el-dropdown>
+          <i class="el-icon-setting" style="margin-right: 15px"></i>
+        </el-dropdown>
+        <span>博客</span>
+      </el-header>
+      <el-divider></el-divider>
+      <div style="border-style: double;border-width: thick;">
+        <br />
+        <el-form ref="form" :model="sizeForm" label-width="80px" size="mini" id="ChangeList" style="float: left">
+          <el-row >
+            <div id="title" class="demonstration" style="float: left">基本资料</div>
+            <el-button type="primary" size="small" @click="returnMainPage"style="float: right" >返回主页</el-button>
+          </el-row>
+
+          <hr>
+          <el-form-item label="昵称">
+            <el-input class="input"   v-model="sizeForm.name"></el-input>
+          </el-form-item>
+          <el-form-item label="性别">
+            <el-select v-model="sizeForm.region" placeholder="请选择性别">
+              <el-option label="男" value="男"></el-option>
+              <el-option label="女" value="女"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="生日">
+            <el-col >
+              <el-date-picker type="date" placeholder="选择日期" v-model="sizeForm.date" value-format="yyyy-MM-dd" style="width:200px;"></el-date-picker>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="现居地">
+            <el-input class="input" v-model="sizeForm.hometown"></el-input>
+          </el-form-item>
+          <el-form-item label="故乡">
+            <el-input class="input" v-model="sizeForm.address"></el-input>
+          </el-form-item>
+          <el-form-item label="职业">
+            <el-input class="input" v-model="sizeForm.work"></el-input>
+          </el-form-item>
+          <el-form-item label="公司名称">
+            <el-input class="input" v-model="sizeForm.companyName"></el-input>
+          </el-form-item>
+          <el-form-item label="公司地址">
+            <el-input class="input" v-model="sizeForm.companyAddress"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" size="middle" @click="onSubmit">提交</el-button>
+          </el-form-item>
+        </el-form>
+        <div id="changeAvatar">
+          <el-upload
+                  class="avatar-uploader"
+                  action="#"
+                  :auto-upload="false"
+                  :show-file-list="false"
+                  :on-change="change"
+                  :before-upload="beforeAvatarUpload">
+            <img v-if="sizeForm.imageUrl" :src="sizeForm.imageUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+          <div style="width: 100%;text-align: center" >更换头像</div>
+        </div>
+      </div>
+    </el-container>
+  </el-container>
+</div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+<script>
+  new Vue({
+    el: '#app',
+    data() {
+      return {
+        form: {
+          name: ''
+        }
+    }
+
+    }
+  })
+</script>
+</html>
