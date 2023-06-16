@@ -1,59 +1,62 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="zh-CN" class="no-js">
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>桌面</title>
-  <link rel="stylesheet" type="text/css" href="css/normalize.css" />
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>桌面</title>
+    <link rel="stylesheet" type="text/css" href="css/normalize.css"/>
+    <link rel="stylesheet" href="css/style.css">
 
-  <link rel="stylesheet" type="text/css" href="css/demo.css" />
-  <!--必要样式-->
-  <link rel="stylesheet" type="text/css" href="css/component.css" />
-  <!--[if IE]>
-  <script src="js/html5.js"></script>
-  <![endif]-->
-  <style>
-    #app {
-      background-color: #13283b;
-      margin: 200px 450px;
-      border-color: #384a62;
-      border-radius: 20px;
-      padding: 20px 20px;
-      border-style: solid;
-      border-width: 5px;
-      position: relative;
-      left:400px;
-      width: 480px;
-      bottom: 150px;
-      opacity:0.8;
-    }
-    #box-card2{
-        background-color: #13283b;
-        border-color: #13283b;
-    }
+    <link rel="stylesheet" type="text/css" href="css/demo.css"/>
+    <!--必要样式-->
+    <link rel="stylesheet" type="text/css" href="css/component.css"/>
+    <!--[if IE]>
+    <script src="js/html5.js"></script>
+    <![endif]-->
+    <style>
+        #app {
+            background-color: #13283b;
+            margin: 200px 450px;
+            border-color: #384a62;
+            border-radius: 20px;
+            padding: 20px 20px;
+            border-style: solid;
+            border-width: 5px;
+            position: relative;
+            left: 400px;
+            width: 480px;
+            bottom: 150px;
+            opacity: 0.8;
+        }
 
-    #test{
-      padding-top: 20px;
-      padding-right: 20px;
-    }
-    #title{
-        font-size: 100px;
-        color: white;
-        left: 200px;
-        position: relative;
-        top:250px;
-    }
-    #text{
-      font-size: 30px;
-      position: relative;
-        color: white;
-      left: 20px;
-      bottom: 20px;
-    }
+        #box-card2 {
+            background-color: #13283b;
+            border-color: #13283b;
+        }
 
-  </style>
+        #test {
+            padding-top: 20px;
+            padding-right: 20px;
+        }
+
+        #title {
+            font-size: 100px;
+            color: white;
+            left: 200px;
+            position: relative;
+            top: 250px;
+        }
+
+        #text {
+            font-size: 30px;
+            position: relative;
+            color: white;
+            left: 20px;
+            bottom: 20px;
+        }
+
+    </style>
 </head>
 <body>
 <script src="js/vue.js"></script>
@@ -61,70 +64,73 @@
 <script src="js/axios-0.18.0.js"></script>
 <link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
 <div class="container demo-1">
-  <div class="content">
-    <div id="large-header" class="large-header">
-      <div style="position:absolute;left:0px; top:0px;"  class="time" id="time" data-hours="" data-minutes="">
-        <div class=content>
-        <i id="title">Skills Master</i>
-        <div id="app">
-          <el-card id="box-card2">
-            <el-form :model="user" id="test" label-width="80px" ref="loginFormRef" >
-              <el-form-item label="用户名">
-                <el-input v-model="user.name" prefix-icon="el-icon-user" placeholder="请输入用户名"></el-input>
-              </el-form-item>
-              <el-form-item label="密码">
-                <el-input v-model="user.password" prefix-icon="el-icon-lock" type="password" placeholder="请输入密码" @blur="checkPassword"></el-input>
-              </el-form-item>
-              <el-form-item label="确认密码">
-                <el-input v-model="user.passwordConfirm" prefix-icon="el-icon-lock" type="password" placeholder="请输入密码" @blur="checkPassword"></el-input>
-              </el-form-item>
-              <div hidden="hidden" id="passwordCorrect">
-                <el-form-item>
-                  <template>
-                    <el-alert
-                            title="密码格式正确"
-                            type="success"
-                            show-icon
-                            :closable="false" disabled="true">
-                    </el-alert>
-                  </template>
-                </el-form-item>
-              </div>
-              <div hidden="hidden" id="passwordError2">
-                <el-form-item>
-                  <template>
-                    <el-alert
-                            title="两次输入的密码不一致"
-                            type="error"
-                            show-icon
-                            :closable="false" disabled="true">
-                    </el-alert>
-                  </template>
-                </el-form-item>
-              </div>
-              <div hidden="hidden" id="passwordError1">
-                <el-form-item>
-                  <template>
-                    <el-alert
-                            title="密码格式不正确,请输入6位字母或数字"
-                            type="error"
-                            show-icon
-                            :closable="false" disabled="true">
-                    </el-alert>
-                  </template>
-                </el-form-item>
-              </div>
-              <el-form-item id="button1">
-                <el-button type="primary" @click="register">注册</el-button>
-              </el-form-item>
-            </el-form>
-          </el-card>
+    <div class="content">
+        <div id="large-header" class="large-header">
+            <div style="position:absolute;left:0px; top:0px;" class="time" id="time" data-hours="" data-minutes="">
+                <div class=content>
+                    <i id="title">Skills Master</i>
+                    <div id="app">
+                        <el-card id="box-card2">
+                            <el-form :model="user" id="test" label-width="80px" ref="loginFormRef">
+                                <el-form-item label="用户名">
+                                    <el-input v-model="user.name" prefix-icon="el-icon-user"
+                                              placeholder="请输入用户名"></el-input>
+                                </el-form-item>
+                                <el-form-item label="密码">
+                                    <el-input v-model="user.password" prefix-icon="el-icon-lock" type="password"
+                                              placeholder="请输入密码" @blur="checkPassword"></el-input>
+                                </el-form-item>
+                                <el-form-item label="确认密码">
+                                    <el-input v-model="user.passwordConfirm" prefix-icon="el-icon-lock" type="password"
+                                              placeholder="请输入密码" @blur="checkPassword"></el-input>
+                                </el-form-item>
+                                <div hidden="hidden" id="passwordCorrect">
+                                    <el-form-item>
+                                        <template>
+                                            <el-alert
+                                                    title="密码格式正确"
+                                                    type="success"
+                                                    show-icon
+                                                    :closable="false" disabled="true">
+                                            </el-alert>
+                                        </template>
+                                    </el-form-item>
+                                </div>
+                                <div hidden="hidden" id="passwordError2">
+                                    <el-form-item>
+                                        <template>
+                                            <el-alert
+                                                    title="两次输入的密码不一致"
+                                                    type="error"
+                                                    show-icon
+                                                    :closable="false" disabled="true">
+                                            </el-alert>
+                                        </template>
+                                    </el-form-item>
+                                </div>
+                                <div hidden="hidden" id="passwordError1">
+                                    <el-form-item>
+                                        <template>
+                                            <el-alert
+                                                    title="密码格式不正确,请输入6位字母或数字"
+                                                    type="error"
+                                                    show-icon
+                                                    :closable="false" disabled="true">
+                                            </el-alert>
+                                        </template>
+                                    </el-form-item>
+                                </div>
+                                <el-form-item id="button1">
+                                    <el-button type="primary" @click="register">注册</el-button>
+                                </el-form-item>
+                            </el-form>
+                        </el-card>
+                    </div>
+                </div>
+            </div>
+            <canvas id="demo-canvas"></canvas>
         </div>
-      </div>
-      </div>
-      <canvas  id="demo-canvas"></canvas>
     </div>
-  </div>
 </div>
 
 
@@ -137,73 +143,66 @@
 <script src='js/rxcss.min.js'></script>
 <script src="js/index.js"></script>
 
-<script >
+<script>
 
 
-
-  new Vue({
-    el: '#app',
-    data() {
-      return {
-        user: {
-          name: '',
-          password: '',
-          passwordConfirm:''
-        }
-      }
-    },
-
-    methods:{
-      register(){
-        if(document.getElementById("passwordCorrect").hidden==false)
-        {
-          axios({
-            method:"post",
-            url:'/Register/register',
-            data:{
-              name:this.user.name,
-              password:this.user.password
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                user: {
+                    name: '',
+                    password: '',
+                    passwordConfirm: ''
+                }
             }
-          }).then(resp=>{
-            resp.data;
-            this.$alert('你的账号是:\n'+resp.data, '注册成功', {
-              confirmButtonText: '确定',
-              callback: action => {
-                document.location="./Label.html";
-              }
-            });
+        },
 
-          })
+        methods: {
+            register() {
+                if (document.getElementById("passwordCorrect").hidden == false) {
+                    axios({
+                        method: "post",
+                        url: '/register',
+                        data: {
+                            username: this.user.name,
+                            password: this.user.password
+                        }
+                    }).then(resp => {
+                        resp.data;
+                        this.$alert('你的账号是:\n' + resp.data, '注册成功', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                document.location = "./FriendFeed.html";
+                            }
+                        });
+
+                    })
+                }
+
+            },
+
+            checkPassword() {
+                let reg = /^\w{6}$/;
+                if (reg.test(this.user.password)) {
+                    if (this.user.password == this.user.passwordConfirm) {
+                        document.getElementById("passwordCorrect").hidden = false;
+                        document.getElementById("passwordError2").hidden = true;
+                        document.getElementById("passwordError1").hidden = true;
+                    } else {
+                        document.getElementById("passwordCorrect").hidden = true;
+                        document.getElementById("passwordError2").hidden = false;
+                        document.getElementById("passwordError1").hidden = true;
+                    }
+                } else {
+                    document.getElementById("passwordCorrect").hidden = true;
+                    document.getElementById("passwordError2").hidden = true;
+                    document.getElementById("passwordError1").hidden = false;
+                }
+            }
+
         }
-
-      },
-
-      checkPassword()
-      {
-        let reg=/^\w{6}$/;
-        if(reg.test(this.user.password))
-        {
-          if(this.user.password==this.user.passwordConfirm)
-          {
-            document.getElementById("passwordCorrect").hidden=false;
-            document.getElementById("passwordError2").hidden=true;
-            document.getElementById("passwordError1").hidden=true;
-          }
-          else{
-            document.getElementById("passwordCorrect").hidden=true;
-            document.getElementById("passwordError2").hidden=false;
-            document.getElementById("passwordError1").hidden=true;
-          }
-        }
-        else {
-          document.getElementById("passwordCorrect").hidden=true;
-          document.getElementById("passwordError2").hidden=true;
-          document.getElementById("passwordError1").hidden=false;
-        }
-      }
-
-    }
-  })
+    })
 
 </script>
 </body>

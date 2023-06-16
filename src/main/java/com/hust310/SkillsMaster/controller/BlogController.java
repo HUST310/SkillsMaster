@@ -26,8 +26,6 @@ public class BlogController {
     private FollowService followService;
     @Autowired
     private BlogsService blogsService;
-    @Autowired
-    private TestService testService;
 
 
     @PostMapping("index")
@@ -50,9 +48,4 @@ public class BlogController {
     }
 
 
-    @PostMapping("/getTest")
-    public Page<Test> getTest(Integer page) {
-        Page<Test> testPage = testService.page(new Page<Test>(page, 10), new QueryWrapper<Test>().orderByAsc("a"));
-        return testPage;
-    }
 }
