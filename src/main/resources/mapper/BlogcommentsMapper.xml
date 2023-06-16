@@ -2,21 +2,23 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hust310.SkillsMaster.mapper.BlogsMapper">
+<mapper namespace="com.hust310.SkillsMaster.mapper.BlogcommentsMapper">
 
-    <resultMap id="BaseResultMap" type="com.hust310.SkillsMaster.domain.Blogs">
+    <resultMap id="BaseResultMap" type="com.hust310.SkillsMaster.domain.Blogcomments">
             <id property="uid" column="uid" jdbcType="INTEGER"/>
-            <result property="owner" column="owner" jdbcType="INTEGER"/>
+            <result property="receiver" column="receiver" jdbcType="INTEGER"/>
+            <result property="commentor" column="commentor" jdbcType="INTEGER"/>
+            <result property="commentee" column="commentee" jdbcType="INTEGER"/>
             <result property="time" column="time" jdbcType="TIMESTAMP"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
             <result property="likes" column="likes" jdbcType="INTEGER"/>
             <result property="comment" column="comment" jdbcType="INTEGER"/>
             <result property="state" column="state" jdbcType="OTHER"/>
-            <result property="content" column="content" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        uid,owner,time,
-        likes,comment,state,
-        content
+        uid,receiver,commentor,
+        commentee,time,content,
+        likes,comment,state
     </sql>
 </mapper>

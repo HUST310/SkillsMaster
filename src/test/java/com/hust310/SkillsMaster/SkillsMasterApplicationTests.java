@@ -26,4 +26,5 @@ class SkillsMasterApplicationTests {
         System.out.println(userService.list());
 
     }
+
 }
