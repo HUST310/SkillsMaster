@@ -142,7 +142,7 @@
                     method: "post",
                     url:"/login",
                     data:{
-                        id:this.form.accountNumber,
+                        account:this.form.accountNumber,
                         password: this.form.password
                     }
                 }).then(resp=>{
@@ -165,17 +165,17 @@
             },
 
             formValid(){
-                let reg=/^\d{9}$/;
-                if(reg.test(this.form.accountNumber))
-                {
-                    document.getElementById("formationCheck2").hidden=true;
-                    document.getElementById("formationCheck1").hidden=false;
-                }
-                else
-                {
-                    document.getElementById("formationCheck1").hidden=true;
-                    document.getElementById("formationCheck2").hidden=false;
-                }
+                // let reg=/^\d{}$/;
+                // if(reg.test(this.form.accountNumber))
+                // {
+                //     document.getElementById("formationCheck2").hidden=true;
+                //     document.getElementById("formationCheck1").hidden=false;
+                // }
+                // else
+                // {
+                //     document.getElementById("formationCheck1").hidden=true;
+                //     document.getElementById("formationCheck2").hidden=false;
+                // }
             }
         }
     });
