@@ -31,11 +31,6 @@ public class Test implements Serializable {
      */
     private Date b;
 
-    /**
-     * 
-     */
-    private Object c;
-
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }
