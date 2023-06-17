@@ -151,7 +151,7 @@
                     }, {
                         title: '黄洋洋xx往事',
                         number: '114514',
-                        label:[],
+                        label:['硬件'],
                         data: '2016-05-02'
                     }, {
                         title: '黄洋洋xx往事',
@@ -190,18 +190,34 @@
                     }],
                 }
             },
+            mounted() {
+            this.fetchdata()
+        },
             methods: {
-                handleSelectionChange(val) {
-                    this.multipleSelection = val;
-                },
-                handleClose(done) {
-                    this.$confirm('确认关闭？')
-                        .then(_ => {
-                            done();
-                        })
-                        .catch(_ => {});
-                }
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            handleClose(done) {
+                this.$confirm('确认关闭？')
+                    .then(_ => {
+                        done();
+                    })
+                    .catch(_ => {});
+            },
+            fetchdata() {
+                axios
+                    .get("/Comments/get")
+                    .then(
+                        response => {
+                            this.tableData = response.data;
+                        },
+                        response => {
+                            console.log("error");
+                            alert("请求失败");
+                        }
+                    )
             }
+        }
     })
 </script>
 </html>
