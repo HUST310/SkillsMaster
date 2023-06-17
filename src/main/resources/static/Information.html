@@ -14,12 +14,16 @@
     .el-aside {
       color: #333;
     }
-    #ChangeList{
+    #ChangeList1{
       margin-left: 5%;
       width: 30%;
       height: 50%;
     }
-
+    #ChangeList2{
+      margin-left: 5%;
+      width: 30%;
+      height: 50%;
+    }
     #title{
       left: 20px;
       position: relative;
@@ -142,7 +146,7 @@
         <br />
         <el-form>
         <el-row>
-          <el-form ref="form" :model="sizeForm" label-width="80px" size="mini" id="ChangeList" style="float: left">
+          <el-form ref="form" :model="sizeForm" label-width="80px" size="mini" id="ChangeList1" style="float: left">
           <el-row >
             <div id="title" class="demonstration" style="float: left">基本资料</div>
           </el-row>
@@ -182,7 +186,7 @@
           </el-upload>
         </div>
 
-          <el-form ref="form" :model="sizeForm" label-width="80px" size="mini" id="ChangeList"
+          <el-form ref="form" :model="sizeForm" label-width="80px" size="mini" id="ChangeList2"
                    style="float: left;left: 120px;position: relative;">
               <el-row >
                 <div id="title2" class="demonstration" style="float: left">修改密码</div>
@@ -225,7 +229,7 @@
 
       axios({
         method:"get",
-        url:"/Info/getInfo"
+        url:"/getUserInfo"
       }).then(resp=>{
         this.sizeForm=resp.data;
       })
@@ -249,7 +253,7 @@
         form.append("avatar", this.avatar);
         axios({
           method: "post",
-          url: "/Info/modifyInfo",
+          url: "/modifyUserInfo",
           data: form
         }).then(resp => {
           this.$message({

@@ -8,11 +8,9 @@
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="a" column="a" jdbcType="INTEGER"/>
             <result property="b" column="b" jdbcType="TIMESTAMP"/>
-            <result property="c" column="c" jdbcType="OTHER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,a,b,
-        c
+        id,a,b
     </sql>
 </mapper>

@@ -160,9 +160,25 @@
                 multipleSelection: []
             }
         },
+        mounted() {
+            this.fetchdata()
+        },
         methods: {
             handleSelectionChange(val) {
                 this.multipleSelection = val;
+            },
+            fetchdata() {
+                axios
+                    .get("/blogManage/get")
+                    .then(
+                        response => {
+                            this.tableData = response.data;
+                        },
+                        response => {
+                            console.log("error");
+                            alert("请求失败");
+                        }
+                    )
             }
         }
     })
