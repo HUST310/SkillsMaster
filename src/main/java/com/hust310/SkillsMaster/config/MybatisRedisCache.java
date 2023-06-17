@@ -1,5 +1,13 @@
 package com.hust310.SkillsMaster.config;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.hust310.SkillsMaster.domain.Blogcomments;
+import com.hust310.SkillsMaster.domain.Blogs;
+import com.hust310.SkillsMaster.domain.Test;
+import com.hust310.SkillsMaster.domain.User;
 import com.hust310.SkillsMaster.util.ApplicationContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.cache.Cache;
@@ -8,6 +16,7 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -52,8 +61,14 @@ public class MybatisRedisCache implements Cache {
     @Override
     public Object getObject(Object key) {
         try {
-            //根据key从redis中获取数据
-            return getRedisTemplate().opsForHash().get(id, key.toString());
+            Object res = getRedisTemplate().opsForHash().get(id, key.toString());
+            ObjectMapper mapper = new ObjectMapper();
+            String className = id.substring(32, id.length() - 6);
+
+
+            Class<?> aClass = Class.forName("com.hust310.SkillsMaster.domain." + className);
+            return mapper.readValue(mapper.writeValueAsString(res),
+                    mapper.getTypeFactory().constructParametricType(ArrayList.class, aClass));
         } catch (Exception e) {
             e.printStackTrace();
             log.error("缓存出错 ");

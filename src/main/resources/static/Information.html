@@ -225,7 +225,7 @@
 
       axios({
         method:"get",
-        url:"/Info/getInfo"
+        url:"/getUserInfo"
       }).then(resp=>{
         this.sizeForm=resp.data;
       })
@@ -249,7 +249,7 @@
         form.append("avatar", this.avatar);
         axios({
           method: "post",
-          url: "/Info/modifyInfo",
+          url: "/modifyUserInfo",
           data: form
         }).then(resp => {
           this.$message({
