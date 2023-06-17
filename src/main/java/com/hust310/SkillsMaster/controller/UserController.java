@@ -49,11 +49,15 @@ public class UserController {
         }
     }
 
-    @GetMapping("/getUserInfo")
-    public User getUserInfo(HttpSession session) {
-        session.setAttribute("uid", 3);
-        Integer uid = (Integer) session.getAttribute("uid");
-        return userService.getById(uid);
+//    @GetMapping("/userInfo")
+//    public User getUserInfo(HttpSession session) {
+//        Integer uid = (Integer) session.getAttribute("uid");
+//        return userService.getOne(new QueryWrapper<User>().eq("account", uid));
+//    }
+
+    @GetMapping("/user/{uid}")
+    public User getUserInfo(@PathVariable Integer uid) {
+        return userService.getOne(new QueryWrapper<User>().eq("account", uid));
     }
 
     @PostMapping("/modifyUserInfo")

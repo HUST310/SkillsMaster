@@ -2,9 +2,13 @@ package com.hust310.SkillsMaster;
 
 import com.baidu.aip.contentcensor.AipContentCensor;
 import com.baidu.aip.contentcensor.EImgType;
+
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
 
+//@SpringBootTest
 public class BaiduApiTest {
 
     public static final String APP_ID = "34889997";
@@ -27,4 +31,21 @@ public class BaiduApiTest {
         JSONObject response = client.imageCensorUserDefined(url, EImgType.URL, null);
         System.out.println(response.toString());
     }
+
+//***************需要打开上面的注解**************************
+//    @Value("${baidu-api.APP_ID}")
+//     String APP_ID ;
+//     @Value("${baidu-api.API_KEY}")
+//     String API_KEY ;
+//     @Value("${baidu-api.SECRET_KEY}")
+//     String SECRET_KEY ;
+//
+//    @Test
+//    public void testText() {
+//        AipContentCensor client=new AipContentCensor(APP_ID, API_KEY, SECRET_KEY);
+//        String text="蔡|英|文";
+//        JSONObject response = client.textCensorUserDefined(text);
+//        System.out.println(response.toString());
+//    }
+
 }

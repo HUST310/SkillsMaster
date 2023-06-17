@@ -3,8 +3,8 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/skill_master?characterEncoding=utf-8
-    username: root
+    url: jdbc:mysql://112.124.30.158:3306/skill_master?characterEncoding=utf-8
+    username: user
     password: 123456
   redis:
     host: localhost
@@ -19,3 +19,10 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     cache-enabled: false
+
+
+
+baidu-api:
+  APP_ID: 34889997
+  API_KEY: 2od67QEHyfepWsXQvR0idplp
+  SECRET_KEY: KKdGfAqowXsyWgNdrGpnKNI8X2NfaFyj
