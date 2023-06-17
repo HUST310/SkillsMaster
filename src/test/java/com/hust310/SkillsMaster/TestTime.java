@@ -7,6 +7,7 @@ import com.hust310.SkillsMaster.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -31,15 +32,21 @@ public class TestTime {
         System.out.println(s);
 //        LinkedHashMap<String, Object>
     }
+
     @Test
-    public void classs(){
-        String name="123";
-        switch (name){
+    public void classs() {
+        String name = "123";
+        switch (name) {
             case "123":
                 System.out.println(name);
                 break;
             default:
                 break;
         }
+    }
+
+    @Test
+    public void path() {
+        System.out.println(this.getClass().getResource("/").getPath().substring(1));
     }
 }

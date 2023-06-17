@@ -12,11 +12,12 @@
             <result property="comment" column="comment" jdbcType="INTEGER"/>
             <result property="state" column="state" jdbcType="OTHER"/>
             <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         uid,owner,time,
         likes,comment,state,
-        content
+        content,title
     </sql>
 </mapper>
