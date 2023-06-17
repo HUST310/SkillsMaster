@@ -85,43 +85,10 @@
                     <el-row>
                         <el-col span="8">
                             <i style="position:relative;left:10px;font-size: 1.2em;">这是写博客的界面</i>
-                            <div style="position:relative;left:10px;top:10px;">
-                                <el-button type="primary" icon="el-icon-circle-plus">新增</el-button>
-                                <el-button type="primary" icon="el-icon-edit">修改</el-button>
-                                <el-button type="danger" icon="el-icon-delete">删除</el-button>
-                            </div>
-                        </el-col>
-                        <el-col span="6">
-                            <el-form-item style="position:relative;right:100px;top:35px;">
-                                <el-input placeholder="请输入内容"
-                                          v-model="input"
-                                          clearable> <el-button slot="append" icon="el-icon-search"></el-button></el-input>
-                            </el-form-item>
+
                         </el-col>
                     </el-row>
                 </el-form>
-                <el-main>
-                    <el-table :data="tableData"  height="500"
-                              ref="multipleTable"
-                              tooltip-effect="dark"
-                              @selection-change="handleSelectionChange">
-                        <el-table-column
-                                type="selection"
-                                width="55">
-                        </el-table-column>
-                        <el-table-column prop="title" label="标题" width="240">
-                        </el-table-column>
-                        <el-table-column prop="number" label="浏览量" width="240">
-                        </el-table-column>
-                        <el-table-column prop="lable" label="标签分类" width="240">
-                        </el-table-column>
-                        <el-table-column prop="data" label="添加时间" width="240">
-                        </el-table-column>
-                        <el-table-column  width="200">
-                            <el-button type="primary">查看</el-button>
-                        </el-table-column>
-                    </el-table>
-                </el-main>
             </div>
         </el-container>
     </el-container>

@@ -85,15 +85,17 @@
                     <el-row>
                         <el-col span="8">
                             <i style="position:relative;left:10px;font-size: 1.2em;">评论管理</i>
-                            <div style="position:relative;left:10px;top:10px;">
-                                <el-button type="primary" icon="el-icon-edit">回复</el-button>
-                                <el-button type="danger" @click="deleteByQuery" icon="el-icon-delete">删除</el-button>
-                            </div>
+                            <el-button type="danger" icon="el-icon-delete"
+                                       style="position:relative;left:40px;"
+                                       @click="deleteByQuery">
+                                确认删除</el-button>
                         </el-col>
                     </el-row>
                 </el-form>
                 <el-main>
-                    <el-table :data="tableData"  height="500">
+                    <el-table :data="tableData"  height="500"
+                              ref="multipleTable"
+                              @selection-change="handleSelectionChange">
                         <el-table-column
                                 type="selection"
                                 width="55">
@@ -106,12 +108,15 @@
                         </el-table-column>
                         <el-table-column prop="blog" label="评论文章" width="140">
                         </el-table-column>
-                        <el-table-column  width="200">
-                            <el-button type="primary">查看</el-button>
-                        </el-table-column>
                         <el-table-column label="审核" width="200">
                             <el-button type="success">通过</el-button>
                             <el-button type="danger">否决</el-button>
+                        </el-table-column>
+                        <el-table-column  width="100" label="查看文章">
+                            <el-button type="primary">查看</el-button>
+                        </el-table-column>
+                        <el-table-column  width="120">
+                            <el-button type="primary" icon="el-icon-edit">回复</el-button>
                         </el-table-column>
                     </el-table>
                 </el-main>
@@ -131,16 +136,19 @@
         data() {
             return {
                 tableData: [{
+                    uid:1,
                     text: '杰哥不要',
                     data: '2016-05-02',
                     id: '刘梦祥',
                     blog: '黄洋洋xx往事'
                 }, {
+                    uid:2,
                     text: '杰哥不要',
                     data: '2016-05-02',
                     id: '刘梦祥',
                     blog: '黄洋洋xx往事'
                 }, {
+                    uid:3,
                     text: '杰哥不要',
                     data: '2016-05-02',
                     id: '刘梦祥',
@@ -155,7 +163,7 @@
         methods: {
             handleSelectionChange(val) {
                 for (let item of val) {
-                    this.multipleSelection.push(item.id);
+                    this.multipleSelection.push(item.uid);
                 }
                 this.deleteSelection = this.multipleSelection;
                 this.multipleSelection = [];
@@ -184,7 +192,7 @@
 
                     axios({
                         method: "post",
-                        url:'/Blog/deleteBlogs',
+                        url:'/Comments/deleteBlogs',
                         data:{
                             deleteSelection:this.deleteSelection
                         }
