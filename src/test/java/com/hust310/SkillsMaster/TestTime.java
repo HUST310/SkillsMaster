@@ -8,10 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
+import java.util.*;
 
 public class TestTime {
     @Test
@@ -48,5 +45,14 @@ public class TestTime {
     @Test
     public void path() {
         System.out.println(this.getClass().getResource("/").getPath().substring(1));
+    }
+
+    @Test
+    public void json() throws JsonProcessingException {
+        String json = "[{\"name\":\"mkyong\", \"age\":\"37\"}]";
+        ObjectMapper mapper = new ObjectMapper();
+        Object o = mapper.readValue(json,
+                mapper.getTypeFactory().constructParametricType(ArrayList.class, String.class));
+        System.out.println(o);
     }
 }

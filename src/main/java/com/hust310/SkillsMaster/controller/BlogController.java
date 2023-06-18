@@ -55,16 +55,21 @@ public class BlogController {
 
     @GetMapping("/blogManage/get")
     public List<Blogs> getAllBlogs(HttpSession session) {
-        session.setAttribute("uid", 3);
+        session.setAttribute("uid", 1);
         List<Blogs> blogs = blogsService.list(new QueryWrapper<Blogs>().
                 eq("owner", session.getAttribute("uid")).eq("state", "N"));
         for (int i = 0; i < blogs.size(); i++) {
             List<Tags> tags = tagsService.list(new QueryWrapper<Tags>().eq("uid", blogs.get(i).getUid()));
-            String s = "";
-            for (Tags tag : tags) {
-                s += "," + tag.getTag();
+            if (tags.size() == 0) {
+                blogs.get(i).setContent("");
+            } else {
+                String s = "";
+                for (Tags tag : tags) {
+                    s += "," + tag.getTag();
+                }
+                blogs.get(i).setContent(s.substring(1));
             }
-            blogs.get(i).setContent(s.substring(1));
+
         }
         return blogs;
     }
