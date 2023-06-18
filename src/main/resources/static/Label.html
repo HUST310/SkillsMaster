@@ -100,7 +100,36 @@
                         </el-table-column>
                         <el-table-column prop="likes" label="点赞数" width="140">
                         </el-table-column>
-                        <el-table-column prop="content" label="标签分类" width="300">
+                        <el-table-column prop="content" label="标签分类" width="300"
+                                         :filters="[{
+                        value: '硬件',
+                        text: '硬件'
+                    }, {
+                        value: '软件',
+                        text: '软件'
+                    }, {
+                        value: 'Java',
+                        text: 'Java'
+                    }, {
+                        value: 'C',
+                        text: 'C'
+                    }, {
+                        value: 'C++',
+                        text: 'C++'
+                    }, {
+                        value: 'Python',
+                        text: 'Python'
+                    }, {
+                        value: '后端',
+                        text: '后端'
+                    }, {
+                        value: '前端',
+                        text: '前端'
+                    }, {
+                        value: '移动开发',
+                        text: '移动开发'
+                    }]"
+                                         :filter-method="filterTag">
                             <template slot-scope="scope">
                                 <el-select v-model="scope.row.content"
                                            multiple
@@ -219,6 +248,9 @@
                 }).catch(() => {
                 })
             },
+                filterTag(value, row) {
+                    return row.label.includes(value);
+                },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
             },
