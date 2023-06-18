@@ -62,7 +62,9 @@ public class UserController {
     public User getUserInfo1(HttpSession session) {
         session.setAttribute("uid", 1);
         Integer uid = (Integer) session.getAttribute("uid");
-        return userService.getOne(new QueryWrapper<User>().eq("account", uid));
+        User user = userService.getOne(new QueryWrapper<User>().eq("account", uid));
+        user.setPassword("");
+        return user;
     }
 
 

@@ -77,7 +77,7 @@
                 <el-dropdown>
                     <i class="el-icon-setting" style="margin-right: 15px"></i>
                 </el-dropdown>
-                <span>博客</span>
+                <span>返回首页</span>
             </el-header>
             <div style="border-style: double;border-width: thick;">
                 <br />
@@ -102,20 +102,24 @@
                         </el-table-column>
                         <el-table-column prop="text" label="评论内容" width="250">
                         </el-table-column>
-                        <el-table-column prop="data" label="评论时间" width="140">
+                        <el-table-column prop="data" label="评论时间" width="120">
                         </el-table-column>
-                        <el-table-column prop="id" label="评论人" width="140">
+                        <el-table-column prop="id" label="评论人" width="120">
                         </el-table-column>
                         <el-table-column prop="blog" label="评论文章" width="140">
                         </el-table-column>
-                        <el-table-column label="审核" width="200">
-                            <el-button type="success">通过</el-button>
-                            <el-button type="danger">否决</el-button>
+                        <el-table-column  prop="State" label="审核" width="200">
+                            <template slot-scope="scope">
+                            <h1 v-if="scope.row.State=='N'">
+                                <i>已审核 </i>
+                            </h1>
+                            <h1 v-else>
+                                <el-button @click="add" type="success">通过</el-button>
+                                <el-button @click="add2" type="danger">否决</el-button>
+                            </h1>
+                            </template>
                         </el-table-column>
-                        <el-table-column  width="100" label="查看文章">
-                            <el-button type="primary">查看</el-button>
-                        </el-table-column>
-                        <el-table-column  width="120">
+                        <el-table-column  width="200" label="进入详情页">
                             <el-button type="primary" icon="el-icon-edit">回复</el-button>
                         </el-table-column>
                     </el-table>
@@ -140,17 +144,20 @@
                     text: '杰哥不要',
                     data: '2016-05-02',
                     id: '刘梦祥',
+                    State:'N',
                     blog: '黄洋洋xx往事'
                 }, {
                     uid:2,
                     text: '杰哥不要',
                     data: '2016-05-02',
+                    State:'C',
                     id: '刘梦祥',
                     blog: '黄洋洋xx往事'
                 }, {
                     uid:3,
                     text: '杰哥不要',
                     data: '2016-05-02',
+                    State:'C',
                     id: '刘梦祥',
                     blog: '黄洋洋xx往事'
                 }],
@@ -161,6 +168,28 @@
             this.fetchdata()
         },
         methods: {
+            add(){
+                axios({
+                    method: "post",
+                    url:'/Comments/add',
+                    data:{
+                        State:'N'
+                    }
+                }).then(resp=>{
+                    this.fetchdata();
+                })
+            },
+            add2(){
+                axios({
+                    method: "post",
+                    url:'/Comments/add2',
+                    data:{
+                        State:'D'
+                    }
+                }).then(resp=>{
+                    this.fetchdata();
+                })
+            },
             handleSelectionChange(val) {
                 for (let item of val) {
                     this.multipleSelection.push(item.uid);
@@ -175,6 +204,7 @@
                     .then(
                         response => {
                             this.tableData = response.data;
+
                         },
                         response => {
                             console.log("error");
