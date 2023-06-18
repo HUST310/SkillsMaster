@@ -377,7 +377,7 @@
                 return isJPGOrONG && isLt2M;
             },
             checkPassword() {
-                let reg = /^\w{6}$/;
+                let reg = /^\w{6,}$/;
                 if (reg.test(this.newPassword)) {
                     if (this.newPassword == this.newPasswordConfirm) {
                         document.getElementById("passwordCorrect").hidden = false;

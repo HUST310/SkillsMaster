@@ -36,9 +36,3 @@ public class TagController {
         return "success";
     }
 }
-
-@Data
-class Labels {
-    private Integer uid;
-    private List<String> content;
-}

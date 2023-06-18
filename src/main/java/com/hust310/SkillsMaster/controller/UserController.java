@@ -15,6 +15,7 @@ import org.apache.commons.io.FilenameUtils;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -49,11 +50,12 @@ public class UserController {
         }
     }
 
-//    @GetMapping("/userInfo")
-//    public User getUserInfo(HttpSession session) {
-//        Integer uid = (Integer) session.getAttribute("uid");
-//        return userService.getOne(new QueryWrapper<User>().eq("account", uid));
-//    }
+    @GetMapping("/getUserInfo")
+    public User getUserInfo(HttpSession session) {
+        session.setAttribute("uid", 1);
+        Integer uid = (Integer) session.getAttribute("uid");
+        return userService.getOne(new QueryWrapper<User>().eq("account", uid));
+    }
 
     @GetMapping("/user/{uid}")
     public User getUserInfo(@PathVariable Integer uid) {
@@ -82,8 +84,18 @@ public class UserController {
         return "success";
     }
 
-    @GetMapping("/path")
-    public String getPath() {
-        return this.getClass().getResource("/").toString();
+    @PostMapping("/changePassword")
+    public String changePassword(HttpSession session, @RequestBody Map<String, String> password) {
+        Integer uid = (Integer) session.getAttribute("uid");
+        User user = userService.getById(uid);
+        if (user.getPassword().equals(password.get("password"))) {
+            User insert = new User();
+            insert.setAccount(uid);
+            insert.setPassword(password.get("newPassword"));
+            userService.saveOrUpdate(insert);
+            return "success";
+        } else {
+            return "password error";
+        }
     }
 }
