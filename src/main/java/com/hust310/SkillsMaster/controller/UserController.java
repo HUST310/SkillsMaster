@@ -50,17 +50,22 @@ public class UserController {
         }
     }
 
-    @GetMapping("/getUserInfo")
+    @GetMapping("/user/userInfo")
     public User getUserInfo(HttpSession session) {
+        //Integer uid = (Integer) session.getAttribute("uid");
+        Integer uid = 1;
+        User user = userService.getOne(new QueryWrapper<User>().eq("account", uid));
+        user.setPassword(null);
+        return user;
+    }
+    @GetMapping("/getUserInfo")
+    public User getUserInfo1(HttpSession session) {
         session.setAttribute("uid", 1);
         Integer uid = (Integer) session.getAttribute("uid");
         return userService.getOne(new QueryWrapper<User>().eq("account", uid));
     }
 
-    @GetMapping("/user/{uid}")
-    public User getUserInfo(@PathVariable Integer uid) {
-        return userService.getOne(new QueryWrapper<User>().eq("account", uid));
-    }
+
 
     @PostMapping("/modifyUserInfo")
     public String modifyUserInfo(StandardMultipartHttpServletRequest request, HttpSession session) throws IOException {

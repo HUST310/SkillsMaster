@@ -3,14 +3,8 @@ package com.hust310.SkillsMaster.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hust310.SkillsMaster.domain.Blogs;
-import com.hust310.SkillsMaster.domain.Follow;
-import com.hust310.SkillsMaster.domain.Tags;
-import com.hust310.SkillsMaster.domain.Test;
-import com.hust310.SkillsMaster.service.BlogsService;
-import com.hust310.SkillsMaster.service.FollowService;
-import com.hust310.SkillsMaster.service.TagsService;
-import com.hust310.SkillsMaster.service.TestService;
+import com.hust310.SkillsMaster.domain.*;
+import com.hust310.SkillsMaster.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -32,26 +26,59 @@ public class BlogController {
     private BlogsService blogsService;
     @Autowired
     private TagsService tagsService;
+    @Autowired
+    private UserService userService;
 
-    @PostMapping("index")
-    public List<Blogs> getBlogs(HttpSession session, Integer page) {
-        session.setAttribute("uid", 123);
-        Integer uid = (Integer) session.getAttribute("uid");
-        List<Integer> bloggers = followService.list(new QueryWrapper<Follow>().eq("follower", uid))
+    @PostMapping("/user/getUpdatedBlogs")
+    public List<BlogResponse> getBlogs(HttpSession session, @RequestBody Map<String,Integer> page) {
+        session.setAttribute("uid", 1);
+        Integer account = (Integer) session.getAttribute("uid");
+        List<Integer> bloggers = followService.list(new QueryWrapper<Follow>().eq("follower", account))
                 .stream().map(Follow::getBlogger).collect(Collectors.toList());
-        Date currentTime = new Date();
-        currentTime.setTime(currentTime.getTime() - 1000L * 7 * 24 * 60 * 60);
-        List<Blogs> blogs = blogsService.list(new QueryWrapper<Blogs>().in("account", bloggers).gt("time", currentTime));
-        return blogs;
+        List<BlogResponse> blogResponses=new ArrayList<>();
+        List<Blogs> followBlogs = blogsService.page(new Page<>(page.get("page"), 10),new QueryWrapper<Blogs>().in("owner", bloggers).orderByDesc("time")).getRecords();
+        for (int i = 0; i < followBlogs.size(); i++) {
+            BlogResponse blogResponse=new BlogResponse();
+            Blogs followBlog =  followBlogs.get(i);
+            Integer bloggerId=followBlog.getOwner();
+            User blogger = userService.getById(bloggerId);
+            blogResponse.setAccount(blogger.getAccount());
+            blogResponse.setAvatar(blogger.getAvatar());
+            blogResponse.setName(blogger.getUsername());
+            blogResponse.setComment(followBlog.getComment());
+            blogResponse.setLike(followBlog.getLikes());
+            blogResponse.setTitle(followBlog.getTitle());
+            blogResponse.setContent(followBlog.getContent());
+            blogResponse.setTime(followBlog.getTime());
+            blogResponse.setUid(followBlog.getUid());
+            blogResponses.add(blogResponse);
+        }
+        return blogResponses;
     }
 
-
-    @PostMapping("/getHot")
-    public Page<Blogs> getHot(Integer page) {
-        Page<Blogs> hot = blogsService.page(new Page<Blogs>(page, 10), new QueryWrapper<Blogs>().orderByAsc("likes"));
-        return hot;
+    @PostMapping("/user/getBlogs")
+    public List<BlogResponse> getHot(@RequestBody Map<String,Integer> page) {
+        List<BlogResponse> blogResponses=new ArrayList<>();
+        Page<Blogs> hotPage = blogsService.page(new Page<Blogs>(page.get("page"), 10), new QueryWrapper<Blogs>().orderByDesc("likes"));
+        List<Blogs> hotBlogs = hotPage.getRecords();
+        for (int i = 0; i < hotBlogs.size(); i++) {
+            BlogResponse blogResponse=new BlogResponse();
+            Blogs hotBlog =  hotBlogs.get(i);
+            Integer account=hotBlog.getOwner();
+            User blogger = userService.getById(account);
+            blogResponse.setAccount(blogger.getAccount());
+            blogResponse.setAvatar(blogger.getAvatar());
+            blogResponse.setName(blogger.getUsername());
+            blogResponse.setComment(hotBlog.getComment());
+            blogResponse.setLike(hotBlog.getLikes());
+            blogResponse.setTitle(hotBlog.getTitle());
+            blogResponse.setContent(hotBlog.getContent());
+            blogResponse.setTime(hotBlog.getTime());
+            blogResponse.setUid(hotBlog.getUid());
+            blogResponses.add(blogResponse);
+        }
+        return blogResponses;
     }
-
 
     @GetMapping("/blogManage/get")
     public List<Blogs> getAllBlogs(HttpSession session) {

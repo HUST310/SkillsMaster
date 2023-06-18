@@ -296,7 +296,7 @@
                           <el-row class="demo-avatar demo-basic">
                             <el-col :span="12">
                               <div class="demo-basic--circle">
-                                <div class="block"><el-avatar :size="50" :src="blog.bloggerInfo.avatar"></el-avatar></div>
+                                <div class="block"><el-avatar :size="50" :src="blog.avatar"></el-avatar></div>
                               </div>
                             </el-col>
 
@@ -306,7 +306,7 @@
                       <el-col :span="6"><div class="grid-content bg-purple">
                         <div class="user-access-link">
                           <a>
-                            {{blog.bloggerInfo.name}}
+                            {{blog.name}}
                           </a>
                         </div>
                       </div></el-col>
@@ -381,7 +381,7 @@
       mounted(){
             axios({
                 method:"post",
-                url:'user/getUpdatedBlogs'
+                url:'user/getUpdatedBlogs',
             }).then(resp=>{
                 this.updatedBlogs=resp.data;
             });
@@ -427,25 +427,17 @@
     new Vue({
       el: '#app',
 
-      mounted(){
-            axios({
-                method:"post",
-                url:'user/userInfo'
-            }).then(resp=>{
-                this.userInfo=resp.data;
-            });
 
-           getBlogs(1);
-        },
       methods:{
         readBlog(uid){
           alert(uid);
         },
 
         getBlogs(page){
+          alert(1);
           axios({
                 method:"post",
-                url:'user/getBlogs',
+                url:'/user/getBlogs',
                 data:{
                     page:page
                 }
@@ -455,6 +447,17 @@
         }
 
       },
+      mounted(){
+        axios({
+          method:"get",
+          url:'/user/userInfo'
+        }).then(resp=>{
+          this.userInfo=resp.data;
+        });
+
+        this.getBlogs(1);
+      },
+
       data: function() {
         return { visible: false,
 
@@ -472,25 +475,17 @@
 
                  blogs:[
                    {
-                      bloggerInfo:{
-                        avatar:"user1-avatar.png",
-                        name:"tadokoro"
-                      },
+
+                      avatar:"user1-avatar.png",
+                      name:"tadokoro",
+                      account:"dkj",
+
                       time:"1145-1-4 11:45:14",
                       title:"元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据",
                       like:114,
                       comment:514
-                   },
-                   {
-                      bloggerInfo:{
-                        avatar:"user1-avatar.png",
-                        name:"tadokoro"
-                      },
-                      time:"1145-1-4 11:45:14",
-                      title:"surprise",
-                      like:114,
-                      comment:514
                    }
+
                  ]
          }
       }
