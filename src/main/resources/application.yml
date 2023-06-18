@@ -22,7 +22,7 @@ mybatis-plus:
 
 
 
-baidu-api:
-  APP_ID: 34889997
-  API_KEY: 2od67QEHyfepWsXQvR0idplp
-  SECRET_KEY: KKdGfAqowXsyWgNdrGpnKNI8X2NfaFyj
+#baidu-api:
+#  APP_ID: 34889997
+#  API_KEY: 2od67QEHyfepWsXQvR0idplp
+#  SECRET_KEY: KKdGfAqowXsyWgNdrGpnKNI8X2NfaFyj
