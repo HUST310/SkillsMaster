@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" class="no-js">
 <head>
     <meta charset="UTF-8">
     <!-- import CSS -->
@@ -84,9 +84,7 @@
 </head>
 <body>
 <div id="app">
-    <!--  <script src="js/vue.js"></script>
-      <script src="element-ui/lib/index.js"></script>
-      <script src="js/axios-0.18.0.js"></script>-->
+
     <el-container style="height: 730px; border: 1px solid #eee">
         <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
             <el-menu :default-openeds="['1', '3']">
@@ -193,7 +191,7 @@
                             </el-upload>
                         </div>
 
-                        <el-form ref="form" :model="sizeForm" label-width="80px" size="mini" id="ChangeList2"
+                        <el-form ref="Password" :model="user" label-width="80px" size="mini" id="ChangeList2"
                                  style="float: left;left: 120px;position: relative;">
                             <el-row>
                                 <div id="title2" class="demonstration" style="float: left">修改密码</div>
@@ -201,20 +199,64 @@
                             <hr>
                             <div>
                                 <el-form-item label="原密码">
-                                    <el-input class="input" v-model="input1" show-password
-                                              style="width: 300px"></el-input>
+                                    <el-input class="input" v-model="password" type="password" show-password
+                                              style="width: 300px" ></el-input>
                                 </el-form-item>
+<!--                                <el-form-item label="密码">-->
+<!--                                    <el-input v-model="user.password" prefix-icon="el-icon-lock" type="password"-->
+<!--                                              placeholder="请输入密码" @blur="checkPassword"></el-input>-->
+<!--                                </el-form-item>-->
+<!--                                <el-form-item label="确认密码">-->
+<!--                                    <el-input v-model="user.passwordConfirm" prefix-icon="el-icon-lock" type="password"-->
+<!--                                              placeholder="请输入密码" @blur="checkPassword"></el-input>-->
+<!--                                </el-form-item>-->
                                 <el-form-item label="新密码">
-                                    <el-input class="input" v-model="input2" show-password
-                                              style="width: 300px"></el-input>
+                                    <el-input class="input" v-model="newPassword" type="password" show-password
+                                              style="width: 300px" @blur="checkPassword"></el-input>
                                 </el-form-item>
                                 <el-form-item label="确认密码">
-                                    <el-input class="input" v-model="input3" show-password
-                                              style="width: 300px"></el-input>
+                                    <el-input class="input" v-model="newPasswordConfirm" type="password" show-password
+                                              style="width: 300px" @blur="checkPassword"></el-input>
+                                </el-form-item>
+                            </div>
+                            <div hidden="hidden" id="passwordCorrect">
+                                <el-form-item>
+                                    <template>
+                                        <el-alert
+                                                title="密码格式正确"
+                                                type="success"
+                                                show-icon
+                                                :closable="false" disabled="true">
+                                        </el-alert>
+                                    </template>
+                                </el-form-item>
+                            </div>
+                            <div hidden="hidden" id="passwordError2">
+                                <el-form-item>
+                                    <template>
+                                        <el-alert
+                                                title="两次输入的密码不一致"
+                                                type="error"
+                                                show-icon
+                                                :closable="false" disabled="true">
+                                        </el-alert>
+                                    </template>
+                                </el-form-item>
+                            </div>
+                            <div hidden="hidden" id="passwordError1">
+                                <el-form-item>
+                                    <template>
+                                        <el-alert
+                                                title="密码格式不正确,请输入6位字母或数字"
+                                                type="error"
+                                                show-icon
+                                                :closable="false" disabled="true">
+                                        </el-alert>
+                                    </template>
                                 </el-form-item>
                             </div>
                             <el-form-item>
-                                <el-button type="primary" size="middle" @click="onSubmit">
+                                <el-button type="primary" size="middle" @click="ChangePassword">
                                     确认修改
                                 </el-button>
                             </el-form-item>
@@ -228,10 +270,21 @@
     </el-container>
 </div>
 </body>
+<script src="js/vue.js"></script>
+<script src="element-ui/lib/index.js"></script>
+<script src="js/axios-0.18.0.js"></script>
 <!-- import Vue before Element -->
 <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
 <!-- import JavaScript -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="js/TweenLite.min.js"></script>
+<script src="js/EasePack.min.js"></script>
+<script src="js/rAF.js"></script>
+<script src="js/demo-1.js"></script>
+
+<script src='js/Rx.min.js'></script>
+<script src='js/rxcss.min.js'></script>
+<script src="js/index.js"></script>
 
 <script>
     new Vue({
@@ -255,9 +308,13 @@
 
                 },
                 avatar: '',
-                input1: '',
-                input2: '',
-                input3: '',
+                user: {
+                    password: '',
+                    passwordConfirm: ''
+                },
+                password: '',
+                newPasswordConfirm: '',
+                newPassword:''
             }
         },
         methods: {
@@ -283,7 +340,30 @@
                 this.avatar = file.raw;
 
             },
-
+            ChangePassword() {
+                if (document.getElementById("passwordCorrect").hidden == false) {
+                axios({
+                    method: "post",
+                    url:"/changePassword",
+                    data:{
+                        password: this.password,
+                        newPassword:this.newPassword
+                    }
+                }).then(resp=>{
+                    if(resp.data=="password error")
+                    {
+                        this.$message.error('密码输入错误！');
+                    }
+                    else{
+                        this.$message({
+                            message: '修改成功！',
+                            type: 'success'
+                        });
+                        document.location="./Manage.html"
+                    }
+                });
+                }
+            },
             beforeAvatarUpload(file) {
                 const isJPGOrONG = (file.type === 'image/jpeg') || (file.type === 'image/png');
                 const isLt2M = file.size / 1024 / 1024 < 2;
@@ -295,6 +375,24 @@
                     this.$message.error('上传头像图片大小不能超过 2MB!');
                 }
                 return isJPGOrONG && isLt2M;
+            },
+            checkPassword() {
+                let reg = /^\w{6}$/;
+                if (reg.test(this.newPassword)) {
+                    if (this.newPassword == this.newPasswordConfirm) {
+                        document.getElementById("passwordCorrect").hidden = false;
+                        document.getElementById("passwordError2").hidden = true;
+                        document.getElementById("passwordError1").hidden = true;
+                    } else {
+                        document.getElementById("passwordCorrect").hidden = true;
+                        document.getElementById("passwordError2").hidden = false;
+                        document.getElementById("passwordError1").hidden = true;
+                    }
+                } else {
+                    document.getElementById("passwordCorrect").hidden = true;
+                    document.getElementById("passwordError2").hidden = true;
+                    document.getElementById("passwordError1").hidden = false;
+                }
             }
         }
     })
