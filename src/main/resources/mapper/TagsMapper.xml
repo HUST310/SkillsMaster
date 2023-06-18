@@ -5,7 +5,7 @@
 <mapper namespace="com.hust310.SkillsMaster.mapper.TagsMapper">
 
     <resultMap id="BaseResultMap" type="com.hust310.SkillsMaster.domain.Tags">
-            <result property="uid" column="uid" jdbcType="VARCHAR"/>
+            <result property="uid" column="uid" jdbcType="INTEGER"/>
             <result property="tag" column="tag" jdbcType="VARCHAR"/>
             <result property="time" column="time" jdbcType="TIMESTAMP"/>
             <result property="state" column="state" jdbcType="OTHER"/>

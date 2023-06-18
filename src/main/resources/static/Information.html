@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="js/axios-0.18.0.js"></script>
+    <style>
+        .el-header {
+            background-color: #B3C0D1;
+            color: #333;
+            line-height: 60px;
+        }
+
+        .el-aside {
+            color: #333;
+        }
+
+        #ChangeList1 {
+            margin-left: 5%;
+            width: 30%;
+            height: 50%;
+        }
+
+        #ChangeList2 {
+            margin-left: 5%;
+            width: 30%;
+            height: 50%;
+        }
+
+        #title {
+            left: 20px;
+            position: relative;
+            font-size: 20px;
+        }
+
+        #title2 {
+            left: 20px;
+            position: relative;
+            font-size: 20px;
+        }
+
+        .input {
+            max-width: 300px;
+
+        }
+
+        #changeAvatar {
+            width: 100px;
+            margin-top: 4%;
+            margin-left: 4%;
+            position: absolute;
+        }
+
+        .avatar-uploader {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100px;
+            height: 100px;
+
+        }
+
+        .avatar-uploader:hover {
+            border-color: #409EFF;
+        }
+
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 100px;
+            height: 100px;
+
+            text-align: center;
+            padding-top: 40px;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+
+    <el-container style="height: 730px; border: 1px solid #eee">
+        <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+            <el-menu :default-openeds="['1', '3']">
+                <i class="el-icon-edit" style="height: 50px;font-size: 1.2em;position: relative;
+                   top: 15px;"> My blog </i>
+                <div style="border:1px solid #CCC"></div>
+                <i class="el-icon-user-solid"
+                   style="height: 50px;
+                   font-size: 1.2em;
+                   position: relative;
+                   top: 15px;"> 姜明 </i>
+                <div style="border:1px solid #CCC"></div>
+                <el-menu-item index="1">
+                    <i class="el-icon-pie-chart"></i>
+                    <span slot="title">数据展示</span>
+                </el-menu-item>
+                <el-menu-item index="2">
+                    <i class="el-icon-magic-stick"></i>
+                    <span slot="title">发布博客</span>
+                </el-menu-item>
+                <br/>
+                <div>管理模块</div>
+                <el-menu-item index="3">
+                    <i class="el-icon-s-management"></i>
+                    <span slot="title"> <el-link href="./BlogManage.html">博客管理</el-link></span>
+                </el-menu-item>
+                <el-menu-item index="4">
+                    <i class="el-icon-price-tag"></i>
+                    <span slot="title"><el-link href="./Label.html">标签管理</el-link></span>
+                </el-menu-item>
+                <el-menu-item index="5">
+                    <i class="el-icon-s-comment"></i>
+                    <span slot="title"><el-link href="./Comments.html">评论管理</el-link></span>
+                </el-menu-item>
+                <el-menu-item index="6">
+                    <i class="el-icon-star-on"></i>
+                    <span slot="title"><el-link href="./Follow.html">关注管理</el-link></span>
+                </el-menu-item>
+                <br/>
+                <div>个人模块</div>
+                <el-menu-item index="7">
+                    <i class="el-icon-user"></i>
+                    <span slot="title">个人信息</span>
+                </el-menu-item>
+                <el-menu-item index="9">
+                    <i class="el-icon-error"></i>
+                    <span slot="title">退出登录</span>
+                </el-menu-item>
+            </el-menu>
+        </el-aside>
+
+        <el-container>
+            <el-header style="text-align: right; font-size: 12px">
+                <el-dropdown>
+                    <i class="el-icon-setting" style="margin-right: 15px"></i>
+                </el-dropdown>
+                <span>博客</span>
+            </el-header>
+            <el-divider></el-divider>
+            <div style="border-style: double;border-width: thick;">
+                <br/>
+                <el-form>
+                    <el-row>
+                        <el-form ref="form" :model="sizeForm" label-width="80px" size="mini" id="ChangeList1"
+                                 style="float: left">
+                            <el-row>
+                                <div id="title" class="demonstration" style="float: left">基本资料</div>
+                            </el-row>
+                            <hr>
+                            <div style="position: relative;
+          left: 100px;">
+                                <el-form-item label="昵称">
+                                    <el-input class="input" v-model="sizeForm.username" style="width: 200px"></el-input>
+                                </el-form-item>
+                                <el-form-item label="个人简介">
+                                    <el-input class="input" type="textarea" v-model="sizeForm.signature"
+                                              style="width: 250px"></el-input>
+                                </el-form-item>
+                                <el-form-item label="性别">
+                                    <el-select v-model="sizeForm.gender" placeholder="请选择性别" style="width: 150px">
+                                        <el-option label="M" value="M"></el-option>
+                                        <el-option label="F" value="F"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </div>
+                            <el-form-item>
+                                <el-button type="primary" size="middle" @click="onSubmit"
+                                           style="position: relative;left: 100px;">
+                                    提交
+                                </el-button>
+                            </el-form-item>
+
+                        </el-form>
+                        <div id="changeAvatar">
+                            <el-upload
+                                    class="avatar-uploader"
+                                    action="#"
+                                    :auto-upload="false"
+                                    :show-file-list="false"
+                                    :on-change="change"
+                                    :before-upload="beforeAvatarUpload">
+                                <img v-if="sizeForm.avatar" :src="sizeForm.avatar" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </div>
+
+                        <el-form ref="Password" :model="user" label-width="80px" size="mini" id="ChangeList2"
+                                 style="float: left;left: 120px;position: relative;">
+                            <el-row>
+                                <div id="title2" class="demonstration" style="float: left">修改密码</div>
+                            </el-row>
+                            <hr>
+                            <div>
+                                <el-form-item label="原密码">
+                                    <el-input class="input" v-model="password" type="password" show-password
+                                              style="width: 300px" ></el-input>
+                                </el-form-item>
+<!--                                <el-form-item label="密码">-->
+<!--                                    <el-input v-model="user.password" prefix-icon="el-icon-lock" type="password"-->
+<!--                                              placeholder="请输入密码" @blur="checkPassword"></el-input>-->
+<!--                                </el-form-item>-->
+<!--                                <el-form-item label="确认密码">-->
+<!--                                    <el-input v-model="user.passwordConfirm" prefix-icon="el-icon-lock" type="password"-->
+<!--                                              placeholder="请输入密码" @blur="checkPassword"></el-input>-->
+<!--                                </el-form-item>-->
+                                <el-form-item label="新密码">
+                                    <el-input class="input" v-model="newPassword" type="password" show-password
+                                              style="width: 300px" @blur="checkPassword"></el-input>
+                                </el-form-item>
+                                <el-form-item label="确认密码">
+                                    <el-input class="input" v-model="newPasswordConfirm" type="password" show-password
+                                              style="width: 300px" @blur="checkPassword"></el-input>
+                                </el-form-item>
+                            </div>
+                            <div hidden="hidden" id="passwordCorrect">
+                                <el-form-item>
+                                    <template>
+                                        <el-alert
+                                                title="密码格式正确"
+                                                type="success"
+                                                show-icon
+                                                :closable="false" disabled="true">
+                                        </el-alert>
+                                    </template>
+                                </el-form-item>
+                            </div>
+                            <div hidden="hidden" id="passwordError2">
+                                <el-form-item>
+                                    <template>
+                                        <el-alert
+                                                title="两次输入的密码不一致"
+                                                type="error"
+                                                show-icon
+                                                :closable="false" disabled="true">
+                                        </el-alert>
+                                    </template>
+                                </el-form-item>
+                            </div>
+                            <div hidden="hidden" id="passwordError1">
+                                <el-form-item>
+                                    <template>
+                                        <el-alert
+                                                title="密码格式不正确,请输入6位字母或数字"
+                                                type="error"
+                                                show-icon
+                                                :closable="false" disabled="true">
+                                        </el-alert>
+                                    </template>
+                                </el-form-item>
+                            </div>
+                            <el-form-item>
+                                <el-button type="primary" size="middle" @click="ChangePassword">
+                                    确认修改
+                                </el-button>
+                            </el-form-item>
+
+                        </el-form>
+
+                    </el-row>
+                </el-form>
+            </div>
+        </el-container>
+    </el-container>
+</div>
+</body>
+<script src="js/vue.js"></script>
+<script src="element-ui/lib/index.js"></script>
+<script src="js/axios-0.18.0.js"></script>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="js/TweenLite.min.js"></script>
+<script src="js/EasePack.min.js"></script>
+<script src="js/rAF.js"></script>
+<script src="js/demo-1.js"></script>
+
+<script src='js/Rx.min.js'></script>
+<script src='js/rxcss.min.js'></script>
+<script src="js/index.js"></script>
+
+<script>
+    new Vue({
+        el: '#app',
+        mounted() {
+            axios({
+                method: "get",
+                url: "/getUserInfo"
+            }).then(resp => {
+                this.sizeForm = resp.data;
+
+            })
+        },
+        data() {
+            return {
+                sizeForm: {
+                    username: "",
+                    signature: "",
+                    gender: "",
+                    avatar: ""
+
+                },
+                avatar: '',
+                user: {
+                    password: '',
+                    passwordConfirm: ''
+                },
+                password: '',
+                newPasswordConfirm: '',
+                newPassword:''
+            }
+        },
+        methods: {
+            onSubmit() {
+                let form = new FormData();
+                form.append("username", this.sizeForm.username);
+                form.append("signature", this.sizeForm.signature);
+                form.append("gender", this.sizeForm.gender);
+                form.append("avatar", this.avatar);
+                axios({
+                    method: "post",
+                    url: "/modifyUserInfo",
+                    data: form
+                }).then(resp => {
+                    this.$message({
+                        message: '修改成功！',
+                        type: 'success'
+                    });
+                })
+            },
+            change(file) {
+                this.sizeForm.avatar = URL.createObjectURL(file.raw);
+                this.avatar = file.raw;
+
+            },
+            ChangePassword() {
+                if (document.getElementById("passwordCorrect").hidden == false) {
+                axios({
+                    method: "post",
+                    url:"/changePassword",
+                    data:{
+                        password: this.password,
+                        newPassword:this.newPassword
+                    }
+                }).then(resp=>{
+                    if(resp.data=="password error")
+                    {
+                        this.$message.error('密码输入错误！');
+                    }
+                    else{
+                        this.$message({
+                            message: '修改成功！',
+                            type: 'success'
+                        });
+                        document.location="./Manage.html"
+                    }
+                });
+                }
+            },
+            beforeAvatarUpload(file) {
+                const isJPGOrONG = (file.type === 'image/jpeg') || (file.type === 'image/png');
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPGOrONG) {
+                    this.$message.error('上传头像图片只能是 JPG 或 PNG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPGOrONG && isLt2M;
+            },
+            checkPassword() {
+                let reg = /^\w{6}$/;
+                if (reg.test(this.newPassword)) {
+                    if (this.newPassword == this.newPasswordConfirm) {
+                        document.getElementById("passwordCorrect").hidden = false;
+                        document.getElementById("passwordError2").hidden = true;
+                        document.getElementById("passwordError1").hidden = true;
+                    } else {
+                        document.getElementById("passwordCorrect").hidden = true;
+                        document.getElementById("passwordError2").hidden = false;
+                        document.getElementById("passwordError1").hidden = true;
+                    }
+                } else {
+                    document.getElementById("passwordCorrect").hidden = true;
+                    document.getElementById("passwordError2").hidden = true;
+                    document.getElementById("passwordError1").hidden = false;
+                }
+            }
+        }
+    })
+</script>
+</html>

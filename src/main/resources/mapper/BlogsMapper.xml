@@ -5,18 +5,19 @@
 <mapper namespace="com.hust310.SkillsMaster.mapper.BlogsMapper">
 
     <resultMap id="BaseResultMap" type="com.hust310.SkillsMaster.domain.Blogs">
-            <id property="uid" column="uid" jdbcType="VARCHAR"/>
+            <id property="uid" column="uid" jdbcType="INTEGER"/>
             <result property="owner" column="owner" jdbcType="INTEGER"/>
             <result property="time" column="time" jdbcType="TIMESTAMP"/>
-            <result property="like" column="like" jdbcType="INTEGER"/>
+            <result property="likes" column="likes" jdbcType="INTEGER"/>
             <result property="comment" column="comment" jdbcType="INTEGER"/>
             <result property="state" column="state" jdbcType="OTHER"/>
             <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         uid,owner,time,
-        like,comment,state,
-        content
+        likes,comment,state,
+        content,title
     </sql>
 </mapper>
