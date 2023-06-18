@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+</html><!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <!-- import Vue before Element -->
+  <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+  <!-- import JavaScript -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+  <!--MarkDown-->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+  .el-header, .el-footer {
+    background-color: #B3C0D1;
+    color: #333;
+    text-align: center;
+    line-height: 60px;
+  }
+
+  .el-aside {
+    background-color: #D3DCE6;
+    color: #333;
+    text-align: center;
+    line-height: 200px;
+  }
+
+  .el-main {
+    background-color: #E9EEF3;
+    color: #333;
+    text-align: center;
+    line-height: 80px;
+    margin:100px;
+  }
+
+  body > .el-container {
+    margin-bottom: 40px;
+  }
+
+  .el-container:nth-child(5) .el-aside,
+  .el-container:nth-child(6) .el-aside {
+    line-height: 260px;
+  }
+
+  .el-container:nth-child(7) .el-aside {
+    line-height: 320px;
+  }
+  p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+       word-break: break-word;
+    line-height: 1.6;
+    text-align:left;
+}
+
+
+</style>
+
+  <style>
+  .el-row {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  .el-col {
+    border-radius: 4px;
+  }
+  .bg-purple-dark {
+    background: #99a9bf;
+  }
+  .bg-purple {
+    background: #d3dce6;
+  }
+  .bg-purple-light {
+    background: #e5e9f2;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+  }
+  .row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <el-container>
+    <el-header>Header</el-header>
+    <el-main>
+      <div class="blog-container" >
+        <div class="blog-title">
+          <span>
+            {{blog.title}}
+          </span>
+        </div>
+        <div class="blog-content" id="content">
+
+        </div>
+
+      </div>
+      <el-divider></el-divider>
+      <div calss="comment-container">
+
+        <div class="comment-box">
+          <el-row :gutter="20" style="margin:100px">
+            <el-col :span="2">
+              <div class="grid-content bg-purple" >
+                <div class="comment-box-avatar">
+                  <el-row class="demo-avatar demo-basic" >
+                    <el-col :span="3" >
+                      <div class="demo-basic--circle">
+                        <div class="block"><el-avatar :size="50" :src="user.avatar" ></el-avatar></div>
+                      </div>
+                    </el-col>
+
+                  </el-row>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="16">
+              <div class="grid-content bg-purple">
+                <div class="comment-box-warp">
+                  <el-input
+                          type="textarea"
+                          :rows="2"
+                          placeholder="请输入内容"
+                          v-model="textarea">
+                  </el-input>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="3">
+              <div class="grid-content bg-purple">
+                <div class="comment-box-send">
+                  <el-button type="primary" @click="send()">发布</el-button>
+                </div>
+              </div>
+            </el-col>
+          </el-row>
+
+
+
+        </div>
+
+        <el-divider></el-divider>
+        <div  class="comment-info-container">
+          <el-row :gutter="20">
+            <el-col :span="3"><div class="grid-content bg-purple">评论</div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple">{{commentNum}}条</div></el-col>
+          </el-row>
+
+        </div>
+        <div class="comment-list" v-for="comment in comments">
+
+          <div class="comment-item" style="margin:80px;border-style:solid;border-width:2px;border-color:white;padding:50px">
+            <div class="root-comment-container">
+              <el-row :gutter="20">
+                <el-col :span="3"><div class="grid-content bg-purple">
+                  <div class="root-comment-avatar">
+                    <el-row class="demo-avatar demo-basic">
+                      <el-col :span="5">
+                        <div class="demo-basic--circle">
+                          <div class="block"><el-avatar :size="50" :src="comment.userInfo.avatar"></el-avatar></div>
+                        </div>
+                      </el-col>
+
+                    </el-row>
+                  </div>
+                </div></el-col>
+                <el-col :span="18"><div class="grid-content bg-purple">
+                  <div class="content-warp" >
+                    <div class="user-info" style="text-align:left">
+                      <div class="user-name">
+                    <span>
+                      <el-button type="text" @click="access(comment.userInfo.account)"> {{comment.userInfo.name}}</el-button>
+
+                    </span>
+                      </div>
+                    </div>
+                    <div class="root-comment">
+                      <div class="comment-content-container">
+                        <span>
+                          <p>{{comment.content}}</p>
+
+                        </span>
+                      </div>
+                      <div class="comment-info">
+                        <el-row :gutter="20">
+                          <el-col :span="6"><div class="grid-content bg-purple">
+                            <span class="comment-time">{{comment.time}}</span>
+                          </div></el-col>
+                          <el-col :span="3"><div class="grid-content bg-purple">
+                            <span class="comment-like">
+                      <i class="el-icon-edit"></i>
+                      <span>{{comment.like}}</span>
+                    </span>
+                          </div></el-col>
+                          <el-col :span="3"><div class="grid-content bg-purple">
+                            <span class="sub-comment-button" >
+                        <el-button type="text" @click="reply()">回复</el-button>
+                          </span>
+                          </div></el-col>
+                        </el-row>
+
+
+
+                      </div>
+                    </div>
+                  </div>
+                </div></el-col>
+              </el-row>
+
+
+            </div>
+
+            <div class="see-sub-comment" style="margin-left:120px;margin-right:120px">
+              <el-collapse @change="getSubComments">
+                <el-collapse-item title="点击查看评论" name="1">
+                  <div class="sub-comment-container" v-for="subComment in comment.subComments" >
+                    <div class="sub-comment-list" style="margin:40px;border-style:solid;border-width:2px;border-color:grey;padding:10px">
+                      <div class="sub-comment-item">
+                        <div class="sub-comment-commnetor-info">
+
+                          <el-row>
+                            <el-col :span="4"><div class="grid-content bg-purple">
+                              {{subComment.commentorInfo.name}}
+                            </div></el-col>
+
+                            <el-col :span="4"><div class="grid-content bg-purple">
+                              回复
+                            </div></el-col>
+
+                            <el-col :span="4"><div class="grid-content bg-purple">
+                              {{subComment.commenteeInfo.name}}
+                            </div></el-col>
+
+                          </el-row>
+                        </div>
+                        <span class="sub-comment-container">
+                          <p>{{subComment.content}}</p>
+                        </span>
+                        <div class="sub-comment-info" style="margin-top:10px">
+
+                          <el-row>
+                            <el-col :span="8"><div class="grid-content bg-purple">
+                              <span class="sub-comment-time">
+                                {{subComment.time}}
+                              </span>
+                            </div></el-col>
+                            <el-col :span="4"><div class="grid-content bg-purple-light">
+                              <span class="sub-comment-like">
+                                <i class="el-icon-edit"></i>
+                                <span>{{subComment.like}}</span>
+                              </span>
+                            </div></el-col>
+                            <el-col :span="4"><div class="grid-content bg-purple">
+                               <span class="sub-comment-button" >
+                                  <el-button type="text" @click="reply()">回复</el-button>
+                              </span>
+                            </div></el-col>
+
+                          </el-row>
+
+
+
+
+                                  </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </el-collapse-item>
+              </el-collapse>
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+    </el-main>
+    <el-footer>Footer</el-footer>
+  </el-container>
+</div>
+
+</body>
+
+<script>
+    new Vue({
+      el: '#app',
+      data: function() {
+        return { visible: false,
+              commentNum:12,
+              blog:{
+              title:"none"
+              },
+              user:{
+              avatar:"user1-avatar.png"
+              },
+              textarea:'',
+
+              comments:[
+                {
+                  userInfo:{
+                    name:"sun",
+                    avatar:"user1-avatar.png",
+                    account:123456
+                  },
+                  content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
+                  time:"1145-1-4 11:45:14",
+                  like:114,
+
+
+                  subComments:[
+                    {
+                        userInfo:{
+                        name:"sun",
+                        avatar:"user1-avatar.png"
+                      },
+                      content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
+                      time:"1145-1-4 11:45:14",
+                      like:114,
+                      commentorInfo:{
+                        name:"commentorInfo"
+                      },
+
+                      commenteeInfo:{
+                        name:"commenteeInfo"
+                      }
+                    }
+                  ]
+                }
+              ]
+
+         }
+      },
+
+      methods:{
+          send(){
+            alert(this.textarea);
+          },
+
+          reply()
+          {
+            alert("stringA");
+          },
+
+          access(account){
+            alert("access"+account);
+          },
+
+          getSubComments(){
+
+          }
+          }
+    });
+
+    document.getElementById('content').innerHTML =
+            marked.parse('# これはタイトルです\nrendered by **marked**.\n\n![这是图片](https://markdown.com.cn/assets/img/philly-magic-garden.9c0b4415.jpg "Magic Gardens")');
+  </script>
+
+</html>
