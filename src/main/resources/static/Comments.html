@@ -114,8 +114,8 @@
                                 <i>已审核 </i>
                             </h1>
                             <h1 v-else>
-                                <div><el-button  @click="add" type="success">通过</el-button>
-                                <el-button  @click="delete" type="danger">否决</el-button></div>
+                                <el-button @click="add" type="success">通过</el-button>
+                                <el-button @click="add2" type="danger">否决</el-button>
                             </h1>
                             </template>
                         </el-table-column>
@@ -176,25 +176,17 @@
                         State:'N'
                     }
                 }).then(resp=>{
-                    this.$message({
-                        message: '删除成功！',
-                        type: 'success'
-                    });
                     this.fetchdata();
                 })
             },
-            delete(){
+            add2(){
                 axios({
                     method: "post",
-                    url:'/Comments/delete',
+                    url:'/Comments/add2',
                     data:{
                         State:'D'
                     }
                 }).then(resp=>{
-                    this.$message({
-                        message: '删除成功！',
-                        type: 'success'
-                    });
                     this.fetchdata();
                 })
             },

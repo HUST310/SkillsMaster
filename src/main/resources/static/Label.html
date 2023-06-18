@@ -248,9 +248,9 @@
                 }).catch(() => {
                 })
             },
-                filterTag(value, row) {
-                    return row.label.includes(value);
-                },
+            filterTag(value, row) {
+                return row.content.includes(value);
+            },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
             },
