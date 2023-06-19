@@ -124,12 +124,6 @@ public class UserController {
     public Map<String, Object> getData(HttpSession session) {
         session.setAttribute("uid", 1);
         Integer uid = (Integer) session.getAttribute("uid");
-//        Integer likes = (Integer) blogsService
-//                .getMap(new QueryWrapper<Blogs>()
-//                        .select("sum(likes) as sum")
-//                        .eq("owner", uid)).get("sum");
-//        blogcommentsService.getMap(new QueryWrapper<Blogcomments>().)
-//        Blogs owner = blogsService.getOne(new QueryWrapper<Blogs>().select("sum(likes)").eq("owner", uid));
         List<Blogs> blogs = blogsService.list(new QueryWrapper<Blogs>().eq("owner", uid));
         long likes = 0;
         long comments = 0;
@@ -142,5 +136,23 @@ public class UserController {
         map.put("commentNumber", comments);
         map.put("blogNumber", blogs.size());
         return map;
+    }
+
+    @PostMapping("/administrator/Banned")
+    public String ban(@RequestBody Map<String, Object> param) {
+        User user = new User();
+        user.setAccount((Integer) param.get("Account"));
+        user.setState("C");
+        userService.saveOrUpdate(user);
+        return "success";
+    }
+
+    @PostMapping("/administrator/Unblock")
+    public String unBan(@RequestBody Map<String, Object> param) {
+        User user = new User();
+        user.setAccount((Integer) param.get("Account"));
+        user.setState("D");
+        userService.saveOrUpdate(user);
+        return "success";
     }
 }
