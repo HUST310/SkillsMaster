@@ -15,6 +15,7 @@ import org.apache.commons.io.FilenameUtils;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -58,6 +59,7 @@ public class UserController {
         user.setPassword(null);
         return user;
     }
+
     @GetMapping("/getUserInfo")
     public User getUserInfo1(HttpSession session) {
         session.setAttribute("uid", 1);
@@ -68,11 +70,10 @@ public class UserController {
     }
 
 
-
     @PostMapping("/modifyUserInfo")
     public String modifyUserInfo(StandardMultipartHttpServletRequest request, HttpSession session) throws IOException {
         User user = new User();
-        session.setAttribute("uid", 3);
+        session.setAttribute("uid", 1);
         user.setAccount((Integer) session.getAttribute("uid"));
 
         user.setUsername(request.getParameter("username"));
@@ -80,13 +81,17 @@ public class UserController {
         user.setGender(request.getParameter("gender"));
 
         MultiValueMap<String, MultipartFile> multiFileMap = request.getMultiFileMap();
-        MultipartFile file = request.getMultiFileMap().get("avatar").get(0);
-        String fileName = UUID.randomUUID() + "." + FilenameUtils.getExtension(file.getOriginalFilename());
-        File file1 = new File(this.getClass().getResource("/")
-                .getPath().substring(1) + "static/img", fileName);
-        FileUtils.writeByteArrayToFile(file1, file.getBytes());
+        List<MultipartFile> files = request.getMultiFileMap().get("avatar");
+        if (files != null) {
+            MultipartFile file = files.get(0);
 
-        user.setAvatar("img/" + fileName);
+            String fileName = UUID.randomUUID() + "." + FilenameUtils.getExtension(file.getOriginalFilename());
+            File file1 = new File(this.getClass().getResource("/")
+                    .getPath().substring(1) + "static/img", fileName);
+            FileUtils.writeByteArrayToFile(file1, file.getBytes());
+
+            user.setAvatar("img/" + fileName);
+        }
         userService.saveOrUpdate(user);
         return "success";
     }

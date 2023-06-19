@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -51,12 +52,12 @@ public class CommentController {
         Integer uid = (Integer) session.getAttribute("uid");
         String username = userService.getById(uid).getUsername();
         ArrayList<Map<String, Object>> comments = new ArrayList<>();
-        List<Blogs> blogs = blogsService.list(new QueryWrapper<Blogs>().eq("owner", uid));
+        List<Blogs> blogs = blogsService.list(new QueryWrapper<Blogs>().eq("owner", uid).eq("state", "N"));
         for (Blogs blog : blogs) {
             List<Blogcomments> blogcomments = blogcommentsService.list(new QueryWrapper<Blogcomments>()
-                    .eq("recevier", blog.getUid()));
-            LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+                    .eq("receiver", blog.getUid()).ne("state", "D"));
             for (Blogcomments blogcomment : blogcomments) {
+                LinkedHashMap<String, Object> map = new LinkedHashMap<>();
                 map.put("uid", blogcomment.getUid());
                 map.put("text", blogcomment.getContent());
                 map.put("data", blogcomment.getTime());
@@ -64,16 +65,17 @@ public class CommentController {
                 map.put("id", username);
                 map.put("blog", blog.getTitle());
                 map.put("level", 1);
+                comments.add(map);
             }
-            comments.add(map);
+
         }
         int len = comments.size();
         for (int i = 0; i < len; i++) {
             List<Ccomments> ccomments = ccommentsService.
                     list(new QueryWrapper<Ccomments>()
-                            .eq("recevier", comments.get(i).get("uid")));
-            LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+                            .eq("receiver", comments.get(i).get("uid")).ne("state", "D"));
             for (Ccomments ccomment : ccomments) {
+                LinkedHashMap<String, Object> map = new LinkedHashMap<>();
                 map.put("uid", ccomment.getUid());
                 map.put("text", ccomment.getContent());
                 map.put("data", ccomment.getTime());
@@ -81,10 +83,44 @@ public class CommentController {
                 map.put("id", username);
                 map.put("blog", comments.get(i).get("text"));
                 map.put("level", 2);
+                comments.add(map);
             }
-
         }
-        return null;
+        return comments;
+    }
+
+    @PostMapping("/Comments/add")
+    public String addN(@RequestBody Map<String, Object> map) {
+        Integer uid = (Integer) map.get("uid");
+        if (map.get("level").equals(1)) {
+            Blogcomments comment = blogcommentsService.getById(uid);
+            comment.setState("N");
+            comment.setTime(null);
+            blogcommentsService.saveOrUpdate(comment);
+        } else {
+            Ccomments ccomments = ccommentsService.getById(uid);
+            ccomments.setState("N");
+            ccomments.setTime(null);
+            ccommentsService.saveOrUpdate(ccomments);
+        }
+        return "success";
+    }
+
+    @PostMapping("/Comments/add2")
+    public String addD(@RequestBody Map<String, Object> map) {
+        Integer uid = (Integer) map.get("uid");
+        if (map.get("level").equals(1)) {
+            Blogcomments comment = blogcommentsService.getById(uid);
+            comment.setState("D");
+            comment.setTime(null);
+            blogcommentsService.saveOrUpdate(comment);
+        } else {
+            Ccomments ccomments = ccommentsService.getById(uid);
+            ccomments.setState("D");
+            ccomments.setTime(null);
+            ccommentsService.saveOrUpdate(ccomments);
+        }
+        return "success";
     }
 }
 //@Mapper

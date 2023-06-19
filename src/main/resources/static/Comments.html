@@ -115,8 +115,10 @@
                                     <i>已审核 </i>
                                 </h1>
                                 <h1 v-else>
-                                    <el-button @click="add(scope.row.level)" type="success">通过</el-button>
-                                    <el-button @click="add2(scope.row.level)" type="danger">否决</el-button>
+                                    <el-button @click="add(scope.row.level,scope.row.uid)" type="success">通过
+                                    </el-button>
+                                    <el-button @click="add2(scope.row.level,scope.row.uid)" type="danger">否决
+                                    </el-button>
                                 </h1>
                             </template>
                         </el-table-column>
@@ -172,25 +174,27 @@
             this.fetchdata()
         },
         methods: {
-            add(val) {
+            add(val1, val2) {
                 axios({
                     method: "post",
                     url: '/Comments/add',
                     data: {
                         State: 'N',
-                        level: val
+                        level: val1,
+                        uid: val2
                     }
                 }).then(resp => {
                     this.fetchdata();
                 })
             },
-            add2(val) {
+            add2(val1, val2) {
                 axios({
                     method: "post",
                     url: '/Comments/add2',
                     data: {
                         State: 'D',
-                        level: val
+                        level: val1,
+                        uid: val2
                     }
                 }).then(resp => {
                     this.fetchdata();
