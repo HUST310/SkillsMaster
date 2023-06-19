@@ -17,13 +17,18 @@
 
   <!--MarkDown-->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <script src="js/axios-0.18.0.js"></script>
   <style>
-  .el-header, .el-footer {
+
+    .el-header, .el-footer {
     background-color: #B3C0D1;
     color: #333;
     text-align: center;
     line-height: 60px;
   }
+
+
 
   .el-aside {
     background-color: #D3DCE6;
@@ -98,7 +103,23 @@
 <body>
 <div id="app">
   <el-container>
-    <el-header>Header</el-header>
+    <el-header>
+      <div id="navigation-bar">
+
+        <el-menu
+                :default-active="activeIndex"
+                class="el-menu-demo"
+                mode="horizontal"
+                @select="handleSelect"
+                background-color="#545c64"
+                text-color="#fff"
+                active-text-color="#ffd04b">
+          <el-menu-item index="1">首页</el-menu-item>
+          <el-menu-item index="2">个人主页</el-menu-item>
+          <el-menu-item index="3">退出登录</el-menu-item>
+        </el-menu>
+      </div>
+    </el-header>
     <el-main>
       <div class="blog-container" >
         <div class="blog-title">
@@ -112,7 +133,7 @@
 
       </div>
       <el-divider></el-divider>
-      <div calss="comment-container">
+      <div id="comment-container">
 
         <div class="comment-box">
           <el-row :gutter="20" style="margin:100px">
@@ -137,7 +158,7 @@
                           type="textarea"
                           :rows="2"
                           placeholder="请输入内容"
-                          v-model="textarea">
+                          v-model="textareaToBlog">
                   </el-input>
                 </div>
               </div>
@@ -173,7 +194,7 @@
                     <el-row class="demo-avatar demo-basic">
                       <el-col :span="5">
                         <div class="demo-basic--circle">
-                          <div class="block"><el-avatar :size="50" :src="comment.userInfo.avatar"></el-avatar></div>
+                          <div class="block"><el-avatar :size="80" :src="comment.avatar"></el-avatar></div>
                         </div>
                       </el-col>
 
@@ -185,13 +206,16 @@
                     <div class="user-info" style="text-align:left">
                       <div class="user-name">
                     <span>
-                      <el-button type="text" @click="access(comment.userInfo.account)"> {{comment.userInfo.name}}</el-button>
+                      <el-button type="text" @click="access(comment.commentorInfo.account)">
+                        <font size="6">{{comment.name}}</font>
+
+                      </el-button>
 
                     </span>
                       </div>
                     </div>
                     <div class="root-comment">
-                      <div class="comment-content-container">
+                      <div class="comment-content-container" style="margin:10px">
                         <span>
                           <p>{{comment.content}}</p>
 
@@ -210,8 +234,44 @@
                           </div></el-col>
                           <el-col :span="3"><div class="grid-content bg-purple">
                             <span class="sub-comment-button" >
-                        <el-button type="text" @click="reply()">回复</el-button>
-                          </span>
+                                <el-button type="text" @click="dialogVisible = true">回复</el-button>
+
+                                <el-dialog
+                                      title=""
+                                      :visible.sync="dialogVisible"
+                                      width="30%"
+                                      :before-close="handleClose">
+                                <span>
+                                  <div class="reply-info">
+                                    <el-row>
+
+                                      <el-col :span="6"><div class="grid-content bg-purple">
+                                        回复
+                                      </div></el-col>
+
+                                      <el-col :span="6"><div class="grid-content bg-purple">
+                                        {{comment.name}}:
+                                      </div></el-col>
+
+                                    </el-row>
+                                  </div>
+
+                                  <div class="comment-box-warp">
+                                    <el-input
+                                            type="textarea"
+                                            :rows="2"
+                                            placeholder="请输入内容"
+                                            v-model="textareaToComment">
+                                    </el-input>
+                                  </div>
+
+                                </span>
+                                <span slot="footer" class="dialog-footer">
+                                  <el-button @click="dialogVisible = false">取 消</el-button>
+                                  <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                                </span>
+                              </el-dialog>
+                            </span>
                           </div></el-col>
                         </el-row>
 
@@ -249,7 +309,7 @@
 
                           </el-row>
                         </div>
-                        <span class="sub-comment-container">
+                          <span class="sub-comment-container">
                           <p>{{subComment.content}}</p>
                         </span>
                         <div class="sub-comment-info" style="margin-top:10px">
@@ -268,7 +328,9 @@
                             </div></el-col>
                             <el-col :span="4"><div class="grid-content bg-purple">
                                <span class="sub-comment-button" >
-                                  <el-button type="text" @click="reply()">回复</el-button>
+                                  <el-button type="text" @click="dialogVisible = true">回复</el-button>
+
+
                               </span>
                             </div></el-col>
 
@@ -282,6 +344,12 @@
                       </div>
                     </div>
                   </div>
+                  <el-pagination class="pagination-sub-comment"
+                                 background
+                                 layout="prev, pager, next"
+                                 :total="1000"
+                                 @current-change="getSubComments">
+                  </el-pagination>
                 </el-collapse-item>
               </el-collapse>
             </div>
@@ -290,6 +358,12 @@
           </div>
 
         </div>
+        <el-pagination id="pagination-comment"
+                background
+                layout="prev, pager, next"
+                :total="1000"
+                 @current-change="getComments">
+        </el-pagination>
       </div>
     </el-main>
     <el-footer>Footer</el-footer>
@@ -301,75 +375,132 @@
 <script>
     new Vue({
       el: '#app',
+      mounted(){
+             document.getElementById('content').innerHTML =
+            marked.parse('# これはタイトルです\nrendered by **marked**.\n\n![这是图片](https://markdown.com.cn/assets/img/philly-magic-garden.9c0b4415.jpg "Magic Gardens")');
+        },
       data: function() {
-        return { visible: false,
-              commentNum:12,
-              blog:{
-              title:"none"
-              },
-              user:{
-              avatar:"user1-avatar.png"
-              },
-              textarea:'',
 
+
+        return { visible: false,
+                  dialogVisible: false,
+                  activeIndex: '0',
+                  commentNum:12,
+
+                  blog:{
+                    title:"none"
+                  },
+              user:{
+              avatar:"user1-avatar.png",
+              name:"",
+              account:""
+              },
+              textareaToComment:'',
+              textareaToBlog:'',
               comments:[
                 {
-                  userInfo:{
+
                     name:"sun",
                     avatar:"user1-avatar.png",
-                    account:123456
-                  },
-                  content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
-                  time:"1145-1-4 11:45:14",
-                  like:114,
-
-
-                  subComments:[
+                    account:123456,
+                    content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
+                    time:"1145-1-4 11:45:14",
+                    like:114,
+                     subComments:[
                     {
-                        userInfo:{
-                        name:"sun",
-                        avatar:"user1-avatar.png"
-                      },
                       content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
                       time:"1145-1-4 11:45:14",
                       like:114,
                       commentorInfo:{
-                        name:"commentorInfo"
+                        name:"commentorInfo",
+                        avatar:"",
+                        account:""
                       },
 
                       commenteeInfo:{
-                        name:"commenteeInfo"
+                        name:"commenteeInfo",
+                        avatar:"",
+                        account:""
                       }
                     }
                   ]
                 }
               ]
 
+
          }
       },
-
-      methods:{
-          send(){
-            alert(this.textarea);
+      methods: {
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      },
+      send(){
+            axios({
+                method:"post",
+                url:'user/sendComment',
+                data:{
+                 content:this.textareaToBlog,
+                 receiver:blog.uid
+                }
+            }).then(resp=>{
+            });
           },
 
           reply()
           {
-            alert("stringA");
+            axios({
+                method:"post",
+                url:'user/sendComment',
+                data:{
+                 content:this.textareaToComment,
+                 receiver:this.blog.uid
+                }
+            }).then(resp=>{
+            });
           },
 
           access(account){
             alert("access"+account);
           },
 
-          getSubComments(){
+          getSubComments(uid,page){
+              axios({
+                method:"post",
+                url:'user/getSubComments',
+                data:{
+                  uid:uid,
+                  page:page
+                }
+            }).then(resp=>{
+                this.subComments=resp.data;
+            });
+          },
 
+          getComments(uid,page){
+            axios({
+                method:"post",
+                url:'user/getComments',
+                data:{
+
+                  uid:this.blog.uid,
+                  page:page
+                }
+            }).then(resp=>{
+                this.comments=resp.data;
+            });
           }
-          }
+    }
+
+
     });
 
-    document.getElementById('content').innerHTML =
-            marked.parse('# これはタイトルです\nrendered by **marked**.\n\n![这是图片](https://markdown.com.cn/assets/img/philly-magic-garden.9c0b4415.jpg "Magic Gardens")');
-  </script>
+    </script>
 
 </html>
