@@ -1,7 +1,11 @@
 package com.hust310.SkillsMaster.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.hust310.SkillsMaster.domain.Blogcomments;
+import com.hust310.SkillsMaster.domain.Blogs;
 import com.hust310.SkillsMaster.domain.User;
+import com.hust310.SkillsMaster.service.BlogcommentsService;
+import com.hust310.SkillsMaster.service.BlogsService;
 import com.hust310.SkillsMaster.service.UserService;
 import org.apache.commons.io.FileUtils;
 
@@ -15,6 +19,7 @@ import org.apache.commons.io.FilenameUtils;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -23,6 +28,10 @@ import java.util.UUID;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private BlogsService blogsService;
+    @Autowired
+    private BlogcommentsService blogcommentsService;
 
     @PostMapping("/login")
     public String login(HttpSession session, @RequestBody User user) {
@@ -109,5 +118,29 @@ public class UserController {
         } else {
             return "password error";
         }
+    }
+
+    @GetMapping("/Manage/get")
+    public Map<String, Object> getData(HttpSession session) {
+        session.setAttribute("uid", 1);
+        Integer uid = (Integer) session.getAttribute("uid");
+//        Integer likes = (Integer) blogsService
+//                .getMap(new QueryWrapper<Blogs>()
+//                        .select("sum(likes) as sum")
+//                        .eq("owner", uid)).get("sum");
+//        blogcommentsService.getMap(new QueryWrapper<Blogcomments>().)
+//        Blogs owner = blogsService.getOne(new QueryWrapper<Blogs>().select("sum(likes)").eq("owner", uid));
+        List<Blogs> blogs = blogsService.list(new QueryWrapper<Blogs>().eq("owner", uid));
+        long likes = 0;
+        long comments = 0;
+        for (Blogs blog : blogs) {
+            likes += blog.getLikes();
+            comments += blogcommentsService.count(new QueryWrapper<Blogcomments>().eq("receiver", blog.getUid()));
+        }
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+        map.put("viewNumber", likes);
+        map.put("commentNumber", comments);
+        map.put("blogNumber", blogs.size());
+        return map;
     }
 }
