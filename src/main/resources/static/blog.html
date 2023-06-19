@@ -114,9 +114,9 @@
                 background-color="#545c64"
                 text-color="#fff"
                 active-text-color="#ffd04b">
-          <el-menu-item index="1">首页</el-menu-item>
-          <el-menu-item index="2">个人主页</el-menu-item>
-          <el-menu-item index="3">退出登录</el-menu-item>
+          <el-menu-item index="1" @click="backToMainPage">首页</el-menu-item>
+          <el-menu-item index="2" @click="accessPersonalPage">个人主页</el-menu-item>
+          <el-menu-item index="3" @click="logout">退出登录</el-menu-item>
         </el-menu>
       </div>
     </el-header>
@@ -440,6 +440,23 @@
             done();
           })
           .catch(_ => {});
+      },
+
+      accessPersonalPage(){
+           location.href="/SkillsMaster/static/Personal.html";
+      },
+
+      backToMainPage(){
+          location.href="/SkillsMaster/static/mainPage.html";
+      },
+
+      logOut(){
+           axios({
+                method:'post',
+                url:'/user/logout'
+            }).then(resp=>{
+                document.location="./Login.html";
+            });
       },
       send(){
             axios({
