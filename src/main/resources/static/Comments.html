@@ -31,7 +31,7 @@
                    style="height: 50px;
                    font-size: 1.2em;
                    position: relative;
-                   top: 15px;">     姜明 </i>
+                   top: 15px;"> 姜明 </i>
                 <div style="border:1px solid #CCC"></div>
                 <el-menu-item index="1">
                     <i class="el-icon-pie-chart"></i>
@@ -41,7 +41,7 @@
                     <i class="el-icon-magic-stick"></i>
                     <span slot="title"><el-link href="./Write.html">发布博客</el-link></span>
                 </el-menu-item>
-                <br />
+                <br/>
                 <div>管理模块</div>
                 <el-menu-item index="3">
                     <i class="el-icon-s-management"></i>
@@ -59,7 +59,7 @@
                     <i class="el-icon-star-on"></i>
                     <span slot="title"><el-link href="./Follow.html">关注管理</el-link></span>
                 </el-menu-item>
-                <br />
+                <br/>
                 <div>个人模块</div>
                 <el-menu-item index="7">
                     <i class="el-icon-user"></i>
@@ -67,7 +67,7 @@
                 </el-menu-item>
                 <el-menu-item index="9">
                     <i class="el-icon-error"></i>
-                    <span slot="title">退出登录</span>
+                    <span slot="title"><el-link href="./Login.html">退出登录</el-link></span>
                 </el-menu-item>
             </el-menu>
         </el-aside>
@@ -77,10 +77,10 @@
                 <el-dropdown>
                     <i class="el-icon-setting" style="margin-right: 15px"></i>
                 </el-dropdown>
-                <span>博客</span>
+                <span>返回首页</span>
             </el-header>
             <div style="border-style: double;border-width: thick;">
-                <br />
+                <br/>
                 <el-form>
                     <el-row>
                         <el-col span="8">
@@ -88,12 +88,13 @@
                             <el-button type="danger" icon="el-icon-delete"
                                        style="position:relative;left:40px;"
                                        @click="deleteByQuery">
-                                确认删除</el-button>
+                                确认删除
+                            </el-button>
                         </el-col>
                     </el-row>
                 </el-form>
                 <el-main>
-                    <el-table :data="tableData"  height="500"
+                    <el-table :data="tableData" height="500"
                               ref="multipleTable"
                               @selection-change="handleSelectionChange">
                         <el-table-column
@@ -102,20 +103,26 @@
                         </el-table-column>
                         <el-table-column prop="text" label="评论内容" width="250">
                         </el-table-column>
-                        <el-table-column prop="data" label="评论时间" width="140">
+                        <el-table-column prop="data" label="评论时间" width="120">
                         </el-table-column>
-                        <el-table-column prop="id" label="评论人" width="140">
+                        <el-table-column prop="id" label="评论人" width="120">
                         </el-table-column>
                         <el-table-column prop="blog" label="评论文章" width="140">
                         </el-table-column>
-                        <el-table-column label="审核" width="200">
-                            <el-button type="success">通过</el-button>
-                            <el-button type="danger">否决</el-button>
+                        <el-table-column prop="State" label="审核" width="200">
+                            <template slot-scope="scope">
+                                <h1 v-if="scope.row.State=='N'">
+                                    <i>已审核 </i>
+                                </h1>
+                                <h1 v-else>
+                                    <el-button @click="add(scope.row.level,scope.row.uid)" type="success">通过
+                                    </el-button>
+                                    <el-button @click="add2(scope.row.level,scope.row.uid)" type="danger">否决
+                                    </el-button>
+                                </h1>
+                            </template>
                         </el-table-column>
-                        <el-table-column  width="100" label="查看文章">
-                            <el-button type="primary">查看</el-button>
-                        </el-table-column>
-                        <el-table-column  width="120">
+                        <el-table-column width="200" label="进入详情页">
                             <el-button type="primary" icon="el-icon-edit">回复</el-button>
                         </el-table-column>
                     </el-table>
@@ -136,23 +143,29 @@
         data() {
             return {
                 tableData: [{
-                    uid:1,
+                    uid: 1,
                     text: '杰哥不要',
                     data: '2016-05-02',
                     id: '刘梦祥',
-                    blog: '黄洋洋xx往事'
+                    State: 'N',
+                    blog: '黄洋洋xx往事',
+                    level: 1
                 }, {
-                    uid:2,
+                    uid: 2,
                     text: '杰哥不要',
                     data: '2016-05-02',
+                    State: 'C',
                     id: '刘梦祥',
-                    blog: '黄洋洋xx往事'
+                    blog: '黄洋洋xx往事',
+                    level: 2
                 }, {
-                    uid:3,
+                    uid: 3,
                     text: '杰哥不要',
                     data: '2016-05-02',
+                    State: 'C',
                     id: '刘梦祥',
-                    blog: '黄洋洋xx往事'
+                    blog: '黄洋洋xx往事',
+                    level: 1
                 }],
                 multipleSelection: []
             }
@@ -161,9 +174,35 @@
             this.fetchdata()
         },
         methods: {
+            add(val1, val2) {
+                axios({
+                    method: "post",
+                    url: '/Comments/add',
+                    data: {
+                        State: 'N',
+                        level: val1,
+                        uid: val2
+                    }
+                }).then(resp => {
+                    this.fetchdata();
+                })
+            },
+            add2(val1, val2) {
+                axios({
+                    method: "post",
+                    url: '/Comments/add2',
+                    data: {
+                        State: 'D',
+                        level: val1,
+                        uid: val2
+                    }
+                }).then(resp => {
+                    this.fetchdata();
+                })
+            },
             handleSelectionChange(val) {
                 for (let item of val) {
-                    this.multipleSelection.push(item.uid);
+                    this.multipleSelection.push([item.uid, item.level]);
                 }
                 this.deleteSelection = this.multipleSelection;
                 this.multipleSelection = [];
@@ -175,6 +214,7 @@
                     .then(
                         response => {
                             this.tableData = response.data;
+
                         },
                         response => {
                             console.log("error");
@@ -182,8 +222,7 @@
                         }
                     )
             },
-            deleteByQuery()
-            {
+            deleteByQuery() {
                 this.$confirm('是否删除内容?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -192,16 +231,17 @@
 
                     axios({
                         method: "post",
-                        url:'/Comments/deleteBlogs',
-                        data:{
-                            deleteSelection:this.deleteSelection
-                        }
-                    }).then(resp=>{
+                        url: '/Comments/deleteComments',
+                        data: this.deleteSelection
+                        // {
+                        //     deleteSelection: this.deleteSelection
+                        // }
+                    }).then(resp => {
                         this.$message({
                             message: '删除成功！',
                             type: 'success'
                         });
-                        this.deleteSelection=[];
+                        this.deleteSelection = [];
                         this.fetchdata();
                     })
                 }).catch(() => {

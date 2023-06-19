@@ -99,11 +99,11 @@
                 <div style="border:1px solid #CCC"></div>
                 <el-menu-item index="1">
                     <i class="el-icon-pie-chart"></i>
-                    <span slot="title">数据展示</span>
+                    <span slot="title"><el-link href="./Manage.html">数据展示</el-link></span>
                 </el-menu-item>
                 <el-menu-item index="2">
                     <i class="el-icon-magic-stick"></i>
-                    <span slot="title">发布博客</span>
+                    <span slot="title"><el-link href="./Write.html">发布博客</el-link></span>
                 </el-menu-item>
                 <br/>
                 <div>管理模块</div>
@@ -127,11 +127,11 @@
                 <div>个人模块</div>
                 <el-menu-item index="7">
                     <i class="el-icon-user"></i>
-                    <span slot="title">个人信息</span>
+                    <span slot="title"><el-link href="./Information.html">个人信息</el-link></span>
                 </el-menu-item>
                 <el-menu-item index="9">
                     <i class="el-icon-error"></i>
-                    <span slot="title">退出登录</span>
+                    <span slot="title"><el-link href="./Login.html">退出登录</el-link></span>
                 </el-menu-item>
             </el-menu>
         </el-aside>
@@ -247,7 +247,7 @@
                                 <el-form-item>
                                     <template>
                                         <el-alert
-                                                title="密码格式不正确,请输入6位字母或数字"
+                                                title="密码格式不正确"
                                                 type="error"
                                                 show-icon
                                                 :closable="false" disabled="true">
