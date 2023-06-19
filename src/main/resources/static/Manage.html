@@ -120,7 +120,7 @@
                             <span>Let's go !</span>
                             <div class="bottom clearfix">
                                 <time class="time">{{ currentDate }}</time>
-                                <el-button type="text" class="button">了解详情</el-button>
+                                <el-link href="./Write.html"><el-button type="text" class="button">了解详情</el-button></el-link>
                             </div>
                         </div>
                     </el-card>
@@ -132,11 +132,12 @@
                             <span>More info</span>
                             <div class="bottom clearfix">
                                 <time class="time">{{ currentDate }}</time>
-                                <el-button type="text" class="button">了解详情</el-button>
+                                <el-link href="./BlogManage.html"><el-button type="text" class="button">了解详情</el-button></el-link>
                             </div>
                         </div>
                     </el-card>
                 </el-col>
+                <div Style="position:relative;right:100px;top:10px;font-size:4em;color: white">{{ tableData.viewNumber }}</div>
             </el-row>
             <el-row>
                 <el-col :span="8" Style="position:relative;left:40px;top:40px">
@@ -146,24 +147,25 @@
                             <span>More info</span>
                             <div class="bottom clearfix">
                                 <time class="time">{{ currentDate }}</time>
-                                <el-button type="text" class="button">了解详情</el-button>
+                                <el-link href="./Comments.html"><el-button type="text" class="button">了解详情</el-button></el-link>
                             </div>
                         </div>
                     </el-card>
                 </el-col>
-                <el-col :span="8" Style="position:relative;left:120px;top:40px">
+                <div Style="position:relative;right:180px;top:50px;font-size:4em;color: white">{{ tableData.commentNumber }}</div>
+                <el-col :span="8" Style="position:relative;left:120px;bottom:43px">
                     <el-card :body-style="{ padding: '0px' }">
                         <img src="img/091838.png" class="image">
                         <div style="padding: 14px;">
                             <span>More info</span>
                             <div class="bottom clearfix">
                                 <time class="time">{{ currentDate }}</time>
-                                <el-button type="text" class="button">了解详情</el-button>
+                                <el-link href="./BlogManage.html"><el-button type="text" class="button">了解详情</el-button></el-link>
                             </div>
                         </div>
                     </el-card>
                 </el-col>
-
+                <div Style="position:relative;right:100px;bottom:33px;font-size:4em;color: white">{{ tableData.blogNumber }}</div>
             </el-row>
 <!--        </div>-->
 
@@ -181,13 +183,35 @@
         el: '#app',
         data() {
             return {
+            tableData:{
+                viewNumber:32,
+                commentNumber:13,
+                blogNumber:12,
+            },
                 currentDate: new Date()
             };
+        },
+        mounted() {
+            this.fetchdata()
         },
         methods: {
             handleSelectionChange(val) {
                 this.multipleSelection = val;
-            }
+            },
+            fetchdata() {
+                axios
+                    .get("/Manage/get")
+                    .then(
+                        response => {
+                            this.tableData = response.data;
+
+                        },
+                        response => {
+                            console.log("error");
+                            alert("请求失败");
+                        }
+                    )
+            },
         }
     })
 </script>
