@@ -100,7 +100,7 @@
                                 type="selection"
                                 width="55">
                         </el-table-column>
-                        <el-table-column prop="text" label="评论内容" width="250">
+                        <el-table-column prop="content" label="评论内容" width="250">
                         </el-table-column>
                         <el-table-column prop="data" label="评论时间" width="120">
                         </el-table-column>
@@ -114,8 +114,8 @@
                                 <i>已审核 </i>
                             </h1>
                             <h1 v-else>
-                                <el-button @click="add" type="success">通过</el-button>
-                                <el-button @click="add2" type="danger">否决</el-button>
+                                <el-button @click="add(scope.row.level)" type="success">通过</el-button>
+                                <el-button @click="add2(scope.row.level)" type="danger">否决</el-button>
                             </h1>
                             </template>
                         </el-table-column>
@@ -141,25 +141,28 @@
             return {
                 tableData: [{
                     uid:1,
-                    text: '杰哥不要',
+                    content: '杰哥不要',
                     data: '2016-05-02',
                     id: '刘梦祥',
                     State:'N',
-                    blog: '黄洋洋xx往事'
+                    blog: '黄洋洋xx往事',
+                    level:1
                 }, {
                     uid:2,
-                    text: '杰哥不要',
+                    content: '杰哥不要',
                     data: '2016-05-02',
                     State:'C',
                     id: '刘梦祥',
-                    blog: '黄洋洋xx往事'
+                    blog: '黄洋洋xx往事',
+                    level:2
                 }, {
                     uid:3,
-                    text: '杰哥不要',
+                    content: '杰哥不要',
                     data: '2016-05-02',
                     State:'C',
                     id: '刘梦祥',
-                    blog: '黄洋洋xx往事'
+                    blog: '黄洋洋xx往事',
+                    level:1
                 }],
                 multipleSelection: []
             }
@@ -168,23 +171,25 @@
             this.fetchdata()
         },
         methods: {
-            add(){
+            add(val){
                 axios({
                     method: "post",
                     url:'/Comments/add',
                     data:{
-                        State:'N'
+                        State:'N',
+                        level:val
                     }
                 }).then(resp=>{
                     this.fetchdata();
                 })
             },
-            add2(){
+            add2(val){
                 axios({
                     method: "post",
                     url:'/Comments/add2',
                     data:{
-                        State:'D'
+                        State:'D',
+                        level:val
                     }
                 }).then(resp=>{
                     this.fetchdata();
