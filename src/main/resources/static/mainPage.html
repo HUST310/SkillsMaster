@@ -10,28 +10,43 @@
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <script src="js/axios-0.18.0.js"></script>
 
-<--!layout-->
+<!--layout-->
 <style>
-  .el-header, .el-footer {
-    background-color: #B3C0D1;
+  .el-header {
+<!--    background-color: white;-->
     color: #333;
     text-align: center;
     line-height: 60px;
   }
+
+   .el-footer
+   {
+
+      padding:0px;
+      margin-bottom:50px;
+
+
+   }
 
   .el-aside {
     background-color: white;
     color: #333;
     text-align: left;
     line-height: 20px;
+
+    margin-right:30px;
+    margin-bottom:30px;
+    margin-top:200px;
   }
 
   .el-main {
-    background-color: #E9EEF3;
+    background-color: white;
     color: #333;
     text-align: center;
     line-height: 80px;
     padding:60px;
+    margin-bottom:30px;
+    margin-top:200px;
   }
 
   body > .el-container {
@@ -56,7 +71,7 @@
 </style>
 
 
-<--!container-->
+<!--container-->
 <style>
   .el-row {
     margin-bottom: 20px;
@@ -71,7 +86,7 @@
     background: #99a9bf;
   }
   .bg-purple {
-    background: #d3dce6;
+    background: white;
   }
   .bg-purple-light {
     background: #e5e9f2;
@@ -119,20 +134,21 @@
 
       .blog-updated-blogger-info:hover{
 
-      border-color:#409EFF;
+<!--      border-color:#409EFF;-->
       }
 
       .blogger-blogger-info-container:hover{
 
-      border-color:#409EFF;
+<!--      border-color:#409EFF;-->
       }
       .blog-updated-title:hover{
-
-      border-color:#409EFF;
+      background-color:#F5F5F5;
+<!--      border-color:#409EFF;-->
       }
 
       .blog-content-container:hover{
-        border-color:#409EFF;
+      background-color:#F5F5F5;
+<!--        border-color:#409EFF;-->
       }
 
       .blog-updated-title{
@@ -140,7 +156,15 @@
       }
 
       body{
-        margin:50px;
+        margin-left:50px;
+        margin-right:50px;
+        margin-bottom:50px;
+        background-color:blue;
+
+
+        background-repeat:no-repeat
+        background-attachment:fixed;
+        background-size:100% 100%;
       }
 
 
@@ -162,36 +186,80 @@
   }
  </style>
 
+<style>
 
+  .footer{
+        height: 150px;
+        margin-bottom:50px;
+
+        text-align: center;
+        font-size: 16px;
+        padding: 0px 100px;
+        position: relative;
+        background-color:white;
+
+    }
+    .footer{
+      cursor: pointer;
+
+    }
+    .copyright{
+      font-size: 12px;
+    }
+    .info{
+      font-size: 14px;
+      color: #72767b;
+      line-height: 25px;
+    }
+    .footer .scroll{
+
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      border:2px solid #eaeaea;
+      /* background-color: rgba(216, 16, 109,0.6); */
+      position: absolute;
+      left: 5%;
+      top: -25px;
+      z-index: 10;
+      animation: scrollA infinite 20s linear alternate;
+    }
+    @keyframes scrollA {
+      0% {left: 5%;transform: rotate(180deg);};
+      10% {left: 5%;transform: rotate(270deg);}
+      20% {left: 5%;transform: rotate(450deg);}
+      25% {left: 10%;transform: rotate(540deg);}
+      30% {left: 20%;transform: rotate(720deg);}
+      35% {left: 30%;transform: rotate(900deg);}
+      40% {left: 40%;transform: rotate(1080deg);}
+      45% {left: 50%;transform: rotate(1260deg);}
+      50% {left: 60%;transform: rotate(1440deg);}
+      55% {left: 70%;transform: rotate(1620deg);}
+      60% {left: 80%;transform: rotate(1800deg);}
+      80% {left: 90%;transform: rotate(2610deg);}
+      90% {left: 90%;transform: rotate(2340deg);}
+      100% {left: 90%;transform: rotate(2520deg);}
+}
+</style>
 </head>
-<body>
+<body background="background.jpg">
 <div id="app">
 <el-container>
   <el-header>
     <div id="navigation-bar">
+
       <el-menu
-              :default-active="activeIndex2"
+              :default-active="activeIndex"
               class="el-menu-demo"
               mode="horizontal"
-              @select="handleSelect"
+
               background-color="#545c64"
               text-color="#fff"
               active-text-color="#ffd04b">
-        <el-menu-item index="1">主页</el-menu-item>
-        <el-submenu index="2">
-          <template slot="title">我的工作台</template>
-          <el-menu-item index="2-1">选项1</el-menu-item>
-          <el-menu-item index="2-2">选项2</el-menu-item>
-          <el-menu-item index="2-3">选项3</el-menu-item>
-          <el-submenu index="2-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="2-4-1">选项1</el-menu-item>
-            <el-menu-item index="2-4-2">选项2</el-menu-item>
-            <el-menu-item index="2-4-3">选项3</el-menu-item>
-          </el-submenu>
-        </el-submenu>
-        <el-menu-item index="3" disabled>消息中心</el-menu-item>
-        <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+        <el-menu-item index="1" @click="backToMainPage">首页</el-menu-item>
+        <el-menu-item index="2" @click="accessPersonalPage">个人主页</el-menu-item>
+        <el-menu-item index="3" @click="logout">退出登录</el-menu-item>
       </el-menu>
     </div>
   </el-header>
@@ -200,7 +268,7 @@
     <el-container>
       <el-aside width="400px">
         <div id="search-container">
-          <span class="demonstration">搜索文章</span>
+          <span class="demonstration"><b>搜索文章</b></span>
           <el-divider></el-divider>
         <div id="search-box">
           <el-row :gutter="20">
@@ -208,14 +276,14 @@
               <div class="grid-content bg-purple">
                 <el-input
                         placeholder="请输入内容"
-                        v-model="input4">
+                        v-model="input">
                   <i slot="prefix" class="el-input__icon el-icon-search"></i>
                 </el-input>
               </div>
             </el-col>
             <el-col :span="6">
               <div class="grid-content bg-purple">
-                <el-button type="primary" icon="el-icon-search">搜索</el-button>
+                <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
               </div>
             </el-col>
 
@@ -228,7 +296,7 @@
         </div>
 
         <div id="blogs-updated-container">
-          <span class="demonstration">作者更新</span>
+          <span class="demonstration"><b>作者更新</b></span>
           <el-divider></el-divider>
           <div id="blogs-updated-content-container" v-for="blog in updatedBlogs">
 
@@ -253,7 +321,7 @@
                           </div></el-col>
                           <el-col :span="12"><div class="grid-content bg-purple">
                             <div class="blog-updated-blogger-info-name" style="margin-top:15px">
-                               {{blog.bloggerInfo.name}}
+                              <font size="4"><b>{{blog.bloggerInfo.name}}</b></b></font>
                             </div>
                           </div></el-col>
                         </el-row>
@@ -262,9 +330,9 @@
                       </div>
                     </div></el-col>
                     <el-col :span="12"><div class="grid-content bg-purple">
-                      <div class="blog-updated-time-info" style="margin-top:20px">
+                      <div class="blog-updated-time-info" style="margin-top:28px">
                       <span>
-                        {{blog.time}}
+                        <font size="3"><b>{{blog.time}}</b></b></font>
                       </span>
                       </div>
                     </div></el-col>
@@ -299,7 +367,7 @@
                   <div class="blogger-blogger-info-container" @click="access(blog.bloggerInfo.uid)">
                     <el-row :gutter="20">
                       <el-col :span="6"><div class="grid-content bg-purple">
-                        <div class="user-avatar">
+                        <div class="user-avatar" style="margin-top:15px">
                           <el-row class="demo-avatar demo-basic">
                             <el-col :span="12">
                               <div class="demo-basic--circle">
@@ -313,7 +381,7 @@
                       <el-col :span="6"><div class="grid-content bg-purple">
                         <div class="user-access-link">
                           <a>
-                            {{blog.name}}
+                            <font size="5"><b>{{blog.name}}</b></b></font>
                           </a>
                         </div>
                       </div></el-col>
@@ -324,8 +392,10 @@
                   </div>
                 </div></el-col>
                 <el-col :span="12"><div class="grid-content bg-purple">
-                  <div class="blogger-time-info-container">
-                    <span>{{blog.time}}</span>
+                  <div class="blogger-time-info-container" style="margin-top:10px">
+                    <span>
+                      <font size="3"><b>{{blog.time}}</b></b></font>
+                    </span>
                   </div>
                 </div></el-col>
 
@@ -341,9 +411,20 @@
             </div>
             <div class="blog-like-comment-info">
               <el-row :gutter="20">
-                <el-col :span="12"><div class="grid-content bg-purple">
-                  <span class="like"> <i class="el-icon-medal"></i>{{blog.like}}人觉得很赞 </span>
-                  <span class="comment"> <i class="el-icon-medal"></i>{{blog.comment}}条评论 </span>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                  <span class="like">
+                    <font size="4"><b>{{blog.like}}</b></b></font>
+                    人觉得很赞
+                  </span>
+
+
+                </div></el-col>
+
+                <el-col :span="6"><div class="grid-content bg-purple">
+                  <span class="comment">
+                    <font size="4"><b>{{blog.comment}}</b></b></font>
+                    条评论
+                  </span>
 
                 </div></el-col>
 
@@ -371,7 +452,30 @@
     </el-container>
 
     <el-footer>
-      1334
+
+      <div class='footer'>
+        <span class="scroll"></span>
+        <!-- <span id="star-five" class="scroll"></span> -->
+        <el-divider></el-divider>
+        <span>法律声明</span>
+        <el-divider direction="vertical"></el-divider>
+        <span>友情链接</span>
+        <el-divider direction="vertical"></el-divider>
+        <span @click="drawer = true">联系我</span>
+        <br/>
+        <br/>
+        <span class="copyright">版权所有</span>
+        <el-drawer
+                title="联系我"
+                :visible.sync="drawer"
+                :direction="direction"
+                >
+          <p class="info" style="padding:30px">
+            <i class="el-icon-phone"></i>电话：18822299999<br/>
+            <i class="el-icon-message"></i>邮箱：18822299999@163.com<br/>
+          </p>
+        </el-drawer>
+      </div>
     </el-footer>
   </el-container>
 </el-container>
@@ -395,6 +499,7 @@
         },
       data: function(){
       return{
+
 
           updatedBlogs:[
                    {
@@ -436,12 +541,51 @@
 
 
       methods:{
+
+
+      //search-box
+        search(){
+          axios({
+                method:"post",
+                url:'/user/searchBlogs',
+                data:{
+                  input:this.input,
+                  page:page
+                }
+            }).then(resp=>{
+                this.blogs=resp.data;
+            });
+
+        },
+
+
+
+
+        //navigation-bar
+      accessPersonalPage(){
+           location.href="/SkillsMaster/static/Personal.html";
+      },
+
+      backToMainPage(){
+          location.href="/SkillsMaster/static/mainPage.html";
+      },
+
+      logout(){
+           axios({
+                method:'post',
+                url:'/user/logout'
+            }).then(resp=>{
+
+            });
+            location.href="/SkillsMaster/static/Login.html";
+      },
+
         readBlog(uid){
           alert(uid);
         },
 
         getBlogs(page){
-          alert(1);
+
           axios({
                 method:"post",
                 url:'/user/getBlogs',
@@ -466,7 +610,19 @@
       },
 
       data: function() {
-        return { visible: false,
+        return {
+         //navigation-bar
+        activeIndex: '0',
+
+        //footer
+        drawer:false,
+        direction: 'rtl',
+
+
+        //search-box
+        input:"",
+
+        visible: false,
 
                   userInfo:{
                     avatar:"user1-avatar.png",
