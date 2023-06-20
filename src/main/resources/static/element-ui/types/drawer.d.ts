@@ -1,5 +1,5 @@
-import { ElementUIComponent } from './component'
-import { VNode } from 'vue'
+import {ElementUIComponent} from './component'
+import {VNode} from 'vue'
 
 type hide = (shouldCancel: boolean) => void
 declare enum Direction {

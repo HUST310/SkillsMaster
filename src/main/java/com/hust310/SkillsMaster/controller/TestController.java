@@ -1,6 +1,5 @@
 package com.hust310.SkillsMaster.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hust310.SkillsMaster.domain.Test;
 import com.hust310.SkillsMaster.service.TestService;

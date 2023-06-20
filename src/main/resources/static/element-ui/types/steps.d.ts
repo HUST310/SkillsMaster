@@ -1,5 +1,5 @@
-import { ElementUIComponent } from './component'
-import { StepStatus } from './step'
+import {ElementUIComponent} from './component'
+import {StepStatus} from './step'
 
 export type StepsDirection = 'vertical' | 'horizontal'
 

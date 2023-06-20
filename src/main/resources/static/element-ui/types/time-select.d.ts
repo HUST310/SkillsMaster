@@ -1,4 +1,4 @@
-import { ElementUIComponent, ElementUIComponentSize, ElementUIHorizontalAlignment } from './component'
+import {ElementUIComponent, ElementUIComponentSize, ElementUIHorizontalAlignment} from './component'
 
 export interface TimeSelectOptions {
   /** Start time */

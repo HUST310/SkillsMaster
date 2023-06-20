@@ -1,20 +1,27 @@
 package com.hust310.SkillsMaster.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.hust310.SkillsMaster.domain.Blogcomments;
+import com.hust310.SkillsMaster.domain.Blogs;
 import com.hust310.SkillsMaster.domain.User;
+import com.hust310.SkillsMaster.service.BlogcommentsService;
+import com.hust310.SkillsMaster.service.BlogsService;
 import com.hust310.SkillsMaster.service.UserService;
 import org.apache.commons.io.FileUtils;
-
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
-import org.apache.commons.io.FilenameUtils;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -23,6 +30,10 @@ import java.util.UUID;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private BlogsService blogsService;
+    @Autowired
+    private BlogcommentsService blogcommentsService;
 
     @PostMapping("/login")
     public String login(HttpSession session, @RequestBody User user) {
@@ -62,7 +73,7 @@ public class UserController {
 
     @GetMapping("/getUserInfo")
     public User getUserInfo1(HttpSession session) {
-        session.setAttribute("uid", 1);
+//        session.setAttribute("uid", 1);
         Integer uid = (Integer) session.getAttribute("uid");
         User user = userService.getOne(new QueryWrapper<User>().eq("account", uid));
         user.setPassword("");
@@ -73,7 +84,7 @@ public class UserController {
     @PostMapping("/modifyUserInfo")
     public String modifyUserInfo(StandardMultipartHttpServletRequest request, HttpSession session) throws IOException {
         User user = new User();
-        session.setAttribute("uid", 1);
+//        session.setAttribute("uid", 1);
         user.setAccount((Integer) session.getAttribute("uid"));
 
         user.setUsername(request.getParameter("username"));
@@ -109,5 +120,41 @@ public class UserController {
         } else {
             return "password error";
         }
+    }
+
+    @GetMapping("/Manage/get")
+    public Map<String, Object> getData(HttpSession session) {
+//        session.setAttribute("uid", 1);
+        Integer uid = (Integer) session.getAttribute("uid");
+        List<Blogs> blogs = blogsService.list(new QueryWrapper<Blogs>().eq("owner", uid));
+        long likes = 0;
+        long comments = 0;
+        for (Blogs blog : blogs) {
+            likes += blog.getLikes();
+            comments += blogcommentsService.count(new QueryWrapper<Blogcomments>().eq("receiver", blog.getUid()));
+        }
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+        map.put("viewNumber", likes);
+        map.put("commentNumber", comments);
+        map.put("blogNumber", blogs.size());
+        return map;
+    }
+
+    @PostMapping("/administrator/Banned")
+    public String ban(@RequestBody Map<String, Object> param) {
+        User user = new User();
+        user.setAccount((Integer) param.get("Account"));
+        user.setState("C");
+        userService.saveOrUpdate(user);
+        return "success";
+    }
+
+    @PostMapping("/administrator/Unblock")
+    public String unBan(@RequestBody Map<String, Object> param) {
+        User user = new User();
+        user.setAccount((Integer) param.get("Account"));
+        user.setState("D");
+        userService.saveOrUpdate(user);
+        return "success";
     }
 }

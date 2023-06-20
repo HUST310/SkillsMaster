@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 export type TimelineItemPlacement = 'top' | 'bottom'
 export type TimelineItemType = 'primary' | 'success' | 'warning' | 'danger' | 'info'

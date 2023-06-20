@@ -1,9 +1,9 @@
 import Vue from 'vue';
-import { hasClass, addClass, removeClass } from 'element-ui/src/utils/dom';
+import {addClass, hasClass, removeClass} from 'element-ui/src/utils/dom';
 import ElCheckbox from 'element-ui/packages/checkbox';
 import FilterPanel from './filter-panel.vue';
 import LayoutObserver from './layout-observer';
-import { mapStates } from './store/helper';
+import {mapStates} from './store/helper';
 
 const getAllColumns = (columns) => {
   const result = [];

@@ -1,13 +1,6 @@
 package com.hust310.SkillsMaster.config;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.hust310.SkillsMaster.domain.Blogcomments;
-import com.hust310.SkillsMaster.domain.Blogs;
-import com.hust310.SkillsMaster.domain.Test;
-import com.hust310.SkillsMaster.domain.User;
 import com.hust310.SkillsMaster.util.ApplicationContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.cache.Cache;

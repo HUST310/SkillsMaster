@@ -1,4 +1,4 @@
-import { ElementUIComponent, ElementUIComponentSize } from './component'
+import {ElementUIComponent, ElementUIComponentSize} from './component'
 
 /** Checkbox Component */
 export declare class ElCheckbox extends ElementUIComponent {

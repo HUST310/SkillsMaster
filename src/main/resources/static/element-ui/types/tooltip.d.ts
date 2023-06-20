@@ -1,5 +1,5 @@
-import { ElementUIComponent } from './component'
-import { PopoverPlacement } from './popover'
+import {ElementUIComponent} from './component'
+import {PopoverPlacement} from './popover'
 
 export type TooltipEffect = 'dark' | 'light'
 

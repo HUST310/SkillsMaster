@@ -1,5 +1,5 @@
-import { ElementUIComponent } from './component'
-import { TooltipEffect } from './tooltip'
+import {ElementUIComponent} from './component'
+import {TooltipEffect} from './tooltip'
 
 export type SortOrder = 'ascending' | 'descending'
 

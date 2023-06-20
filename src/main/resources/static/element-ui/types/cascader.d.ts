@@ -1,6 +1,6 @@
-import { VNode } from 'vue';
-import { ElementUIComponent, ElementUIComponentSize } from './component'
-import { CascaderOption, CascaderProps, CascaderNode } from './cascader-panel';
+import {VNode} from 'vue';
+import {ElementUIComponent, ElementUIComponentSize} from './component'
+import {CascaderNode, CascaderOption, CascaderProps} from './cascader-panel';
 
 export { CascaderOption, CascaderProps, CascaderNode };
 

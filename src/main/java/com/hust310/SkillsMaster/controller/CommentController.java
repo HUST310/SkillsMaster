@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -48,7 +47,7 @@ public class CommentController {
 
     @GetMapping("/Comments/get")
     public List<Map<String, Object>> getComments(HttpSession session) {
-        session.setAttribute("uid", 1);
+//        session.setAttribute("uid", 1);
         Integer uid = (Integer) session.getAttribute("uid");
         String username = userService.getById(uid).getUsername();
         ArrayList<Map<String, Object>> comments = new ArrayList<>();

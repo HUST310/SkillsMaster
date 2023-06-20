@@ -1,5 +1,5 @@
-import { ElementUIComponent, ElementUIComponentSize } from './component'
-import { ButtonType } from './button'
+import {ElementUIComponent, ElementUIComponentSize} from './component'
+import {ButtonType} from './button'
 
 export type DropdownMenuAlignment = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'
 export type DropdownMenuTrigger = 'hover' | 'click'

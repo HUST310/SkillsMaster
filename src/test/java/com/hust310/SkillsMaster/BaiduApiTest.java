@@ -2,12 +2,9 @@ package com.hust310.SkillsMaster;
 
 import com.baidu.aip.contentcensor.AipContentCensor;
 import com.baidu.aip.contentcensor.EImgType;
-
 import com.hust310.SkillsMaster.config.BaiduAPI;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 
 //@SpringBootTest
 public class BaiduApiTest {

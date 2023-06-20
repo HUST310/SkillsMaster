@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 export type MenuDisplayMode = 'horizontal' | 'vertical'
 export type MenuTheme = 'light' | 'dark'

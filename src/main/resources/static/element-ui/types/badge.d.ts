@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Badge Component */
 export declare class ElBadge extends ElementUIComponent {

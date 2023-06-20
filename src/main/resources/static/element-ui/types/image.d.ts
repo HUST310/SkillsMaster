@@ -1,5 +1,5 @@
-import { VNode } from 'vue'
-import { ElementUIComponent } from './component'
+import {VNode} from 'vue'
+import {ElementUIComponent} from './component'
 
 export type ObjectFit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
 

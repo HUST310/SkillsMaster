@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Responsive column props */
 export interface ResponsiveColumnProperties {

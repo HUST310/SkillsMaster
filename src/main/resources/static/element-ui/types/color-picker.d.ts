@@ -1,4 +1,4 @@
-import { ElementUIComponent, ElementUIComponentSize } from './component'
+import {ElementUIComponent, ElementUIComponentSize} from './component'
 
 export type ColorFormat = 'hsl' | 'hsv' | 'hex' | 'rgb'
 

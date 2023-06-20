@@ -1,5 +1,5 @@
-import { arrayFind } from 'element-ui/src/utils/util';
-import { getRowIdentity } from '../util';
+import {arrayFind} from 'element-ui/src/utils/util';
+import {getRowIdentity} from '../util';
 
 export default {
   data() {

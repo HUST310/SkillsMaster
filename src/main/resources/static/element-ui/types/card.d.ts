@@ -1,5 +1,5 @@
-import { VNode, VNodeDirective } from 'vue'
-import { ElementUIComponent } from './component'
+import {VNode} from 'vue'
+import {ElementUIComponent} from './component'
 
 export interface CardSlots {
   /** Content of the card */

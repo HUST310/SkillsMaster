@@ -1,4 +1,5 @@
 import Vue from 'vue';
+
 var dropdowns = [];
 
 !Vue.prototype.$isServer && document.addEventListener('click', function(event) {

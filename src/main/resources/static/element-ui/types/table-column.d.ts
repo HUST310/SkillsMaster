@@ -1,6 +1,6 @@
-import { CreateElement, VNode } from 'vue'
-import { ElementUIComponent, ElementUIHorizontalAlignment } from './component'
-import { PopoverPlacement } from './popover'
+import {CreateElement, VNode} from 'vue'
+import {ElementUIComponent, ElementUIHorizontalAlignment} from './component'
+import {PopoverPlacement} from './popover'
 
 export type TableColumnType = 'default' | 'selection' | 'index' | 'expand'
 export type TableColumnFixedType = 'left' | 'right'

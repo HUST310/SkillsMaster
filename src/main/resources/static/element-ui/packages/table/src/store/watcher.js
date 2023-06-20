@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import merge from 'element-ui/src/utils/merge';
-import { getKeysMap, getRowIdentity, getColumnById, getColumnByKey, orderBy, toggleRowStatus } from '../util';
+import {getColumnById, getColumnByKey, getKeysMap, getRowIdentity, orderBy, toggleRowStatus} from '../util';
 import expand from './expand';
 import current from './current';
 import tree from './tree';

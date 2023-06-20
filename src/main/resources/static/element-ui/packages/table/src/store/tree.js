@@ -1,4 +1,4 @@
-import { walkTreeNode, getRowIdentity } from '../util';
+import {getRowIdentity, walkTreeNode} from '../util';
 
 export default {
   data() {

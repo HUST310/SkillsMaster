@@ -1,5 +1,5 @@
-import { CreateElement, VNode } from 'vue';
-import { ElementUIComponent } from './component';
+import {CreateElement, VNode} from 'vue';
+import {ElementUIComponent} from './component';
 
 export interface TreeData {
   id?: any;
