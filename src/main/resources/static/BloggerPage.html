@@ -293,7 +293,7 @@
             </div></el-col>
             <el-col :span="3"><div class="grid-content bg-purple">
               <el-row>
-                <el-button id="subscribeButton" type="primary" round @click="subscribe"> 关注 </el-button>
+                <el-button id="subscribeButton" type="primary" round @click="subscribe" style="width:100px"> +关注 </el-button>
 
               </el-row>
             </div></el-col>
@@ -391,7 +391,7 @@
             if(this.followed==1)
             {
               alert("DeSubscribe"+this.blogger.account);
-              $("#subscribeButton").prop("innerText"," 关注 ");
+              $("#subscribeButton").prop("innerText"," +关注 ");
               this.followed=0;
               this.blogger.followers--;
             }

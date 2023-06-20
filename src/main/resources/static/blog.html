@@ -19,35 +19,61 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <script src="js/axios-0.18.0.js"></script>
+
+
+  <!-- import JQuery -->
+  <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
   <style>
 
-    .el-header, .el-footer {
-    background-color: #B3C0D1;
+    .el-header{
+
     color: #333;
     text-align: center;
     line-height: 60px;
   }
 
 
+  .el-footer
+   {
+
+      padding:0px;
+      margin-bottom:50px;
+      margin-left:100px;
+      margin-right:100px;
+
+   }
+
+
 
   .el-aside {
-    background-color: #D3DCE6;
+    background-color: white;
     color: #333;
     text-align: center;
     line-height: 200px;
   }
 
   .el-main {
-    background-color: #E9EEF3;
+    background-color: white;
     color: #333;
     text-align: center;
     line-height: 80px;
-    margin:100px;
+    margin-top:100px;
+    margin-left:100px;
+    margin-right:100px;
+    margin-bottom:50px;
   }
 
-  body > .el-container {
-    margin-bottom: 40px;
-  }
+  body{
+        margin-left:50px;
+        margin-right:50px;
+        margin-bottom:50px;
+        background-color:blue;
+
+
+        background-repeat:no-repeat
+        background-attachment:fixed;
+        background-size:100% 100%;
+      }
 
   .el-container:nth-child(5) .el-aside,
   .el-container:nth-child(6) .el-aside {
@@ -85,7 +111,7 @@
     background: #99a9bf;
   }
   .bg-purple {
-    background: #d3dce6;
+    background: white;
   }
   .bg-purple-light {
     background: #e5e9f2;
@@ -99,8 +125,73 @@
     background-color: #f9fafc;
   }
 </style>
+
+  <style>
+
+  .footer{
+        height: 150px;
+        margin-bottom:50px;
+
+        text-align: center;
+        font-size: 16px;
+        padding: 0px 100px;
+        position: relative;
+        background-color:white;
+
+    }
+    .footer{
+      cursor: pointer;
+
+    }
+    .copyright{
+      font-size: 12px;
+    }
+    .info{
+      font-size: 14px;
+      color: #72767b;
+      line-height: 25px;
+    }
+    .footer .scroll{
+
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      border:2px solid #eaeaea;
+      /* background-color: rgba(216, 16, 109,0.6); */
+      position: absolute;
+      left: 5%;
+      top: -25px;
+      z-index: 10;
+      animation: scrollA infinite 20s linear alternate;
+    }
+    @keyframes scrollA {
+      0% {left: 5%;transform: rotate(180deg);};
+      10% {left: 5%;transform: rotate(270deg);}
+      20% {left: 5%;transform: rotate(450deg);}
+      25% {left: 10%;transform: rotate(540deg);}
+      30% {left: 20%;transform: rotate(720deg);}
+      35% {left: 30%;transform: rotate(900deg);}
+      40% {left: 40%;transform: rotate(1080deg);}
+      45% {left: 50%;transform: rotate(1260deg);}
+      50% {left: 60%;transform: rotate(1440deg);}
+      55% {left: 70%;transform: rotate(1620deg);}
+      60% {left: 80%;transform: rotate(1800deg);}
+      80% {left: 90%;transform: rotate(2610deg);}
+      90% {left: 90%;transform: rotate(2340deg);}
+      100% {left: 90%;transform: rotate(2520deg);}
+}
+</style>
+
+  <style>
+
+    .blog-container{
+        padding:50px;
+    }
+
+  </style>
 </head>
-<body>
+<body background="background.jpg">
 <div id="app">
   <el-container>
     <el-header>
@@ -194,7 +285,7 @@
                     <el-row class="demo-avatar demo-basic">
                       <el-col :span="5">
                         <div class="demo-basic--circle">
-                          <div class="block"><el-avatar :size="80" :src="comment.avatar"></el-avatar></div>
+                          <div class="block"><el-avatar :size="60" :src="comment.avatar"></el-avatar></div>
                         </div>
                       </el-col>
                     </el-row>
@@ -365,7 +456,32 @@
         </el-pagination>
       </div>
     </el-main>
-    <el-footer>Footer</el-footer>
+    <el-footer>
+
+      <div class='footer'>
+        <span class="scroll"></span>
+        <!-- <span id="star-five" class="scroll"></span> -->
+        <el-divider></el-divider>
+        <span>法律声明</span>
+        <el-divider direction="vertical"></el-divider>
+        <span>友情链接</span>
+        <el-divider direction="vertical"></el-divider>
+        <span @click="drawer = true">联系我</span>
+        <br/>
+        <br/>
+        <span class="copyright">版权所有</span>
+        <el-drawer
+                title="联系我"
+                :visible.sync="drawer"
+                :direction="direction"
+        >
+          <p class="info" style="padding:30px">
+            <i class="el-icon-phone"></i>电话：18822299999<br/>
+            <i class="el-icon-message"></i>邮箱：18822299999@163.com<br/>
+          </p>
+        </el-drawer>
+      </div>
+    </el-footer>
   </el-container>
 </div>
 
@@ -375,13 +491,20 @@
     new Vue({
       el: '#app',
       mounted(){
-             document.getElementById('content').innerHTML =
-            marked.parse('# これはタイトルです\nrendered by **marked**.\n\n![这是图片](https://markdown.com.cn/assets/img/philly-magic-garden.9c0b4415.jpg "Magic Gardens")');
+
+              $("#content").load("bunfortest.html");
+
+
         },
       data: function() {
 
 
         return {
+
+        //footer
+        drawer:false,
+        direction: 'rtl',
+
         //navigation-bar
         activeIndex: '0',
 
@@ -402,6 +525,114 @@
               textareaToComment:'',
               textareaToBlog:'',
               comments:[
+                {
+
+                    name:"sun",
+                    avatar:"user1-avatar.png",
+                    account:123456,
+                    content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
+                    time:"1145-1-4 11:45:14",
+                    like:114,
+                     subComments:[
+                    {
+                      content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
+                      time:"1145-1-4 11:45:14",
+                      like:114,
+                      commentorInfo:{
+                        name:"commentorInfo",
+                        avatar:"",
+                        account:""
+                      },
+
+                      commenteeInfo:{
+                        name:"commenteeInfo",
+                        avatar:"",
+                        account:""
+                      }
+                    }
+                  ]
+                },
+                {
+
+                    name:"sun",
+                    avatar:"user1-avatar.png",
+                    account:123456,
+                    content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
+                    time:"1145-1-4 11:45:14",
+                    like:114,
+                     subComments:[
+                    {
+                      content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
+                      time:"1145-1-4 11:45:14",
+                      like:114,
+                      commentorInfo:{
+                        name:"commentorInfo",
+                        avatar:"",
+                        account:""
+                      },
+
+                      commenteeInfo:{
+                        name:"commenteeInfo",
+                        avatar:"",
+                        account:""
+                      }
+                    }
+                  ]
+                },
+                {
+
+                    name:"sun",
+                    avatar:"user1-avatar.png",
+                    account:123456,
+                    content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
+                    time:"1145-1-4 11:45:14",
+                    like:114,
+                     subComments:[
+                    {
+                      content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
+                      time:"1145-1-4 11:45:14",
+                      like:114,
+                      commentorInfo:{
+                        name:"commentorInfo",
+                        avatar:"",
+                        account:""
+                      },
+
+                      commenteeInfo:{
+                        name:"commenteeInfo",
+                        avatar:"",
+                        account:""
+                      }
+                    }
+                  ]
+                },
+                {
+
+                    name:"sun",
+                    avatar:"user1-avatar.png",
+                    account:123456,
+                    content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
+                    time:"1145-1-4 11:45:14",
+                    like:114,
+                     subComments:[
+                    {
+                      content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
+                      time:"1145-1-4 11:45:14",
+                      like:114,
+                      commentorInfo:{
+                        name:"commentorInfo",
+                        avatar:"",
+                        account:""
+                      },
+
+                      commenteeInfo:{
+                        name:"commenteeInfo",
+                        avatar:"",
+                        account:""
+                      }
+                    }
+                  ]
+                },
                 {
 
                     name:"sun",
