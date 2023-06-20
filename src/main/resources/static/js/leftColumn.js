@@ -1,36 +1,25 @@
-//set avatar and username
-new Vue ({
-    el: "#avatar",
-    mounted(){
-        this.getUserInfo();
-    },
 
+new Vue ({
+    el: "#name",
+    mounted(){
+        this.getUserName();
+    },
     data(){
         return {
-            userAvatar:'/defaultAvatar.png',
-            userName:''
+            name:'加盟皇马'
         }
     },
-
     methods: {
-
-        getUserInfo(){
+        getUserName(){
             axios({
                 method:"get",
-                url:'/HomePage/getUserInfo',
-
+                url:'/getUserName',
             }).then(resp=>{
-                this.userAvatar=resp.data.userAvatar;
-                this.userName=resp.data.userName;
-                $("#avatar el-avatar img").prop("src",this.userAvatar)
-                $("#userName").text(this.userName);
+                this.name=resp.data.name;
+                $("#userName").text(this.name);
             });
 
 
         },
-
-        errorHandler() {
-            return true
-        }
     }
 });

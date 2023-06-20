@@ -290,6 +290,7 @@
     new Vue({
         el: '#app',
         mounted() {
+            this.fetchname(),
             axios({
                 method: "get",
                 url: "/getUserInfo"
@@ -334,6 +335,18 @@
                         type: 'success'
                     });
                 })
+            },
+            fetchname() {
+                axios
+                    .get("/getname")
+                    .then(
+                        response => {
+                            this.name = response.name;
+                        },
+                        response => {
+                            console.log("error");
+                        }
+                    )
             },
             change(file) {
                 this.sizeForm.avatar = URL.createObjectURL(file.raw);

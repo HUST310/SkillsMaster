@@ -149,7 +149,7 @@
                         <el-table-column prop="time" label="修改时间" width="200">
                         </el-table-column>
                         <el-table-column width="100" label="查看文章">
-                            <el-button type="primary">查看</el-button>
+                            <el-link href="./blog.html"><el-button type="primary">查看</el-button></el-link>
                         </el-table-column>
                     </el-table>
                 </el-main>
@@ -221,7 +221,8 @@
             }
         },
         mounted() {
-            this.fetchdata()
+            this.fetchdata(),
+            this.fetchname()
         },
         methods: {
             change() {
@@ -261,6 +262,18 @@
                     })
                     .catch(_ => {
                     });
+            },
+            fetchname() {
+                axios
+                    .get("/getname")
+                    .then(
+                        response => {
+                            this.name = response.name;
+                        },
+                        response => {
+                            console.log("error");
+                        }
+                    )
             },
             fetchdata() {
                 axios
