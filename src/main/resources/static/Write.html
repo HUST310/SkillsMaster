@@ -103,7 +103,6 @@
     el: '#app',
     data() {
       return {
-        
         title:'姜明222',
         options: [{
           value: '硬件',
@@ -162,9 +161,9 @@
                 .get("/Write/get")
                 .then(
                         response => {
-                          this.title = response.title;
-                          this.value1= response.value1;
-                          this.content = response.data;
+                          this.title = response.data.title;
+                          this.value1= response.data.value1;
+                          editor.setHtml(response.data.content);
                         },
                         response => {
                           console.log("error");
