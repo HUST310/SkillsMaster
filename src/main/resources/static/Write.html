@@ -162,7 +162,9 @@
                 .get("/Write/get")
                 .then(
                         response => {
-                          this.tableData = response.data;
+                          this.title = response. title;
+                          this.value1= response. value1;
+                          this.content = response. data;
                         },
                         response => {
                           console.log("error");
