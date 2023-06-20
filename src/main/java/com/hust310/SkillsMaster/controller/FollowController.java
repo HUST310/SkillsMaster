@@ -29,11 +29,14 @@ public class FollowController {
                 list(new QueryWrapper<Follow>()
                         .eq("follower", session.getAttribute("uid"))).stream()
                 .map(Follow::getBlogger).collect(Collectors.toList());
-        List<User> users = userService.list(new QueryWrapper<User>().in("account", follows));
-        for (User user : users) {
-            user.setPassword("");
+        if (follows.size() != 0) {
+            List<User> users = userService.list(new QueryWrapper<User>().in("account", follows));
+            for (User user : users) {
+                user.setPassword("");
+            }
+            return users;
         }
-        return users;
+        return null;
     }
 
     @PostMapping("/follow/deleteFollow")
