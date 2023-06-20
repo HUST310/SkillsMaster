@@ -172,6 +172,7 @@
         },
         mounted() {
             this.fetchdata()
+            this.fetchname()
         },
         methods: {
             add(val1, val2) {
@@ -199,6 +200,18 @@
                 }).then(resp => {
                     this.fetchdata();
                 })
+            },
+            fetchname() {
+                axios
+                    .get("/getname")
+                    .then(
+                        response => {
+                            this.name = response.name;
+                        },
+                        response => {
+                            console.log("error");
+                        }
+                    )
             },
             handleSelectionChange(val) {
                 for (let item of val) {

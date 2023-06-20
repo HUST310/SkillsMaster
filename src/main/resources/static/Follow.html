@@ -151,6 +151,7 @@
         },
         mounted() {
             this.fetchdata()
+            this.fetchname()
         },
         methods: {
             handleSelectionChange(val) {
@@ -160,6 +161,18 @@
                 this.deleteSelection = this.multipleSelection;
                 this.multipleSelection = [];
                 alert(this.deleteSelection);
+            },
+            fetchname() {
+                axios
+                    .get("/getname")
+                    .then(
+                        response => {
+                            this.name = response.name;
+                        },
+                        response => {
+                            console.log("error");
+                        }
+                    )
             },
             fetchdata() {
                 axios

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <!-- import CSS -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!--    <link rel="stylesheet" href="css/leftColumn.css">-->
     <style>
         .el-header {
             background-color: #B3C0D1;
@@ -31,11 +32,14 @@
                 <i class="el-icon-edit" style="height: 50px;font-size: 1.2em;position: relative;
                    top: 15px;"> My blog </i>
                 <div style="border:1px solid #CCC"></div>
-                <i class="el-icon-user-solid"
+                <div class="el-icon-user-solid"
                    style="height: 50px;
                    font-size: 1.2em;
                    position: relative;
-                   top: 15px;">     姜明 </i>
+                   top: 15px;"> {{name}} </div>
+<!--                <div class="leftcolumn">-->
+
+<!--                </div>-->
                 <div style="border:1px solid #CCC"></div>
                 <el-menu-item index="1">
                     <i class="el-icon-pie-chart"></i>
@@ -140,10 +144,12 @@
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 
 <script>
+    // $(".leftcolumn").load("./leftColumn.html");
     new Vue({
         el: '#app',
         data() {
             return {
+                name:'姜明2',
                 input:'',
                 tableData: [{
                     uid: 1,
@@ -168,7 +174,8 @@
             }
         },
         mounted() {
-            this.fetchdata()
+            this.fetchdata(),
+            this.fetchname()
         },
         methods: {
 
@@ -180,14 +187,24 @@
                 this.multipleSelection = [];
                 alert(this.deleteSelection);
             },
-
+            fetchname() {
+                axios
+                    .get("/getname")
+                    .then(
+                        response => {
+                            this.name = response.name;
+                        },
+                        response => {
+                            console.log("error");
+                        }
+                    )
+            },
             fetchdata() {
                 axios
                     .get("/blogManage/get")
                     .then(
                         response => {
                             this.tableData = response.data;
-
                         },
                         response => {
                             console.log("error");

@@ -191,11 +191,24 @@
             };
         },
         mounted() {
-            this.fetchdata()
+            this.fetchdata(),
+            this.fetchname()
         },
         methods: {
             handleSelectionChange(val) {
                 this.multipleSelection = val;
+            },
+            fetchname() {
+                axios
+                    .get("/getname")
+                    .then(
+                        response => {
+                            this.name = response.name;
+                        },
+                        response => {
+                            console.log("error");
+                        }
+                    )
             },
             fetchdata() {
                 axios
