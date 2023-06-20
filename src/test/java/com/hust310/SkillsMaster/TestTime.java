@@ -53,4 +53,11 @@ public class TestTime {
                 mapper.getTypeFactory().constructParametricType(ArrayList.class, String.class));
         System.out.println(o);
     }
+
+    @Test
+    public void testString() {
+        String[] strings = {"123", "456"};
+
+        System.out.println(String.join(",", strings));
+    }
 }

@@ -57,6 +57,16 @@ public class Blogs implements Serializable {
      */
     private String title;
 
+    /**
+     * 
+     */
+    private String tag;
+
+    /**
+     * 
+     */
+    private String img;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

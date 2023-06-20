@@ -73,11 +73,11 @@
         </el-aside>
 
         <el-container>
-            <el-header style="text-align: right; font-size: 12px">
+            <el-header style="text-align: right; font-size: 20px">
                 <el-dropdown>
-                    <i class="el-icon-setting" style="margin-right: 15px"></i>
+                    <i class="el-icon-s-help" style="margin-right: 15px"></i>
                 </el-dropdown>
-                <span>博客</span>
+                <span><el-link href="./mainPage.html">回到首页</el-link></span>
             </el-header>
             <div style="border-style: double;border-width: thick;">
                 <br/>
@@ -100,7 +100,7 @@
                         </el-table-column>
                         <el-table-column prop="likes" label="点赞数" width="140">
                         </el-table-column>
-                        <el-table-column prop="content" label="标签分类" width="300"
+                        <el-table-column prop="tag" label="标签分类" width="300"
                                          :filters="[{
                         value: '硬件',
                         text: '硬件'
@@ -131,7 +131,7 @@
                     }]"
                                          :filter-method="filterTag">
                             <template slot-scope="scope">
-                                <el-select v-model="scope.row.content"
+                                <el-select v-model="scope.row.tag"
                                            multiple
                                            default-first-option
                                            placeholder="请选择"
@@ -174,19 +174,19 @@
                     uid: 1,
                     title: '黄洋洋xx往事',
                     likes: '114514',
-                    content: ['软件', '硬件'],
+                    tag: ['软件', '硬件'],
                     time: '2016-05-02',
                 }, {
                     uid: 2,
                     title: '黄洋洋xx往事',
                     likes: '114514',
-                    content: ['软件', '硬件'],
+                    tag: ['软件', '硬件'],
                     time: '2016-05-02',
                 }, {
                     uid: 3,
                     title: '黄洋洋xx往事',
                     likes: '114514',
-                    content: ['软件', '硬件'],
+                    tag: ['软件', '硬件'],
                     time: '2016-05-02',
                 }],
                 multipleSelection: [],
@@ -233,11 +233,11 @@
                     axios({
                         method: "post",
                         url: '/label/change',
-                        data:this.tableData
-                            // {
-                            //     // label: JSON.stringify(this.tableData,['uid','content'])
-                            //
-                            // }
+                        data: this.tableData
+                        // {
+                        //     // label: JSON.stringify(this.tableData,['uid','tag'])
+                        //
+                        // }
                     }).then(resp => {
                         this.$message({
                             message: '修改成功！',
@@ -249,7 +249,7 @@
                 })
             },
             filterTag(value, row) {
-                return row.content.includes(value);
+                return row.tag.includes(value);
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
@@ -269,7 +269,7 @@
                         response => {
                             this.tableData = response.data;
                             for (let i = 0; i < this.tableData.length; i++) {
-                                this.tableData[i].content = this.tableData[i].content.split(',')
+                                this.tableData[i].tag = this.tableData[i].tag.split(',')
                             }
                         },
                         response => {
