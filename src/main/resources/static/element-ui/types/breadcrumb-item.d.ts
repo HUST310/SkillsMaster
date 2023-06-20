@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Breadcrumb Item Component */
 export declare class ElBreadcrumbItem extends ElementUIComponent {

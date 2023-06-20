@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 export type ProgressType = 'line' | 'circle'
 export type ProgressStatus = 'success' | 'exception'

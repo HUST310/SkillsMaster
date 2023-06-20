@@ -1,8 +1,8 @@
 package com.hust310.SkillsMaster.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.hust310.SkillsMaster.config.MybatisRedisCache;
 import com.hust310.SkillsMaster.domain.Ccomments;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Mapper;
 

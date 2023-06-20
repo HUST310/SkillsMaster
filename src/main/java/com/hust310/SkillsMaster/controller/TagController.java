@@ -1,12 +1,9 @@
 package com.hust310.SkillsMaster.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.hust310.SkillsMaster.domain.Blogs;
 import com.hust310.SkillsMaster.domain.Tags;
 import com.hust310.SkillsMaster.service.TagsService;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Footer Component */
 export declare class ElFooter extends ElementUIComponent {

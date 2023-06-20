@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Button type */
 export type LinkType = 'primary' | 'success' | 'warning' | 'danger' | 'info' 

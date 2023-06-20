@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Radio Button Component */
 export declare class ElRadioButton extends ElementUIComponent {

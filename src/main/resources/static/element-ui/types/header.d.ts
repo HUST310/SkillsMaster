@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Header Component */
 export declare class ElHeader extends ElementUIComponent {

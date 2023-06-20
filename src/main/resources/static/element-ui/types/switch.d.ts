@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Switch Component */
 export declare class ElSwitch extends ElementUIComponent {

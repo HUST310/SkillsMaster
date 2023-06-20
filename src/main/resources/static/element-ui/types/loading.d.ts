@@ -1,4 +1,4 @@
-import Vue, { VNodeDirective, PluginObject } from 'vue'
+import Vue, {PluginObject, VNodeDirective} from 'vue'
 
 /** Options used in Loading service */
 export interface LoadingServiceOptions {

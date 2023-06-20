@@ -1,5 +1,5 @@
-import { on, off } from 'element-ui/src/utils/dom';
-import { renderThumbStyle, BAR_MAP } from './util';
+import {off, on} from 'element-ui/src/utils/dom';
+import {BAR_MAP, renderThumbStyle} from './util';
 
 /* istanbul ignore next */
 export default {

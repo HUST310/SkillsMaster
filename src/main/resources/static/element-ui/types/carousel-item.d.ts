@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Carousel Item Component */
 export declare class ElCarouselItem extends ElementUIComponent {

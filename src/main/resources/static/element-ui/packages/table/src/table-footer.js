@@ -1,5 +1,5 @@
 import LayoutObserver from './layout-observer';
-import { mapStates } from './store/helper';
+import {mapStates} from './store/helper';
 
 export default {
   name: 'ElTableFooter',

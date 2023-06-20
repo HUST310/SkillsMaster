@@ -2,15 +2,12 @@ package com.hust310.SkillsMaster;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hust310.SkillsMaster.domain.Blogs;
-import com.hust310.SkillsMaster.domain.User;
 import com.hust310.SkillsMaster.service.BlogsService;
 import com.hust310.SkillsMaster.service.TestService;
 import com.hust310.SkillsMaster.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 @SpringBootTest
 class SkillsMasterApplicationTests {

@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Tab Pane Component */
 export declare class ElTabPane extends ElementUIComponent {

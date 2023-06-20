@@ -1,4 +1,4 @@
-import { ElementUIComponent, ElementUIComponentSize } from './component'
+import {ElementUIComponent, ElementUIComponentSize} from './component'
 
 /** FormItem Component */
 export declare class ElFormItem extends ElementUIComponent {

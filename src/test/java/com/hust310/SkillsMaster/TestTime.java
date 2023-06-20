@@ -3,12 +3,10 @@ package com.hust310.SkillsMaster;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hust310.SkillsMaster.domain.User;
-import com.hust310.SkillsMaster.service.UserService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class TestTime {
     @Test

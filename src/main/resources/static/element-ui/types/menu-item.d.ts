@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Menu Item Component */
 export declare class ElMenuItem extends ElementUIComponent {

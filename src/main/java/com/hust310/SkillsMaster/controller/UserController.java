@@ -8,13 +8,15 @@ import com.hust310.SkillsMaster.service.BlogcommentsService;
 import com.hust310.SkillsMaster.service.BlogsService;
 import com.hust310.SkillsMaster.service.UserService;
 import org.apache.commons.io.FileUtils;
-
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
-import org.apache.commons.io.FilenameUtils;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -71,7 +73,7 @@ public class UserController {
 
     @GetMapping("/getUserInfo")
     public User getUserInfo1(HttpSession session) {
-        session.setAttribute("uid", 1);
+//        session.setAttribute("uid", 1);
         Integer uid = (Integer) session.getAttribute("uid");
         User user = userService.getOne(new QueryWrapper<User>().eq("account", uid));
         user.setPassword("");
@@ -82,7 +84,7 @@ public class UserController {
     @PostMapping("/modifyUserInfo")
     public String modifyUserInfo(StandardMultipartHttpServletRequest request, HttpSession session) throws IOException {
         User user = new User();
-        session.setAttribute("uid", 1);
+//        session.setAttribute("uid", 1);
         user.setAccount((Integer) session.getAttribute("uid"));
 
         user.setUsername(request.getParameter("username"));
@@ -122,7 +124,7 @@ public class UserController {
 
     @GetMapping("/Manage/get")
     public Map<String, Object> getData(HttpSession session) {
-        session.setAttribute("uid", 1);
+//        session.setAttribute("uid", 1);
         Integer uid = (Integer) session.getAttribute("uid");
         List<Blogs> blogs = blogsService.list(new QueryWrapper<Blogs>().eq("owner", uid));
         long likes = 0;

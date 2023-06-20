@@ -1,5 +1,5 @@
-import { VNode, CreateElement } from 'vue';
-import { ElementUIComponent } from './component'
+import {CreateElement, VNode} from 'vue';
+import {ElementUIComponent} from './component'
 
 /** Trigger mode of expanding current item */
 export type ExpandTrigger = 'click' | 'hover'

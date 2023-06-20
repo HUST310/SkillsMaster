@@ -1,5 +1,5 @@
-import Vue, { VNode } from 'vue'
-import { MessageType } from './message'
+import Vue, {VNode} from 'vue'
+import {MessageType} from './message'
 
 export type MessageBoxCloseAction = 'confirm' | 'cancel' | 'close'
 export type MessageBoxData = MessageBoxInputData | MessageBoxCloseAction

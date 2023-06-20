@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Use Collapse to store contents. */
 export declare class ElCollapse extends ElementUIComponent {

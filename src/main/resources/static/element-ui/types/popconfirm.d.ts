@@ -1,5 +1,4 @@
-import { ElementUIComponent } from './component'
-import { ElPopover } from './popover'
+import {ElPopover} from './popover'
 
 /** Popconfirm Component */
 export declare class ElPopconfirm extends ElPopover {

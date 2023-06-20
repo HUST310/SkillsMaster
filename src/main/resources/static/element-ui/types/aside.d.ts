@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Aside Component */
 export declare class ElAside extends ElementUIComponent {

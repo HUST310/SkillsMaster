@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Pagination Component */
 export declare class ElPagination extends ElementUIComponent {

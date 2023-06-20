@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 /** Toggleable menu for displaying lists of links and actions. */
 export declare class ElDropdownItem extends ElementUIComponent {

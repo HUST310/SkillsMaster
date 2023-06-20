@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import {ElementUIComponent} from './component'
 
 export type TabType = 'card' | 'border-card'
 export type TabPosition = 'top' | 'right' | 'bottom' | 'left'

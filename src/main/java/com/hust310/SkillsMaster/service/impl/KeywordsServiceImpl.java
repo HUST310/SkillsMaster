@@ -2,8 +2,8 @@ package com.hust310.SkillsMaster.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hust310.SkillsMaster.domain.Keywords;
-import com.hust310.SkillsMaster.service.KeywordsService;
 import com.hust310.SkillsMaster.mapper.KeywordsMapper;
+import com.hust310.SkillsMaster.service.KeywordsService;
 import org.springframework.stereotype.Service;
 
 /**
