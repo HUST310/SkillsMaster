@@ -1,11 +1,10 @@
 package com.hust310.SkillsMaster.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.hust310.SkillsMaster.domain.Blogcomments;
-import com.hust310.SkillsMaster.domain.Blogs;
-import com.hust310.SkillsMaster.domain.User;
+import com.hust310.SkillsMaster.domain.*;
 import com.hust310.SkillsMaster.service.BlogcommentsService;
 import com.hust310.SkillsMaster.service.BlogsService;
+import com.hust310.SkillsMaster.service.FollowService;
 import com.hust310.SkillsMaster.service.UserService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -34,6 +33,9 @@ public class UserController {
     private BlogsService blogsService;
     @Autowired
     private BlogcommentsService blogcommentsService;
+
+    @Autowired
+    private FollowService followService;
 
     @PostMapping("/login")
     public String login(HttpSession session, @RequestBody User user) {
@@ -70,6 +72,20 @@ public class UserController {
         user.setPassword(null);
         return user;
     }
+
+    /* 访问博主主页，获取博主个人信息*/
+    @PostMapping("/user/accessBlogger")
+    public BloggerInfo getBloggerInfo(@RequestBody Map<String,Integer> request){
+        Integer account=request.get("account");
+        User user = userService.getOne(new QueryWrapper<User>().eq("account",account));
+        BloggerInfo bloggerInfo = new BloggerInfo();
+        bloggerInfo.setUsername(user.getUsername());
+        bloggerInfo.setAvatar(user.getAvatar());
+        bloggerInfo.setFans(followService.count(new QueryWrapper<Follow>().eq("blogger", account)));
+        bloggerInfo.setArticles(blogsService.count(new QueryWrapper<Blogs>().eq("owner",account)));
+        return bloggerInfo;
+    }
+
 
     @GetMapping("/getUserInfo")
     public User getUserInfo1(HttpSession session) {
