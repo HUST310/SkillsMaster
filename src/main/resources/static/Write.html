@@ -84,11 +84,21 @@
                 <el-form>
                     <el-row>
                         <el-col span="8">
-                            <i style="position:relative;left:10px;font-size: 1.2em;">这是写博客的界面</i>
-
+                            <i style="position:relative;left:10px;font-size: 1.2em;">发布博客</i>
                         </el-col>
                     </el-row>
+                    <hr>
+                    <el-row>
+                    <el-col span="8" style="position:relative;left:20px;">
+                    <el-input v-model="title" placeholder="请输入文章标题"></el-input>
+                    </el-col>
+                    <el-col span="8" style="position:relative;left:50px;">
+                    <el-input v-model="input" placeholder="请输入内容"></el-input>
+                    </el-col>
+                    </el-row>
+                    <hr>
                 </el-form>
+
             </div>
         </el-container>
     </el-container>
@@ -104,35 +114,16 @@
         el: '#app',
         data() {
             return {
-                tableData: [{
-                    title: '黄洋洋xx往事',
-                    number: '114514',
-                    lable: '爱情、动作',
-                    data: '2016-05-02',
-                }, {
-                    title: '黄洋洋xx往事',
-                    number: '114514',
-                    lable: '爱情、动作',
-                    data: '2016-05-02',
-                }, {
-                    title: '黄洋洋xx往事',
-                    number: '114514',
-                    lable: '爱情、动作',
-                    data: '2016-05-02',
-                }],
-                multipleSelection: []
+                title:''
             }
         },
         mounted() {
             this.fetchdata()
         },
         methods: {
-            handleSelectionChange(val) {
-                this.multipleSelection = val;
-            },
             fetchdata() {
                 axios
-                    .get("/blogManage/get")
+                    .get("/Write/get")
                     .then(
                         response => {
                             this.tableData = response.data;
