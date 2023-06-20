@@ -15,7 +15,7 @@
             color: #333;
         }
 
-        .is-checked{
+        .is-checked {
 
         }
     </style>
@@ -37,13 +37,13 @@
                    position: relative;
                    top: 15px;"> 管理员 </i>
                 <div style="border:1px solid #CCC"></div>
-                <br />
+                <br/>
                 <div>管理模块</div>
                 <el-menu-item index="3">
                     <i class="el-icon-s-management"></i>
                     <span slot="title">账号管理</span>
                 </el-menu-item>
-                <br />
+                <br/>
                 <div>个人模块</div>
                 <el-menu-item index="9">
                     <i class="el-icon-error"></i>
@@ -60,7 +60,7 @@
                 <span>请谨慎使用管理员账号</span>
             </el-header>
             <div style="border-style: double;border-width: thick;">
-                <br />
+                <br/>
                 <el-form>
                     <el-row>
                         <el-col span="2">
@@ -70,16 +70,17 @@
                             <el-form-item style="position:relative;right:80px;top:35px;">
                                 <el-input placeholder="请输入账号搜索"
                                           v-model="input"
-                                          clearable> </el-input>
+                                          clearable></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                 </el-form>
                 <el-main>
-                    <el-table :data="tableData.filter(data => !input || data.Account.toLowerCase().includes(input.toLowerCase()))"
-                              height="500"
-                              ref="multipleTable"
-                              tooltip-effect="dark">
+                    <el-table
+                            :data="tableData.filter(data => !input || data.Account.toLowerCase().includes(input.toLowerCase()))"
+                            height="500"
+                            ref="multipleTable"
+                            tooltip-effect="dark">
                         </el-table-column>
                         <el-table-column prop="Account" label="账号" width="200">
                         </el-table-column>
@@ -97,14 +98,18 @@
                                 </h1>
                             </template>
                         </el-table-column>
-                        <el-table-column  width="100">
+                        <el-table-column width="100">
                             <template slot-scope="scope">
-                            <el-button @click="Banned(scope.row.Account)" icon="el-icon-circle-close" type="danger">封禁</el-button>
+                                <el-button @click="Banned(scope.row.Account)" icon="el-icon-circle-close" type="danger">
+                                    封禁
+                                </el-button>
                             </template>
                         </el-table-column>
-                        <el-table-column  width="100">
+                        <el-table-column width="100">
                             <template slot-scope="scope">
-                            <el-button @click="Unblock(scope.row.Account)" icon="el-icon-circle-check" type="success">解封</el-button>
+                                <el-button @click="Unblock(scope.row.Account)" icon="el-icon-circle-check"
+                                           type="success">解封
+                                </el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -124,22 +129,22 @@
         el: '#app',
         data() {
             return {
-                input:'',
+                input: '',
                 tableData: [{
                     Account: '114514',
                     Username: '刘萌象',
                     Time: '2016-05-02',
-                    State : 'N',
+                    State: 'N',
                 }, {
                     Account: '114514',
                     Username: '刘萌象',
                     Time: '2016-05-02',
-                    State : 'C',
+                    State: 'C',
                 }, {
                     Account: '114514',
                     Username: '刘萌象',
                     Time: '2016-05-02',
-                    State : 'C',
+                    State: 'C',
                 }],
             }
         },
@@ -152,7 +157,7 @@
                     method: "post",
                     url: '/administrator/Banned',
                     data: {
-                        State: 'N',
+                        State: 'C',
                         Account: val,
                     }
                 }).then(resp => {
@@ -164,7 +169,7 @@
                     method: "post",
                     url: '/administrator/Unblock',
                     data: {
-                        State: 'C',
+                        State: 'N',
                         Account: val,
                     }
                 }).then(resp => {
