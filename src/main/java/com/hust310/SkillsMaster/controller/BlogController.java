@@ -2,7 +2,10 @@ package com.hust310.SkillsMaster.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hust310.SkillsMaster.domain.*;
+import com.hust310.SkillsMaster.domain.BlogResponse;
+import com.hust310.SkillsMaster.domain.Blogs;
+import com.hust310.SkillsMaster.domain.Follow;
+import com.hust310.SkillsMaster.domain.User;
 import com.hust310.SkillsMaster.service.BlogsService;
 import com.hust310.SkillsMaster.service.FollowService;
 import com.hust310.SkillsMaster.service.TagsService;
@@ -32,17 +35,17 @@ public class BlogController {
     private UserService userService;
 
     @PostMapping("/user/getUpdatedBlogs")
-    public List<BlogResponse> getBlogs(HttpSession session, @RequestBody Map<String,Integer> page) {
+    public List<BlogResponse> getBlogs(HttpSession session, @RequestBody Map<String, Integer> page) {
         session.setAttribute("uid", 1);
         Integer account = (Integer) session.getAttribute("uid");
         List<Integer> bloggers = followService.list(new QueryWrapper<Follow>().eq("follower", account))
                 .stream().map(Follow::getBlogger).collect(Collectors.toList());
-        List<BlogResponse> blogResponses=new ArrayList<>();
-        List<Blogs> followBlogs = blogsService.page(new Page<>(page.get("page"), 10),new QueryWrapper<Blogs>().in("owner", bloggers).orderByDesc("time")).getRecords();
+        List<BlogResponse> blogResponses = new ArrayList<>();
+        List<Blogs> followBlogs = blogsService.page(new Page<>(page.get("page"), 10), new QueryWrapper<Blogs>().in("owner", bloggers).orderByDesc("time")).getRecords();
         for (int i = 0; i < followBlogs.size(); i++) {
-            BlogResponse blogResponse=new BlogResponse();
-            Blogs followBlog =  followBlogs.get(i);
-            Integer bloggerId=followBlog.getOwner();
+            BlogResponse blogResponse = new BlogResponse();
+            Blogs followBlog = followBlogs.get(i);
+            Integer bloggerId = followBlog.getOwner();
             User blogger = userService.getById(bloggerId);
             blogResponse.setAccount(blogger.getAccount());
             blogResponse.setAvatar(blogger.getAvatar());
@@ -59,14 +62,14 @@ public class BlogController {
     }
 
     @PostMapping("/user/getBlogs")
-    public List<BlogResponse> getHot(@RequestBody Map<String,Integer> page) {
-        List<BlogResponse> blogResponses=new ArrayList<>();
+    public List<BlogResponse> getHot(@RequestBody Map<String, Integer> page) {
+        List<BlogResponse> blogResponses = new ArrayList<>();
         Page<Blogs> hotPage = blogsService.page(new Page<Blogs>(page.get("page"), 10), new QueryWrapper<Blogs>().orderByDesc("likes"));
         List<Blogs> hotBlogs = hotPage.getRecords();
         for (int i = 0; i < hotBlogs.size(); i++) {
-            BlogResponse blogResponse=new BlogResponse();
-            Blogs hotBlog =  hotBlogs.get(i);
-            Integer account=hotBlog.getOwner();
+            BlogResponse blogResponse = new BlogResponse();
+            Blogs hotBlog = hotBlogs.get(i);
+            Integer account = hotBlog.getOwner();
             User blogger = userService.getById(account);
             blogResponse.setAccount(blogger.getAccount());
             blogResponse.setAvatar(blogger.getAvatar());
@@ -84,22 +87,9 @@ public class BlogController {
 
     @GetMapping("/blogManage/get")
     public List<Blogs> getAllBlogs(HttpSession session) {
-//        session.setAttribute("uid", 1);
+        session.setAttribute("uid", 1);
         List<Blogs> blogs = blogsService.list(new QueryWrapper<Blogs>().
                 eq("owner", session.getAttribute("uid")).eq("state", "N"));
-        for (int i = 0; i < blogs.size(); i++) {
-            List<Tags> tags = tagsService.list(new QueryWrapper<Tags>().eq("uid", blogs.get(i).getUid()));
-            if (tags.size() == 0) {
-                blogs.get(i).setContent("");
-            } else {
-                String s = "";
-                for (Tags tag : tags) {
-                    s += "," + tag.getTag();
-                }
-                blogs.get(i).setContent(s.substring(1));
-            }
-
-        }
         return blogs;
     }
 
@@ -115,4 +105,10 @@ public class BlogController {
         blogsService.saveOrUpdateBatch(blogs);
         return "success";
     }
+
+//    @PostMapping("/write")
+//    public String addBlog(@RequestBody Map<String, Object> param) {
+//
+//    }
+
 }

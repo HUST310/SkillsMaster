@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * @author 25972
  * @description 针对表【blogs】的数据库操作Mapper
- * @createDate 2023-06-17 15:55:57
+ * @createDate 2023-06-20 15:59:31
  * @Entity com.hust310.SkillsMaster.domain.Blogs
  */
 @Mapper
