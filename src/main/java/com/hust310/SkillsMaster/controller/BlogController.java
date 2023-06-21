@@ -136,7 +136,7 @@ public class BlogController {
 
     @GetMapping("/blogManage/get")
     public List<Blogs> getAllBlogs(HttpSession session) {
-        session.setAttribute("uid", 1);
+//        session.setAttribute("uid", 1);
         List<Blogs> blogs = blogsService.list(new QueryWrapper<Blogs>().
                 eq("owner", session.getAttribute("uid")).eq("state", "N"));
         return blogs;
