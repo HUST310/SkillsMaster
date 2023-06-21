@@ -224,7 +224,7 @@
                 <div class="blog-updated-info">
                   <el-row :gutter="20">
                     <el-col :span="12"><div class="grid-content bg-purple">
-                      <div class="blog-updated-blogger-info" @click="access(blog.bloggerInfo.uid)">
+                      <div class="blog-updated-blogger-info" @click="access(blog.account)">
 
                         <el-row :gutter="20">
                           <el-col :span="12"><div class="grid-content bg-purple">
@@ -232,7 +232,7 @@
                              <el-row class="demo-avatar demo-basic">
                               <el-col :span="6">
                                 <div class="demo-basic--circle">
-                                  <div class="block"><el-avatar :size="50" :src="blog.bloggerInfo.avatar"></el-avatar></div>
+                                  <div class="block"><el-avatar :size="50" :src="blog.avatar"></el-avatar></div>
                                 </div>
                               </el-col>
                             </el-row>
@@ -240,7 +240,7 @@
                           </div></el-col>
                           <el-col :span="12"><div class="grid-content bg-purple">
                             <div class="blog-updated-blogger-info-name" style="margin-top:15px">
-                              <font size="4"><b>{{blog.bloggerInfo.name}}</b></b></font>
+                              <font size="4"><b>{{blog.name}}</b></b></font>
                             </div>
                           </div></el-col>
                         </el-row>
@@ -283,7 +283,7 @@
             <div class="blogger-info-container">
               <el-row :gutter="20">
                 <el-col :span="12"><div class="grid-content bg-purple">
-                  <div class="blogger-blogger-info-container" @click="access(blog.bloggerInfo.uid)">
+                  <div class="blogger-blogger-info-container" @click="access(blog.account)">
                     <el-row :gutter="20">
                       <el-col :span="6"><div class="grid-content bg-purple">
                         <div class="user-avatar" style="margin-top:15px">
@@ -411,42 +411,25 @@
       mounted(){
             axios({
                 method:"post",
-                url:'user/getUpdatedBlogs',
+                url:'/user/getUpdatedBlogs',
             }).then(resp=>{
                 this.updatedBlogs=resp.data;
             });
         },
       data: function(){
       return{
-
-
           updatedBlogs:[
                    {
-                      bloggerInfo:{
-                          avatar:"user1-avatar.png",
-                          name:"kouji"
-                      },
+
+                      avatar:"user1-avatar.png",
+                      username:"kouji",
+                      account:11941,
                       time:"1145-1-4 11:45:14",
                       title:"元素用来将没有数字顺序的一组数据进行分组",
-                      uid:"blog-1"
-                    },
-                    {
-                      bloggerInfo:{
-                          avatar:"user1-avatar.png",
-                          name:"kouji"
-                      },
-                      time:"1145-1-4 11:45:14",
-                      title:"元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据进行分组",
-                      uid:"blog-1"
-                    },
-                    {
-                      bloggerInfo:{
-                          avatar:"user1-avatar.png",
-                          name:"kouji"
-                      },
-                      time:"1145-1-4 11:45:14",
-                      title:"元素用来将没有数字顺序的一组数据进行分组",
-                      uid:"blog-1"
+                      like:'',
+                      comment:'',
+                      uid:"blog-1",
+                      content:''
                     }
                  ]
       }
@@ -482,11 +465,11 @@
 
         //navigation-bar
       accessPersonalPage(){
-           location.href="/SkillsMaster/static/Personal.html";
+           location.href="Personal.html";
       },
 
       backToMainPage(){
-          location.href="/SkillsMaster/static/mainPage.html";
+          location.href="mainPage.html";
       },
 
       logout(){
@@ -496,12 +479,18 @@
             }).then(resp=>{
 
             });
-            location.href="/SkillsMaster/static/Login.html";
+            location.href="Login.html";
       },
 
         readBlog(uid){
-          alert(uid);
+          alert("readBlog:"+uid);
+          location.href="blog.html?uid="+uid;
         },
+
+        access(account){
+          location.href="BloggerPage.html?account="+account;
+        },
+
 
         getBlogs(page){
 
@@ -517,6 +506,7 @@
         }
 
       },
+
       mounted(){
         axios({
           method:"get",
@@ -552,7 +542,6 @@
                     signature:'',
                     time:'',
                     state:''
-
                   },
 
                  blogs:[

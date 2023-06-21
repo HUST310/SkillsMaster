@@ -125,29 +125,18 @@
   <el-container>
     <el-header>
       <div id="navigation-bar">
+
         <el-menu
-                :default-active="activeIndex2"
+                :default-active="activeIndex"
                 class="el-menu-demo"
                 mode="horizontal"
-                @select="handleSelect"
+
                 background-color="#545c64"
                 text-color="#fff"
                 active-text-color="#ffd04b">
-          <el-menu-item index="1">主页</el-menu-item>
-          <el-submenu index="2">
-            <template slot="title">我的工作台</template>
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
-            <el-menu-item index="2-3">选项3</el-menu-item>
-            <el-submenu index="2-4">
-              <template slot="title">选项4</template>
-              <el-menu-item index="2-4-1">选项1</el-menu-item>
-              <el-menu-item index="2-4-2">选项2</el-menu-item>
-              <el-menu-item index="2-4-3">选项3</el-menu-item>
-            </el-submenu>
-          </el-submenu>
-          <el-menu-item index="3" disabled>消息中心</el-menu-item>
-          <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+          <el-menu-item index="1" @click="backToMainPage">首页</el-menu-item>
+          <el-menu-item index="2" @click="accessPersonalPage">个人主页</el-menu-item>
+          <el-menu-item index="3" @click="logout">退出登录</el-menu-item>
         </el-menu>
       </div>
     </el-header>
@@ -176,6 +165,14 @@
                   <el-col :span="6"><div class="grid-content bg-purple">
                     <div class="blogger-info-name">
                       <font size="6"><b>{{blogger.name}}</b></font>
+                    </div>
+                  </div></el-col>
+
+
+                  <el-col :span="18" style="text-align:left"><div class="grid-content bg-purple">
+                    <div class="blogger-info-signature">
+                      <i class="el-icon-s-flag"></i>
+                      <font size="4"><b>{{blogger.signature}}</b></font>
                     </div>
                   </div></el-col>
                 </el-row>
@@ -310,18 +307,35 @@
 <script>
     new Vue({
       el: '#app',
-
-      mounted(){
-        if(this.followed==1)
-        {
-          $("#subscribeButton").prop("innerText","取消关注");
-        }
-      },
-
       methods:{
 
 
+
+
+
+
         //blogger
+
+        getInfo(){
+           //get account of blogger
+          let reg = new RegExp("(^|&)" + "account" + "=([^&]*)(&|$)");
+          let r = window.location.search.substr(1).match(reg);
+          if (r != null)
+          {
+              axios({
+                  method:"post",
+                  url:'/user/getBloggerInfo',
+                  data:{
+                      account:unescape(r[2])
+                  }
+              }).then(resp=>{
+                  this.blogger=resp.data;
+              });
+          }
+
+        },
+
+
         subscribe()
         {
             if(this.followed==1)
@@ -330,28 +344,124 @@
               $("#subscribeButton").prop("innerText"," +关注 ");
               this.followed=0;
               this.blogger.followers--;
+
+              axios({
+                  method:"post",
+                  url:'/user/UnFollow',
+                  data:{
+                      account:this.blogger.account
+                  }
+                }).then(resp=>{
+              });
+
+
             }
-            else{
+            else
+            {
               alert("subscribe"+this.blogger.account);
               $("#subscribeButton").prop("innerText","取消关注");
               this.followed=1;
               this.blogger.followers++;
+
+               axios({
+                  method:"post",
+                  url:'/user/follow',
+                  data:{
+                      account:this.blogger.account
+                  }
+                }).then(resp=>{
+              });
             }
 
         },
 
         //blogs
 
-        search(){
-          alert("search:"+this.input);
+        getBlogs(page){
+          axios({
+                  method:"post",
+                  url:'/user/getBlogsOfBlogger',
+                  data:{
+                     page:page,
+                     account:this.blogger.account
+                  }
+              }).then(resp=>{
+                  this.blogs=resp.data;
+              });
+
         },
+
+        search(page){
+          alert("search:"+this.input);
+
+          axios({
+                  method:"post",
+                  url:'/user/searchBlogsOfBlogger',
+                  data:{
+                     page:page,
+                     input:this.input,
+                     account:this.blogger.account
+                  }
+              }).then(resp=>{
+                  this.blogs=resp.data;
+              });
+        },
+
+
         readBlog(uid){
           alert("readBlog:"+uid);
+          location.href="blog.html?uid="+uid;
+        },
+
+         //navigation-bar
+      accessPersonalPage(){
+           location.href="Personal.html";
+      },
+
+      backToMainPage(){
+          location.href="mainPage.html";
+      },
+
+      logout(){
+           axios({
+                method:'post',
+                url:'/user/logout'
+            }).then(resp=>{
+
+            });
+            location.href="Login.html";
         }
       },
 
+      mounted(){
+
+
+
+
+
+
+
+
+        if(this.followed==1)
+        {
+          $("#subscribeButton").prop("innerText","取消关注");
+        }
+
+        getInfo();
+
+        getBlogs(1);
+
+
+      },
+
+
+
       data: function() {
         return {
+
+
+         //navigation-bar
+        activeIndex: '0',
 
         //footer
         drawer:false,
@@ -363,7 +473,9 @@
             blogs:100,
             followers:1000,
             avatar:"user1-avatar.png",
-            account:123456
+            account:123456,
+            signature:"用户未设置签名"
+
 
           },
 
