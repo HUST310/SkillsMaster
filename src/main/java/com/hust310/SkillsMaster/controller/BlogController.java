@@ -10,6 +10,7 @@ import com.hust310.SkillsMaster.service.BlogsService;
 import com.hust310.SkillsMaster.service.FollowService;
 import com.hust310.SkillsMaster.service.TagsService;
 import com.hust310.SkillsMaster.service.UserService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -126,9 +127,30 @@ public class BlogController {
         return "success";
     }
 
-//    @PostMapping("/write")
-//    public String addBlog(@RequestBody Map<String, Object> param) {
-//
-//    }
+    @PostMapping("/write")
+    public String addBlog(@RequestBody Map<String, Object> param) throws IOException {
+        Blogs blog = new Blogs();
+        blog.setTitle((String) param.get("title"));
 
+        String fileName = UUID.randomUUID() + ".html";
+        File file = new File(this.getClass().getResource("/")
+                .getPath().substring(1) + "static/blogs", fileName);
+//        FileUtils.writeByteArrayToFile(file1, );
+        FileUtils.write(file, param.get("content").toString());
+        blog.setContent("blogs/" + fileName);
+        blog.setTag(String.join(",", (List<String>) param.get("value1")));
+        blog.setOwner(1);
+        blogsService.save(blog);
+        return "success";
+    }
+
+    @GetMapping("/Write/get")
+    public Map<String, Object> getBlog() {
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+        Blogs byId = blogsService.getById(5);
+        map.put("title", byId.getTitle());
+        map.put("content", byId.getContent());
+        map.put("value1", byId.getTag().split(","));
+        return map;
+    }
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 /**
 * @author 25972
 * @description 针对表【blogs】的数据库操作Service实现
-* @createDate 2023-06-20 15:59:31
+* @createDate 2023-06-20 16:49:50
 */
 @Service
 public class BlogsServiceImpl extends ServiceImpl<BlogsMapper, Blogs>
