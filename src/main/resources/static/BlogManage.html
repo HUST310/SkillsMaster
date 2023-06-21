@@ -19,6 +19,9 @@
         .is-checked {
 
         }
+        body {
+            background-image: url('./img/demo-1-bg.jpg');
+        }
     </style>
 </head>
 <body>
@@ -59,9 +62,9 @@
                 <div style="color: #f1f1f1; position: relative;
                      margin-left: 20px;
                      margin-bottom: 10px   ">管理模块</div>
-                <el-menu-item index="3">
+                <el-menu-item index="3" class="el-menu-item is-active" >
                     <i class="el-icon-s-management"></i>
-                    <span slot="title"> <el-link href="./BlogManage.html">博客管理</el-link></span>
+                    <span slot="title" > <el-link href="./BlogManage.html"><div style="color: #f1f1f1">博客管理</div></el-link></span>
                 </el-menu-item>
                 <el-menu-item index="4">
                     <i class="el-icon-price-tag"></i>
@@ -85,7 +88,7 @@
                 </el-menu-item>
                 <el-menu-item index="9">
                     <i class="el-icon-error"></i>
-                    <span slot="title"><el-button type="text" @click="getout">退出登录</el-button></span>
+                    <span slot="title"><el-button type="text" @click="getout"><div style="color: #606266">退出登录</div></el-button></span>
                 </el-menu-item>
             </el-menu>
         </el-aside>
@@ -97,7 +100,7 @@
                 </el-dropdown>
                 <span><el-link href="./mainPage.html">回到首页</el-link></span>
             </el-header>
-            <div style="border-style: double;border-width: thick;">
+            <div style="color: #f1f1f1; border-style: double;border-width: thick;">
                 <br/>
                 <el-form>
                     <el-row>
@@ -202,7 +205,7 @@
                 }
                 this.deleteSelection = this.multipleSelection;
                 this.multipleSelection = [];
-                alert(this.deleteSelection);
+
             },
             fetchname() {
                 axios
