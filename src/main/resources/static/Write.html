@@ -139,7 +139,13 @@
         },
 
         mounted() {
-            this.fetchhtml()
+            const selectedFile = document.getElementById("files").files[0];
+            var reader = new FileReader();
+            reader.readAsText(selectedFile);
+            reader.onload = function(){
+                console.log(this.result);
+            };
+            this.fetchhtml(this.result);
         },
         methods: {
             onSubmit() {
@@ -173,7 +179,7 @@
                         }
                 )
       },
-      fetchhtml() {
+      fetchhtml(val) {
 
         axios
                 .get("/Write/gethtml")
@@ -181,13 +187,7 @@
                         response => {
                           this.title = response.data.title;
                           this.value1= response.data.value1;
-                          const selectedFile = document.getElementById("files").files[0];
-                          var reader = new FileReader();
-                          reader.readAsText(selectedFile);
-                          reader.onload = function(){
-                            console.log(this.result);
-                          };
-                          editor.setHtml(this.result);
+                          editor.setHtml(val);
                         },
                         response => {
                             console.log("error");
