@@ -102,7 +102,7 @@ public class BlogController {
             blogResponse.setUid(blog.getUid());
             blogResponses.add(blogResponse);
         }
-        return  blogResponses;
+        return blogResponses;
     }
 
 
@@ -147,7 +147,7 @@ public class BlogController {
     @GetMapping("/Write/get")
     public Map<String, Object> getBlog() {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-        Blogs byId = blogsService.getById(5);
+        Blogs byId = blogsService.getById(6);
         map.put("title", byId.getTitle());
         map.put("content", byId.getContent());
         map.put("value1", byId.getTag().split(","));
