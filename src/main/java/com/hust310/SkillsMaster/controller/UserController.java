@@ -105,7 +105,6 @@ public class UserController {
     @PostMapping("/modifyUserInfo")
     public String modifyUserInfo(StandardMultipartHttpServletRequest request, HttpSession session) throws IOException {
         User user = new User();
-//        session.setAttribute("uid", 1);
         user.setAccount((Integer) session.getAttribute("uid"));
 
         user.setUsername(request.getParameter("username"));

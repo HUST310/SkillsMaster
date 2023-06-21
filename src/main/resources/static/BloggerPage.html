@@ -11,8 +11,9 @@
   <script src="js/axios-0.18.0.js"></script>
   <!-- import JQuery -->
   <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-  <style>
 
+
+  <style>
   #search-container{
     margin:40px;
 
@@ -23,47 +24,7 @@
     margin-top:100px;
   }
 
-  .el-header, .el-footer {
-    background-color: white;
-    color: #333;
-    text-align: center;
-    line-height: 60px;
-  }
-
-  .el-aside {
-    background-color: white;
-    color: #333;
-    text-align: left;
-    line-height: 20px;
-  }
-
-  .el-main {
-    background-color: #E9EEF3;
-    color: #333;
-    text-align: center;
-    line-height: 80px;
-    padding:60px;
-  }
-
-  body > .el-container {
-    margin-bottom: 40px;
-  }
-
-  .el-container:nth-child(5) .el-aside,
-  .el-container:nth-child(6) .el-aside {
-    line-height: 260px;
-  }
-
-  .el-container:nth-child(7) .el-aside {
-    line-height: 320px;
-  }
-
-  .item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
-
-  #blog-like-comment-info{
+    #blog-like-comment-info{
 
 
 
@@ -72,41 +33,18 @@
   #like{
     color: #3a8ee6;
   }
-</style>
-  <style>
-  .el-row {
-    margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-  .el-col {
-    border-radius: 4px;
-  }
-  .bg-purple-dark {
-    background: #99a9bf;
-  }
-  .bg-purple {
-    background: #d3dce6;
-  }
-  .bg-purple-light {
-    background: #e5e9f2;
-  }
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-  }
-  .row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
-  }
-</style>
-  <style>
+
 
       body{
-        margin-bottom:50px;
         margin-left:50px;
         margin-right:50px;
+        margin-bottom:50px;
+        background-color:blue;
+
+
+        background-repeat:no-repeat
+        background-attachment:fixed;
+        background-size:100% 100%;
       }
 
 
@@ -126,38 +64,8 @@
       margin-top:80px;
       margin-bottom:80px;
   }
-</style>
-  <style>
-  .el-row {
-    margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-  .el-col {
-    border-radius: 4px;
-  }
-  .bg-purple-dark {
-    background: #99a9bf;
-  }
-  .bg-purple {
-    background: white;
-  }
-  .bg-purple-light {
-    background: #e5e9f2;
-  }
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-  }
-  .row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
-  }
-</style>
-  <style>
 
-    .blogger-info-container{
+  .blogger-info-container{
         background-color: white;
         padding-left:30px;
         padding-right:30px;
@@ -194,7 +102,7 @@
           .blog-content:hover{
 
 
-      border-color:#409EFF;
+          background-color:#F5F5F5;
 
 
       }
@@ -204,36 +112,31 @@
         margin-right:100px;
       }
 
-  </style>
+</style>
+
+
+
+  <link rel="stylesheet" href="css/el-container.css">
+  <link rel="stylesheet" href="css/rowcol.css">
+  <link rel="stylesheet" href="css/footer.css">
 </head>
-<body>
+<body background="background.jpg">
 <div id="app">
   <el-container>
     <el-header>
       <div id="navigation-bar">
+
         <el-menu
-                :default-active="activeIndex2"
+                :default-active="activeIndex"
                 class="el-menu-demo"
                 mode="horizontal"
-                @select="handleSelect"
+
                 background-color="#545c64"
                 text-color="#fff"
                 active-text-color="#ffd04b">
-          <el-menu-item index="1">主页</el-menu-item>
-          <el-submenu index="2">
-            <template slot="title">我的工作台</template>
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
-            <el-menu-item index="2-3">选项3</el-menu-item>
-            <el-submenu index="2-4">
-              <template slot="title">选项4</template>
-              <el-menu-item index="2-4-1">选项1</el-menu-item>
-              <el-menu-item index="2-4-2">选项2</el-menu-item>
-              <el-menu-item index="2-4-3">选项3</el-menu-item>
-            </el-submenu>
-          </el-submenu>
-          <el-menu-item index="3" disabled>消息中心</el-menu-item>
-          <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+          <el-menu-item index="1" @click="backToMainPage">首页</el-menu-item>
+          <el-menu-item index="2" @click="accessPersonalPage">个人主页</el-menu-item>
+          <el-menu-item index="3" @click="logout">退出登录</el-menu-item>
         </el-menu>
       </div>
     </el-header>
@@ -262,6 +165,14 @@
                   <el-col :span="6"><div class="grid-content bg-purple">
                     <div class="blogger-info-name">
                       <font size="6"><b>{{blogger.name}}</b></font>
+                    </div>
+                  </div></el-col>
+
+
+                  <el-col :span="18" style="text-align:left"><div class="grid-content bg-purple">
+                    <div class="blogger-info-signature">
+                      <i class="el-icon-s-flag"></i>
+                      <font size="4"><b>{{blogger.signature}}</b></font>
                     </div>
                   </div></el-col>
                 </el-row>
@@ -360,7 +271,29 @@
 
 
       <el-footer>
-        1334
+        <div class='footer'>
+          <span class="scroll"></span>
+          <!-- <span id="star-five" class="scroll"></span> -->
+          <el-divider></el-divider>
+          <span>法律声明</span>
+          <el-divider direction="vertical"></el-divider>
+          <span>友情链接</span>
+          <el-divider direction="vertical"></el-divider>
+          <span @click="drawer = true">联系我</span>
+          <br/>
+          <br/>
+          <span class="copyright">版权所有</span>
+          <el-drawer
+                  title="联系我"
+                  :visible.sync="drawer"
+                  :direction="direction"
+          >
+            <p class="info" style="padding:30px">
+              <i class="el-icon-phone"></i>电话：18822299999<br/>
+              <i class="el-icon-message"></i>邮箱：18822299999@163.com<br/>
+            </p>
+          </el-drawer>
+        </div>
       </el-footer>
     </el-container>
   </el-container>
@@ -374,18 +307,35 @@
 <script>
     new Vue({
       el: '#app',
-
-      mounted(){
-        if(this.followed==1)
-        {
-          $("#subscribeButton").prop("innerText","取消关注");
-        }
-      },
-
       methods:{
 
 
+
+
+
+
         //blogger
+
+        getInfo(){
+           //get account of blogger
+          let reg = new RegExp("(^|&)" + "account" + "=([^&]*)(&|$)");
+          let r = window.location.search.substr(1).match(reg);
+          if (r != null)
+          {
+              axios({
+                  method:"post",
+                  url:'/user/getBloggerInfo',
+                  data:{
+                      account:unescape(r[2])
+                  }
+              }).then(resp=>{
+                  this.blogger=resp.data;
+              });
+          }
+
+        },
+
+
         subscribe()
         {
             if(this.followed==1)
@@ -394,35 +344,138 @@
               $("#subscribeButton").prop("innerText"," +关注 ");
               this.followed=0;
               this.blogger.followers--;
+
+              axios({
+                  method:"post",
+                  url:'/user/UnFollow',
+                  data:{
+                      account:this.blogger.account
+                  }
+                }).then(resp=>{
+              });
+
+
             }
-            else{
+            else
+            {
               alert("subscribe"+this.blogger.account);
               $("#subscribeButton").prop("innerText","取消关注");
               this.followed=1;
               this.blogger.followers++;
+
+               axios({
+                  method:"post",
+                  url:'/user/follow',
+                  data:{
+                      account:this.blogger.account
+                  }
+                }).then(resp=>{
+              });
             }
 
         },
 
         //blogs
 
-        search(){
-          alert("search:"+this.input);
+        getBlogs(page){
+          axios({
+                  method:"post",
+                  url:'/user/getBlogsOfBlogger',
+                  data:{
+                     page:page,
+                     account:this.blogger.account
+                  }
+              }).then(resp=>{
+                  this.blogs=resp.data;
+              });
+
         },
+
+        search(page){
+          alert("search:"+this.input);
+
+          axios({
+                  method:"post",
+                  url:'/user/searchBlogsOfBlogger',
+                  data:{
+                     page:page,
+                     input:this.input,
+                     account:this.blogger.account
+                  }
+              }).then(resp=>{
+                  this.blogs=resp.data;
+              });
+        },
+
+
         readBlog(uid){
           alert("readBlog:"+uid);
+          location.href="blog.html?uid="+uid;
+        },
+
+         //navigation-bar
+      accessPersonalPage(){
+           location.href="Personal.html";
+      },
+
+      backToMainPage(){
+          location.href="mainPage.html";
+      },
+
+      logout(){
+           axios({
+                method:'post',
+                url:'/user/logout'
+            }).then(resp=>{
+
+            });
+            location.href="Login.html";
         }
       },
 
+      mounted(){
+
+
+
+
+
+
+
+
+        if(this.followed==1)
+        {
+          $("#subscribeButton").prop("innerText","取消关注");
+        }
+
+        getInfo();
+
+        getBlogs(1);
+
+
+      },
+
+
+
       data: function() {
         return {
+
+
+         //navigation-bar
+        activeIndex: '0',
+
+        //footer
+        drawer:false,
+        direction: 'rtl',
+
            input:'',
            blogger:{
             name:'DoE',
             blogs:100,
             followers:1000,
             avatar:"user1-avatar.png",
-            account:123456
+            account:123456,
+            signature:"用户未设置签名"
+
 
           },
 

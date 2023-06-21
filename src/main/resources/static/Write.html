@@ -2,66 +2,66 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>wangEditor default mode</title>
-  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
-  <!-- <link href="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet"> -->
-  <link href="https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
-  <link href="./css/layout.css" rel="stylesheet">
-  <link href="./css/view.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-  <script src="./js/custom-elem.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>写写写</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet"> -->
+    <link href="https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
+    <link href="./css/layout.css" rel="stylesheet">
+    <link href="./css/view.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="./js/custom-elem.js"></script>
 </head>
 
 <body>
 <script src="js/axios-0.18.0.js"></script>
-  <demo-nav title="发布博客"></demo-nav>
+<demo-nav title="发布博客"></demo-nav>
 
-  <div class="page-container">
+<div class="page-container">
 
     <div class="page-right">
-      <!-- 编辑器 DOM -->
-      <div id="app">
-            <div >
-              <el-form>
-                <el-row>
-                  <el-col span="8" style="position:relative;left:20px;" >
-                    <el-input v-model="title" placeholder="请输入文章标题" ></el-input>
-                  </el-col>
-                  <el-col span="8" style="position:relative;left:70px;">
-                    <el-select v-model="value1" multiple placeholder="请选择文章标签">
-                      <el-option
-                              v-for="item in options"
-                              :key="item.value"
-                              :label="item.label"
-                              :value="item.value">
-                      </el-option>
-                    </el-select>
-                  </el-col>
-                  <el-col span="8" style="position:relative;right:150px;" >
-                    <div >
-                      <el-button type="success" @click="onSubmit" icon="el-icon-check">确认发布</el-button>
-                    </div>
-                  </el-col>
-                </el-row>
-              </el-form>
+        <!-- 编辑器 DOM -->
+        <div id="app">
+            <div>
+                <el-form>
+                    <el-row>
+                        <el-col span="8" style="position:relative;left:20px;">
+                            <el-input v-model="title" placeholder="请输入文章标题"></el-input>
+                        </el-col>
+                        <el-col span="8" style="position:relative;left:70px;">
+                            <el-select v-model="value1" multiple placeholder="请选择文章标签">
+                                <el-option
+                                        v-for="item in options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-col>
+                        <el-col span="8" style="position:relative;right:150px;">
+                            <div>
+                                <el-button type="success" @click="onSubmit" icon="el-icon-check">确认发布</el-button>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </el-form>
             </div>
-      </div>
-      <div style="border: 1px solid #ccc;position:relative;top:20px; ">
-        <div id="editor-toolbar" style="border-bottom: 1px solid #ccc;"></div>
-        <div id="editor-text-area" style="height: 500px"></div>
-      </div>
+        </div>
+        <div style="border: 1px solid #ccc;position:relative;top:20px; ">
+            <div id="editor-toolbar" style="border-bottom: 1px solid #ccc;"></div>
+            <div id="editor-text-area" style="height: 500px"></div>
+        </div>
 
-      <!-- 内容状态 -->
+        <!-- 内容状态 -->
 
     </div>
-  </div>
+</div>
 
-  <!-- <script src="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/index.min.js"></script> -->
-  <script src="https://unpkg.com/@wangeditor/editor@latest/dist/index.js"></script>
-  <script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/index.min.js"></script> -->
+<script src="https://unpkg.com/@wangeditor/editor@latest/dist/index.js"></script>
+<script>
     const E = window.wangEditor
 
     // 切换语言
@@ -69,109 +69,119 @@
     E.i18nChangeLanguage(LANG)
 
     window.editor = E.createEditor({
-      selector: '#editor-text-area',
-      html: '<p><br></p>',
-      config: {
-        placeholder: 'Type here...',
-        MENU_CONF: {
-          uploadImage: {
-            fieldName: 'your-fileName',
-            base64LimitSize: 10 * 1024 * 1024 // 10M 以下插入 base64
-          }
-        },
-        onChange(editor) {
-          const html = editor.getHtml()
-          // document.getElementById('editor-content-view').innerHTML = html
-          // document.getElementById('editor-content-textarea').value = html
+        selector: '#editor-text-area',
+        html: '<p><br></p>',
+        config: {
+            placeholder: 'Type here...',
+            MENU_CONF: {
+                uploadImage: {
+                    fieldName: 'your-fileName',
+                    base64LimitSize: 10 * 1024 * 1024 // 10M 以下插入 base64
+                }
+            },
+            onChange(editor) {
+                const html = editor.getHtml()
+                // document.getElementById('editor-content-view').innerHTML = html
+                // document.getElementById('editor-content-textarea').value = html
+            }
         }
-      }
     })
 
     window.toolbar = E.createToolbar({
-      editor,
-      selector: '#editor-toolbar',
-      config: {}
+        editor,
+        selector: '#editor-toolbar',
+        config: {}
     })
-  </script>
+</script>
 </body>
 <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
 <!-- import JavaScript -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 
 <script>
-  new Vue({
-    el: '#app',
-    data() {
-      return {
-        title:'姜明222',
-        options: [{
-          value: '硬件',
-          label: '硬件'
-        }, {
-          value: '软件',
-          label: '软件'
-        }, {
-          value: 'Java',
-          label: 'Java'
-        }, {
-          value: 'C',
-          label: 'C'
-        }, {
-          value: 'C++',
-          label: 'C++'
-        }, {
-          value: 'Python',
-          label: 'Python'
-        }, {
-          value: '后端',
-          label: '后端'
-        }, {
-          value: '前端',
-          label: '前端'
-        }, {
-          value: '移动开发',
-          label: '移动开发'
-        }],
-        value1: ['前端']
-      }
-    },
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                uid: window.location.search.split("=")[1],
+                title: '11',
+                options: [{
+                    value: '硬件',
+                    label: '硬件'
+                }, {
+                    value: '软件',
+                    label: '软件'
+                }, {
+                    value: 'Java',
+                    label: 'Java'
+                }, {
+                    value: 'C',
+                    label: 'C'
+                }, {
+                    value: 'C++',
+                    label: 'C++'
+                }, {
+                    value: 'Python',
+                    label: 'Python'
+                }, {
+                    value: '后端',
+                    label: '后端'
+                }, {
+                    value: '前端',
+                    label: '前端'
+                }, {
+                    value: '移动开发',
+                    label: '移动开发'
+                }],
+                value1: [],
+                result: ''
+            }
+        },
 
-    mounted() {
-      this.fetchdata()
-    },
-    methods: {
-      onSubmit() {
-        axios({
-          method: "post",
-          url: "/write",
-          data:{
-            title: this.title,
-            value1:this.value1,
-            content:editor.getHtml()
-          }
-        }).then(resp => {
-          this.$message({
-            message: '修改成功！',
-            type: 'success'
-          });
-        })
-      },
-      fetchdata() {
-        axios
-                .get("/Write/get")
-                .then(
+        mounted() {
+            this.fetchdata()
+        },
+        methods: {
+            onSubmit() {
+                axios({
+                    method: "post",
+                    url: "/write",
+                    data: {
+                        title: this.title,
+                        value1: this.value1,
+                        content: editor.getHtml(),
+                        uid: this.uid,
+                    }
+                }).then(resp => {
+                    this.$message({
+                        message: '修改成功！',
+                        type: 'success'
+                    });
+                })
+            },
+            fetchdata() {
+                axios
+                    .get("/Write/get"+localtion.search)
+                    .then(
                         response => {
-                          this.title = response.data.title;
-                          this.value1= response.data.value1;
-                          editor.setHtml(response.data.content);
+                            this.title = response.data.title
+                            this.value1 = response.data.value1
+                            axios({
+                                method: "get",
+                                url: response.data.content
+                            }).then(resp => {
+                                editor.setHtml(resp.data)
+                                console.log(resp.data)
+                            })
                         },
                         response => {
-                          console.log("error");
-                          alert("请求失败");
+                            console.log("error");
+                            alert("请求失败");
                         }
-                )
-      }
-    }
-  })
+                    )
+
+            }
+        }
+    })
 </script>
 </html>
