@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -39,12 +40,23 @@ public class FollowController {
         return null;
     }
 
+    @PostMapping("/user/follow")
+    public Boolean follow(HttpSession session,@RequestBody Map<String,Integer> request) {
+        //session.setAttribute("uid", 1);
+        Follow follow=new Follow();
+        follow.setFollower((Integer) session.getAttribute("uid"));
+        follow.setBlogger(request.get("account"));
+        followService.save(follow);
+        return true;
+    }
+
+
+
+
     @PostMapping("/follow/deleteFollow")
     public String unFollow(@RequestBody List<Integer> accounts, HttpSession session) {
 //        session.setAttribute("uid", 1);
-        followService
-                .remove(new QueryWrapper<Follow>().eq("follower", session.getAttribute("uid"))
-                        .in("blogger", accounts));
+        followService.remove(new QueryWrapper<Follow>().eq("follower", session.getAttribute("uid")).in("blogger", accounts));
         return "success";
     }
 }

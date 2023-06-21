@@ -3,6 +3,7 @@ package com.hust310.SkillsMaster.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hust310.SkillsMaster.domain.*;
 import com.hust310.SkillsMaster.domain.Blogcomments;
 import com.hust310.SkillsMaster.domain.Blogs;
 import com.hust310.SkillsMaster.domain.Ccomments;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -29,16 +32,72 @@ public class CommentController {
     @Autowired
     private CcommentsService ccommentsService;
     @Autowired
-    private BlogsService blogsService;
-    @Autowired
     private UserService userService;
 
-    @PostMapping("/getBlogComments")
-    public Page<Blogcomments> getBlogComments(Integer uid, Integer page) {
-        Page<Blogcomments> blogcommentsPage = blogcommentsService.page(new Page<>(page, 5), new QueryWrapper<Blogcomments>().eq("uid", uid));
-        return blogcommentsPage;
+    @Autowired
+    private BlogsService blogsService;
+
+
+    @PostMapping("/user/getComments")
+    public List<CommentResponse> getPostComments(@RequestBody Map<String,Integer> request){
+        QueryWrapper<Blogcomments> blogcommentsQueryWrapper = new QueryWrapper<Blogcomments>().eq("receiver", request.get("uid")).orderByDesc("likes");
+        List<Blogcomments> blogcomments = blogcommentsService.page(new Page<>(request.get("page"), 10), blogcommentsQueryWrapper).getRecords();
+        List<CommentResponse> commentResponses=new ArrayList<>();
+        for (int i = 0; i < blogcomments.size(); i++) {
+            CommentResponse commentResponse = new CommentResponse();
+            Blogcomments blogcomment = blogcomments.get(i);
+            Integer commentorId=blogcomment.getCommentor();
+            User commentor = userService.getById(commentorId);
+            commentor.setPassword(null);
+            commentor.setTime(null);
+            commentor.setSignature(null);
+            commentor.setState(null);
+            commentor.setGender(null);
+            commentResponse.setCommenteeInfo(null);
+            commentResponse.setCommentorInfo(commentor);
+            commentResponse.setComment(blogcomment.getComment());
+            commentResponse.setContent(blogcomment.getContent());
+            commentResponse.setLike(blogcomment.getLikes());
+            commentResponse.setTime(blogcomment.getTime());
+            commentResponse.setUid(blogcomment.getUid());
+            commentResponses.add(commentResponse);
+        }
+        return commentResponses;
     }
 
+    @PostMapping("/user/getSubComments")
+    public List<CommentResponse> getSubComments(@RequestBody Map<String,Integer> request){
+        QueryWrapper<Ccomments> ccommentsQueryWrapper = new QueryWrapper<Ccomments>().eq("receiver", request.get("uid")).orderByDesc("likes");
+        List<Ccomments> cComments = ccommentsService.page(new Page<>(request.get("page"), 10),ccommentsQueryWrapper ).getRecords();
+        List<CommentResponse> commentResponses=new ArrayList<>();
+        for (int i = 0; i < cComments.size(); i++) {
+            CommentResponse commentResponse = new CommentResponse();
+            Ccomments cComment = cComments.get(i);
+            Integer commentorId=cComment.getCommentor();
+            Integer commenteeId=cComment.getCommentee();
+            User commentor = userService.getById(commentorId);
+            User commentee = userService.getById(commenteeId);
+            commentor.setPassword(null);
+            commentor.setTime(null);
+            commentor.setSignature(null);
+            commentor.setState(null);
+            commentor.setGender(null);
+            commentee.setPassword(null);
+            commentee.setTime(null);
+            commentee.setSignature(null);
+            commentee.setState(null);
+            commentee.setGender(null);
+            commentResponse.setCommenteeInfo(commentee);
+            commentResponse.setCommentorInfo(commentor);
+            commentResponse.setComment(cComment.getComment());
+            commentResponse.setContent(cComment.getContent());
+            commentResponse.setLike(cComment.getLikes());
+            commentResponse.setTime(cComment.getTime());
+            commentResponse.setUid(cComment.getUid());
+            commentResponses.add(commentResponse);
+        }
+        return commentResponses;
+    }
     @PostMapping("/getComments")
     public Page<Ccomments> getComments(Integer uid, Integer page) {
         Page<Ccomments> ccommentsPage = ccommentsService.page(new Page<>(page, 5), new QueryWrapper<Ccomments>().eq("uid", uid));
