@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <style>
         .el-header {
-            background-color: #B3C0D1;
+            background-color: #f1f1f1;
             color: #333;
             line-height: 60px;
         }
@@ -24,7 +24,7 @@
 <!--<script src="element-ui/lib/index.js"></script>-->
 <script src="js/axios-0.18.0.js"></script>
 <div id="app">
-    <el-container style="height: 730px; border: 1px solid #eee">
+    <el-container style="height: 730px; border: 1px ">
         <el-aside width="200px" style="background-color: rgb(52,58,64)">
             <el-menu :default-openeds="['1', '3']" style="background-color: rgb(52,58,64)">
                 <i class="el-icon-edit" style="height: 50px;
@@ -57,13 +57,13 @@
                 <div style="color: #f1f1f1; position: relative;
                      margin-left: 20px;
                      margin-bottom: 10px   ">管理模块</div>
-                <el-menu-item index="3" class="el-menu-item is-active" >
+                <el-menu-item index="3"  >
                     <i class="el-icon-s-management"></i>
-                    <span slot="title" > <el-link href="./BlogManage.html"><div style="color: #f1f1f1">博客管理</div></el-link></span>
+                    <span slot="title" > <el-link href="./BlogManage.html">博客管理</el-link></span>
                 </el-menu-item>
-                <el-menu-item index="4">
+                <el-menu-item index="4" class="el-menu-item is-active">
                     <i class="el-icon-price-tag"></i>
-                    <span slot="title"><el-link href="./Label.html">标签管理</el-link></span>
+                    <span slot="title"><el-link href="./Label.html"><div style="color: #f1f1f1">标签管理</div></el-link></span>
                 </el-menu-item>
                 <el-menu-item index="5">
                     <i class="el-icon-s-comment"></i>
@@ -95,14 +95,14 @@
                 </el-dropdown>
                 <span><el-link href="./mainPage.html">回到首页</el-link></span>
             </el-header>
-            <div style="border-style: double;border-width: thick;">
+            <div style="background-color: #d7d8d9;">
                 <br/>
                 <el-form>
                     <el-row>
                         <el-col span="8">
-                            <i style="position:relative;left:10px;font-size: 1.2em;">标签管理</i>
+                            <i style="position:relative;left:30px;font-size: 1.2em;">标签管理</i>
                             <el-button type="success" icon="el-icon-check"
-                                       style="position:relative;left:40px;"
+                                       style="position:relative;left:70px;"
                                        @click="change">
                                 确认修改
                             </el-button>
@@ -110,14 +110,19 @@
                     </el-row>
                 </el-form>
                 <el-main>
-                    <el-table :data="tableData" height="500"
-                              default-expand-all>
-                        <el-table-column prop="title" label="标题" width="240">
-                        </el-table-column>
-                        <el-table-column prop="likes" label="点赞数" width="140">
-                        </el-table-column>
-                        <el-table-column prop="tag" label="标签分类" width="300"
-                                         :filters="[{
+                    <el-row>
+                        <el-col :span="24">
+                            <el-table
+                                :data="tableData" height="569"
+                                width="200">
+                                <el-table-column  width="50">
+                                </el-table-column>
+                            <el-table-column prop="title"  label="标题" width="240">
+                            </el-table-column>
+                            <el-table-column prop="likes" label="点赞数" width="140">
+                            </el-table-column>
+                            <el-table-column prop="tag" label="标签分类" width="300"
+                                             :filters="[{
                         value: '硬件',
                         text: '硬件'
                     }, {
@@ -145,31 +150,33 @@
                         value: '移动开发',
                         text: '移动开发'
                     }]"
-                                         :filter-method="filterTag">
-                            <template slot-scope="scope">
-                                <el-select v-model="scope.row.tag"
-                                           multiple
-                                           default-first-option
-                                           placeholder="请选择"
-                                           @change="CheckedBuildings">
-                                    <el-option
-                                            v-for="item in options"
-                                            :key="item.value"
-                                            :label="item.label"
-                                            :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </template>
+                                             :filter-method="filterTag">
+                                <template slot-scope="scope">
+                                    <el-select v-model="scope.row.tag"
+                                               multiple
+                                               default-first-option
+                                               placeholder="请选择"
+                                               @change="CheckedBuildings">
+                                        <el-option
+                                                v-for="item in options"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </template>
 
-                        </el-table-column>
-                        <el-table-column prop="time" label="修改时间" width="200">
-                        </el-table-column>
-                        <el-table-column width="100" label="查看文章">
-                            <template slot-scope="scope">
-                                <el-button type="primary" @click="onSubmit(scope.row.uid)">查看</el-button>
-                            </template>
-                        </el-table-column>
-                    </el-table>
+                            </el-table-column>
+                            <el-table-column prop="time" label="修改时间" width="200">
+                            </el-table-column>
+                            <el-table-column width="100" label="查看文章">
+                                <template slot-scope="scope">
+                                    <el-button type="primary" @click="onSubmit(scope.row.uid)">查看</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table></el-col>
+                    </el-row>
+
                 </el-main>
             </div>
         </el-container>

@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <style>
         .el-header {
-            background-color: #B3C0D1;
+            background-color: #f1f1f1;
             color: #333;
             line-height: 60px;
         }
@@ -53,7 +53,7 @@
 <!--<script src="element-ui/lib/index.js"></script>-->
 <script src="js/axios-0.18.0.js"></script>
 <div id="app">
-    <el-container style="height: 730px; border: 1px solid #eee">
+    <el-container style="height: 730px; border: 1px">
         <el-aside width="200px" style="background-color: rgb(52,58,64)">
             <el-menu :default-openeds="['1', '3']" style="background-color: rgb(52,58,64)">
                 <i class="el-icon-edit" style="height: 50px;
@@ -74,9 +74,9 @@
 
                 <!--                </div>-->
                 <div style="border:1px solid #CCC"></div>
-                <el-menu-item index="1" style="color: #f1f1f1;">
+                <el-menu-item index="1" class="el-menu-item is-active" >
                     <i class="el-icon-pie-chart"></i>
-                    <span slot="title"><el-link href="./Manage.html">数据展示</el-link></span>
+                    <span slot="title"><el-link href="./Manage.html"><div style="color: #f1f1f1">数据展示</div></el-link></span>
                 </el-menu-item>
                 <el-menu-item index="2">
                     <i class="el-icon-magic-stick"></i>
@@ -86,9 +86,9 @@
                 <div style="color: #f1f1f1; position: relative;
                      margin-left: 20px;
                      margin-bottom: 10px   ">管理模块</div>
-                <el-menu-item index="3" class="el-menu-item is-active" >
+                <el-menu-item index="3"  >
                     <i class="el-icon-s-management"></i>
-                    <span slot="title" > <el-link href="./BlogManage.html"><div style="color: #f1f1f1">博客管理</div></el-link></span>
+                    <span slot="title" > <el-link href="./BlogManage.html">博客管理</el-link></span>
                 </el-menu-item>
                 <el-menu-item index="4">
                     <i class="el-icon-price-tag"></i>
@@ -123,11 +123,12 @@
                 </el-dropdown>
                 <span><el-link href="./mainPage.html">回到首页</el-link></span>
             </el-header>
+            <div width="200px" style="height: 730px; background-color: #fdfdfe;">
             <i style="position:relative;left:10px; top:15PX;font-size: 1.2em;">管理首页</i>
             <el-divider></el-divider>
 <!--                <div style="border-style: double;border-width: thick;">-->
                     <br />
-            <el-row>
+            <el-row >
                 <el-col :span="8" Style="position:relative;left:40px;">
                     <el-card :body-style="{ padding: '0px'}">
                         <img src="img/172758.png" class="image">
@@ -183,7 +184,7 @@
                 <div Style="position:relative;right:100px;bottom:33px;font-size:4em;color: white">{{ tableData.blogNumber }}</div>
             </el-row>
 <!--        </div>-->
-
+            </div>
         </el-container>
     </el-container>
 </div>
