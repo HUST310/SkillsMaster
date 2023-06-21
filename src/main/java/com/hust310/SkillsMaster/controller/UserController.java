@@ -86,6 +86,11 @@ public class UserController {
         return bloggerInfo;
     }
 
+    @PostMapping("/user/logout")
+    public void logOut(HttpSession session){
+        session.setAttribute("uid",null);
+    }
+
 
     @GetMapping("/getUserInfo")
     public User getUserInfo1(HttpSession session) {

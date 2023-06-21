@@ -34,14 +34,41 @@ public class BlogController {
     @Autowired
     private UserService userService;
 
+//    @PostMapping("/user/getUpdatedBlogs")
+//    public List<BlogResponse> getBlogs(HttpSession session, @RequestBody Map<String, Integer> request) {
+//        session.setAttribute("uid", 1);
+//        Integer account = (Integer) session.getAttribute("uid");
+//        List<Integer> bloggers = followService.list(new QueryWrapper<Follow>().eq("follower", account))
+//                .stream().map(Follow::getBlogger).collect(Collectors.toList());
+//        List<BlogResponse> blogResponses = new ArrayList<>();
+//        List<Blogs> followBlogs = blogsService.page(new Page<>(request.get("page"), 10), new QueryWrapper<Blogs>().in("owner", bloggers).orderByDesc("time")).getRecords();
+//        for (int i = 0; i < followBlogs.size(); i++) {
+//            BlogResponse blogResponse = new BlogResponse();
+//            Blogs followBlog = followBlogs.get(i);
+//            Integer bloggerId = followBlog.getOwner();
+//            User blogger = userService.getById(bloggerId);
+//            blogResponse.setAccount(blogger.getAccount());
+//            blogResponse.setAvatar(blogger.getAvatar());
+//            blogResponse.setName(blogger.getUsername());
+//            blogResponse.setComment(followBlog.getComment());
+//            blogResponse.setLike(followBlog.getLikes());
+//            blogResponse.setTitle(followBlog.getTitle());
+//            blogResponse.setContent(followBlog.getContent());
+//            blogResponse.setTime(followBlog.getTime());
+//            blogResponse.setUid(followBlog.getUid());
+//            blogResponses.add(blogResponse);
+//        }
+//        return blogResponses;
+//    }
+
     @PostMapping("/user/getUpdatedBlogs")
-    public List<BlogResponse> getBlogs(HttpSession session, @RequestBody Map<String, Integer> request) {
+    public List<BlogResponse> getUpdatedBlogs(HttpSession session) {
         session.setAttribute("uid", 1);
         Integer account = (Integer) session.getAttribute("uid");
         List<Integer> bloggers = followService.list(new QueryWrapper<Follow>().eq("follower", account))
                 .stream().map(Follow::getBlogger).collect(Collectors.toList());
         List<BlogResponse> blogResponses = new ArrayList<>();
-        List<Blogs> followBlogs = blogsService.page(new Page<>(request.get("page"), 10), new QueryWrapper<Blogs>().in("owner", bloggers).orderByDesc("time")).getRecords();
+        List<Blogs> followBlogs = blogsService.list(new QueryWrapper<Blogs>().in("owner", bloggers).orderByDesc("time"));
         for (int i = 0; i < followBlogs.size(); i++) {
             BlogResponse blogResponse = new BlogResponse();
             Blogs followBlog = followBlogs.get(i);
@@ -60,6 +87,8 @@ public class BlogController {
         }
         return blogResponses;
     }
+
+
 
     @PostMapping("/user/getBlogs")
     public List<BlogResponse> getHot(@RequestBody Map<String, Integer> request) {
