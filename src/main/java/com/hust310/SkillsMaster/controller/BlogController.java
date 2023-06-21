@@ -12,10 +12,7 @@ import com.hust310.SkillsMaster.service.TagsService;
 import com.hust310.SkillsMaster.service.UserService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -128,26 +125,29 @@ public class BlogController {
     }
 
     @PostMapping("/write")
-    public String addBlog(@RequestBody Map<String, Object> param) throws IOException {
+    public String addBlog(@RequestBody Map<String, Object> param, HttpSession session) throws IOException {
         Blogs blog = new Blogs();
+
+        if (param.containsKey("uid")) {
+            blog.setUid((Integer) param.get("uid"));
+        }
         blog.setTitle((String) param.get("title"));
 
         String fileName = UUID.randomUUID() + ".html";
         File file = new File(this.getClass().getResource("/")
                 .getPath().substring(1) + "static/blogs", fileName);
-//        FileUtils.writeByteArrayToFile(file1, );
         FileUtils.write(file, param.get("content").toString());
         blog.setContent("blogs/" + fileName);
         blog.setTag(String.join(",", (List<String>) param.get("value1")));
-        blog.setOwner(1);
-        blogsService.save(blog);
+        blog.setOwner((Integer) session.getAttribute("uid"));
+        blogsService.saveOrUpdate(blog);
         return "success";
     }
 
     @GetMapping("/Write/get")
-    public Map<String, Object> getBlog() {
+    public Map<String, Object> getBlog(@RequestParam("uid") Integer uid) {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-        Blogs byId = blogsService.getById(6);
+        Blogs byId = blogsService.getById(uid);
         map.put("title", byId.getTitle());
         map.put("content", byId.getContent());
         map.put("value1", byId.getTag().split(","));
