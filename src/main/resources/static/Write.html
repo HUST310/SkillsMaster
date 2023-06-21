@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>wangEditor default mode</title>
+    <title>写写写</title>
     <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
     <!-- <link href="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet"> -->
     <link href="https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
@@ -103,8 +103,8 @@
         el: '#app',
         data() {
             return {
-
-                title: '',
+                uid: window.location.search.split("=")[1],
+                title: '11',
                 options: [{
                     value: '硬件',
                     label: '硬件'
@@ -134,27 +134,12 @@
                     label: '移动开发'
                 }],
                 value1: [],
-                result:''
+                result: ''
             }
         },
 
         mounted() {
-            const fileElement = document.querySelector('#file');
-            fileElement.addEventListener('change', (e) => {
-                const file = e.target.files[0];// 文件信息
-                if (file) {
-                    const reader = new FileReader();
-                    reader.readAsText(file);// 将文件读取为文本
-                    reader.onload = () => { // 文件读取完成后的回调
-                        console.log(reader.result, '////'); // 读取到的文件内容
-                        this.fetchhtml(reader.result);
-                    }
-                    reader.onerror = (e) => {
-                        console.log(e, '????XXX')
-                    }
-                }
-            })
-
+            this.fetchdata()
         },
         methods: {
             onSubmit() {
@@ -164,7 +149,8 @@
                     data: {
                         title: this.title,
                         value1: this.value1,
-                        content: editor.getHtml()
+                        content: editor.getHtml(),
+                        uid: this.uid,
                     }
                 }).then(resp => {
                     this.$message({
@@ -175,34 +161,25 @@
             },
             fetchdata() {
                 axios
-                    .get("/Write/get")
+                    .get("/Write/get"+localtion.search)
                     .then(
                         response => {
                             this.title = response.data.title
                             this.value1 = response.data.value1
-                            editor.setHtml(response.data.content)
-                        },
-                        response => {
-                          console.log("error");
-                          alert("请求失败");
-                        }
-                )
-      },
-      fetchhtml(val) {
-
-        axios
-                .get("/Write/gethtml")
-                .then(
-                        response => {
-                          this.title = response.data.title;
-                          this.value1= response.data.value1;
-                          editor.setHtml(val);
+                            axios({
+                                method: "get",
+                                url: response.data.content
+                            }).then(resp => {
+                                editor.setHtml(resp.data)
+                                console.log(resp.data)
+                            })
                         },
                         response => {
                             console.log("error");
                             alert("请求失败");
                         }
                     )
+
             }
         }
     })
