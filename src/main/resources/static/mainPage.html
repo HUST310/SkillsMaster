@@ -406,43 +406,25 @@
 </body>
 
 <script>
-    new Vue({
-      el:'#blogs-updated-container',
-      mounted(){
-            axios({
-                method:"post",
-                url:'/user/getUpdatedBlogs',
-            }).then(resp=>{
-                this.updatedBlogs=resp.data;
-            });
-        },
-      data: function(){
-      return{
-          updatedBlogs:[
-                   {
 
-                      avatar:"user1-avatar.png",
-                      username:"kouji",
-                      account:11941,
-                      time:"1145-1-4 11:45:14",
-                      title:"元素用来将没有数字顺序的一组数据进行分组",
-                      like:'',
-                      comment:'',
-                      uid:"blog-1",
-                      content:''
-                    }
-                 ]
-      }
-
-      }
-
-    });
 
     new Vue({
       el: '#app',
 
 
       methods:{
+
+       //updatedBlogs
+       getUpdatedBlogs(){
+          axios({
+                method:"post",
+                url:'/user/getUpdatedBlogs'
+            }).then(resp=>{
+
+                this.updatedBlogs=resp.data;
+
+            });
+       },
 
 
       //search-box
@@ -483,7 +465,7 @@
       },
 
         readBlog(uid){
-          alert("readBlog:"+uid);
+
           location.href="blog.html?uid="+uid;
         },
 
@@ -493,7 +475,6 @@
 
 
         getBlogs(page){
-
           axios({
                 method:"post",
                 url:'/user/getBlogs',
@@ -503,23 +484,65 @@
             }).then(resp=>{
                 this.blogs=resp.data;
             });
-        }
+        },
+
+         getUserInfo(){
+        axios({
+            method:"get",
+            url:'/user/userInfo'
+          }).then(resp=>{
+            this.userInfo=resp.data;
+          });
+
+      }
+
 
       },
 
+
+
+
+
+
       mounted(){
-        axios({
-          method:"get",
-          url:'/user/userInfo'
-        }).then(resp=>{
-          this.userInfo=resp.data;
-        });
+
+       this.getUserInfo();
+       this.getUpdatedBlogs();
 
         this.getBlogs(1);
       },
-
       data: function() {
         return {
+
+        //updatedBlogs
+        updatedBlogs:[
+                   {
+
+                      avatar:"user1-avatar.png",
+                      name:"kouji",
+                      account:11941,
+                      time:"1145-1-4 11:45:14",
+                      title:"元素用来将没有数字顺序的一组数据进行分组",
+                      like:11,
+                      comment:11,
+                      uid:"blog-1",
+                      content:''
+                    },
+                    {
+
+                      avatar:"user1-avatar.png",
+                      name:"kouji",
+                      account:11941,
+                      time:"1145-1-4 11:45:14",
+                      title:"元素用来将没有数字顺序的一组数据进行分组",
+                      like:11,
+                      comment:11,
+                      uid:"blog-1",
+                      content:''
+                    }
+                 ],
+
+
          //navigation-bar
         activeIndex: '0',
 
