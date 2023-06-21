@@ -139,13 +139,22 @@
         },
 
         mounted() {
-            const selectedFile = document.getElementById("files").files[0];
-            var reader = new FileReader();
-            reader.readAsText(selectedFile);
-            reader.onload = function(){
-                console.log(this.result);
-            };
-            this.fetchhtml(this.result);
+            const fileElement = document.querySelector('#file');
+            fileElement.addEventListener('change', (e) => {
+                const file = e.target.files[0];// 文件信息
+                if (file) {
+                    const reader = new FileReader();
+                    reader.readAsText(file);// 将文件读取为文本
+                    reader.onload = () => { // 文件读取完成后的回调
+                        console.log(reader.result, '////'); // 读取到的文件内容
+                        this.fetchhtml(reader.result);
+                    }
+                    reader.onerror = (e) => {
+                        console.log(e, '????XXX')
+                    }
+                }
+            })
+
         },
         methods: {
             onSubmit() {
