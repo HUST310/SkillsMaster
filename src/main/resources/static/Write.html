@@ -141,6 +141,7 @@
         mounted() {
             this.fetchdata()
         },
+
         methods: {
             onSubmit() {
                 axios({
@@ -159,9 +160,10 @@
                     });
                 })
             },
+
             fetchdata() {
                 axios
-                    .get("/Write/get"+localtion.search)
+                    .post("/Write/get",{uid:this.uid})
                     .then(
                         response => {
                             this.title = response.data.title
