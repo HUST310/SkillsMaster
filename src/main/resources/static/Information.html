@@ -7,7 +7,7 @@
     <script src="js/axios-0.18.0.js"></script>
     <style>
         .el-header {
-            background-color: #B3C0D1;
+            background-color: #f1f1f1;
             color: #333;
             line-height: 60px;
         }
@@ -47,8 +47,8 @@
 
         #changeAvatar {
             width: 100px;
-            margin-top: 4%;
-            margin-left: 4%;
+            margin-top: 8%;
+            margin-left: 8%;
             position: absolute;
         }
 
@@ -80,24 +80,36 @@
             height: 100px;
             display: block;
         }
+        body {
+            background-image: url('./img/demo-1-bg.jpg');
+        }
     </style>
 </head>
 <body>
 <div id="app">
 
-    <el-container style="height: 730px; border: 1px solid #eee">
-        <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-            <el-menu :default-openeds="['1', '3']">
-                <i class="el-icon-edit" style="height: 50px;font-size: 1.2em;position: relative;
-                   top: 15px;"> My blog </i>
+    <el-container style=" opacity:0.85; height: 730px; border: 1px ">
+        <el-aside width="200px" style="background-color: rgb(52,58,64)">
+            <el-menu :default-openeds="['1', '3']" style="background-color: rgb(52,58,64)">
+                <i class="el-icon-edit" style="height: 50px;
+                    font-size: 1.2em;
+                    position: relative;
+                    left: 10px;
+                    top: 15px; color: #f1f1f1"> My blog </i>
                 <div style="border:1px solid #CCC"></div>
-                <i class="el-icon-user-solid"
-                   style="height: 50px;
+                <div class="el-icon-user-solid"
+                     style="height: 50px;
                    font-size: 1.2em;
                    position: relative;
-                   top: 15px;"> 姜明 </i>
+                   left: 10px;
+                   color: #f1f1f1;
+                   top: 15px;"> {{name}}
+                </div>
+                <!--                <div class="leftcolumn">-->
+
+                <!--                </div>-->
                 <div style="border:1px solid #CCC"></div>
-                <el-menu-item index="1">
+                <el-menu-item index="1" style="color: #f1f1f1;">
                     <i class="el-icon-pie-chart"></i>
                     <span slot="title"><el-link href="./Manage.html">数据展示</el-link></span>
                 </el-menu-item>
@@ -106,10 +118,12 @@
                     <span slot="title"><el-link href="./Write.html">发布博客</el-link></span>
                 </el-menu-item>
                 <br/>
-                <div>管理模块</div>
-                <el-menu-item index="3">
+                <div style="color: #f1f1f1; position: relative;
+                     margin-left: 20px;
+                     margin-bottom: 10px   ">管理模块</div>
+                <el-menu-item index="3"  >
                     <i class="el-icon-s-management"></i>
-                    <span slot="title"> <el-link href="./BlogManage.html">博客管理</el-link></span>
+                    <span slot="title" > <el-link href="./BlogManage.html">博客管理</el-link></span>
                 </el-menu-item>
                 <el-menu-item index="4">
                     <i class="el-icon-price-tag"></i>
@@ -124,14 +138,16 @@
                     <span slot="title"><el-link href="./Follow.html">关注管理</el-link></span>
                 </el-menu-item>
                 <br/>
-                <div>个人模块</div>
-                <el-menu-item index="7">
+                <div style="color: #f1f1f1; position: relative;
+                    margin-left: 20px;
+                    margin-bottom: 10px     ">个人模块</div>
+                <el-menu-item index="7" class="el-menu-item is-active">
                     <i class="el-icon-user"></i>
-                    <span slot="title"><el-link href="./Information.html">个人信息</el-link></span>
+                    <span slot="title"><el-link href="./Information.html"><div style="color: #f1f1f1">个人信息</div></el-link></span>
                 </el-menu-item>
                 <el-menu-item index="9">
                     <i class="el-icon-error"></i>
-                    <span slot="title"><el-link href="./Login.html">退出登录</el-link></span>
+                    <span slot="title"><el-button type="text" @click="getout"><div style="color: #606266">退出登录</div></el-button></span>
                 </el-menu-item>
             </el-menu>
         </el-aside>
@@ -143,19 +159,26 @@
                 </el-dropdown>
                 <span><el-link href="./mainPage.html">回到首页</el-link></span>
             </el-header>
-            <el-divider></el-divider>
-            <div style="border-style: double;border-width: thick;">
+            <div style=" height: 730px; background-color: #ffffff;">
+                <br/>
+                <br/>
+                <hr>
                 <br/>
                 <el-form>
                     <el-row>
                         <el-form ref="form" :model="sizeForm" label-width="80px" size="mini" id="ChangeList1"
-                                 style="float: left">
+                                 style="float: left;
+                                  width: 500px;
+                                  height: 300px;
+                                  border-radius: 5px;
+                                  border-style:solid;  border-color:#007bfe #000000 #000000 #000000;
+                                  border-width:5px 2px 2px 2px; ">
+                            <br/>
                             <el-row>
                                 <div id="title" class="demonstration" style="float: left">基本资料</div>
                             </el-row>
                             <hr>
-                            <div style="position: relative;
-          left: 100px;">
+                            <div style="position: relative;left: 150px;">
                                 <el-form-item label="昵称">
                                     <el-input class="input" v-model="sizeForm.username" style="width: 200px"></el-input>
                                 </el-form-item>
@@ -192,15 +215,22 @@
                         </div>
 
                         <el-form ref="Password" :model="user" label-width="80px" size="mini" id="ChangeList2"
-                                 style="float: left;left: 120px;position: relative;">
+                                 style="float: left;left:30px;position: relative;
+                                     width: 500px;
+                                     height: 300px;
+                                     border-style:solid;
+                                     border-radius: 5px;
+                                     border-color:#007bfe #000000 #000000 #000000;
+                                     border-width:5px 2px 2px 2px; ">
+                            <br/>
                             <el-row>
                                 <div id="title2" class="demonstration" style="float: left">修改密码</div>
                             </el-row>
                             <hr>
-                            <div>
-                                <el-form-item label="原密码">
+                            <div style="position:relative; left: 50px">
+                                <el-form-item   label="原密码">
                                     <el-input class="input" v-model="password" type="password" show-password
-                                              style="width: 300px" ></el-input>
+                                              style=" width: 300px" ></el-input>
                                 </el-form-item>
 <!--                                <el-form-item label="密码">-->
 <!--                                    <el-input v-model="user.password" prefix-icon="el-icon-lock" type="password"-->
@@ -301,6 +331,7 @@
         },
         data() {
             return {
+                name:'jim',
                 sizeForm: {
                     username: "",
                     signature: "",

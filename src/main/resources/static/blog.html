@@ -107,6 +107,25 @@
         padding:50px;
     }
 
+
+    .user-name,.sub-comment-commentor-info,.sub-comment-commentee-info{
+      cursor:pointer;
+
+      }
+
+    .comment-box{
+        border-style:solid;
+        border-color:red;
+        border-width:0px;
+        border-radius:10px;
+
+
+
+
+
+    }
+
+
   </style>
 
   <link rel="stylesheet" href="css/rowcol.css">
@@ -148,8 +167,8 @@
       <div id="comment-container">
 
         <div class="comment-box">
-          <el-row :gutter="20" style="margin:100px">
-            <el-col :span="2">
+          <el-row :gutter="20" style="margin:50px">
+            <el-col :span="2" style="margin-top:20px">
               <div class="grid-content bg-purple" >
                 <div class="comment-box-avatar">
                   <el-row class="demo-avatar demo-basic" >
@@ -191,77 +210,28 @@
         <el-divider></el-divider>
         <div  class="comment-info-container">
           <el-row :gutter="20">
-            <el-col :span="3"><div class="grid-content bg-purple">评论</div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple">{{commentNum}}条</div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple"><font size="4"><b>评论</b></b></font></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple"><font size="4"><b>{{this.blog.comment}}条</b></b></font></div></el-col>
           </el-row>
 
         </div>
-        <div class="comment-list" v-for="comment in comments">
-
-          <div class="comment-item" style="margin:80px;border-style:solid;border-width:2px;border-color:white;padding:50px">
-            <div class="root-comment-container">
-              <el-row :gutter="20">
-                <el-col :span="3"><div class="grid-content bg-purple">
-                  <div class="root-comment-avatar">
-                    <el-row class="demo-avatar demo-basic">
-                      <el-col :span="5">
-                        <div class="demo-basic--circle">
-                          <div class="block"><el-avatar :size="60" :src="comment.avatar"></el-avatar></div>
-                        </div>
-                      </el-col>
-                    </el-row>
-                  </div>
-                </div></el-col>
-                <el-col :span="18"><div class="grid-content bg-purple">
-                  <div class="content-warp" >
-                    <div class="user-info" style="text-align:left">
-                      <div class="user-name">
-                    <span>
-                      <el-button type="text" @click="access(comment.commentorInfo.account)">
-                        <font size="6">{{comment.name}}</font>
-
-                      </el-button>
-
-                    </span>
-                      </div>
-                    </div>
-                    <div class="root-comment">
-                      <div class="comment-content-container" style="margin:10px">
-                        <span>
-                          <p>{{comment.content}}</p>
-
-                        </span>
-                      </div>
-                      <div class="comment-info">
-                        <el-row :gutter="20">
-                          <el-col :span="6"><div class="grid-content bg-purple">
-                            <span class="comment-time">{{comment.time}}</span>
-                          </div></el-col>
-                          <el-col :span="3"><div class="grid-content bg-purple">
-                            <span class="comment-like">
-                      <i class="el-icon-edit"></i>
-                      <span>{{comment.like}}</span>
-                    </span>
-                          </div></el-col>
-                          <el-col :span="3"><div class="grid-content bg-purple">
-                            <span class="sub-comment-button" >
-                                <el-button type="text" @click="dialogVisible = true">回复</el-button>
-
-                                <el-dialog
-                                      title=""
-                                      :visible.sync="dialogVisible"
-                                      width="30%"
-                                      :before-close="handleClose">
+        <div class="reply-box">
+          <el-dialog
+                  title=""
+                  :visible.sync="dialogVisible"
+                  width="30%"
+                  :before-close="handleClose">
                                 <span>
                                   <div class="reply-info">
                                     <el-row>
 
-                                      <el-col :span="6"><div class="grid-content bg-purple">
-                                        回复
+                                      <el-col :span="3"><div class="grid-content bg-purple">
+                                        <font size="3"><b>回复</b></b></font>
                                       </div></el-col>
 
-                                      <el-col :span="6"><div class="grid-content bg-purple">
-                                        {{comment.name}}:
+                                      <el-col :span="10" style="text-align:left"><div class="grid-content bg-purple">
+                                        <font size="3"><b>{{this.commentee.name}}:</b></b></font>
+
                                       </div></el-col>
 
                                     </el-row>
@@ -277,11 +247,65 @@
                                   </div>
 
                                 </span>
-                                <span slot="footer" class="dialog-footer">
+            <span slot="footer" class="dialog-footer">
                                   <el-button @click="dialogVisible = false">取 消</el-button>
-                                  <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                                  <el-button type="primary" @click="reply">确 定</el-button>
                                 </span>
-                              </el-dialog>
+          </el-dialog>
+        </div>
+        <div class="comment-list" v-for="comment in comments">
+
+          <div class="comment-item" style="margin:80px;border-style:solid;border-width:2px;border-color:white;padding:50px">
+            <div class="root-comment-container">
+              <el-row :gutter="20">
+                <el-col :span="3"><div class="grid-content bg-purple">
+                  <div class="root-comment-avatar" style="margin-top:10px">
+                    <el-row class="demo-avatar demo-basic">
+                      <el-col :span="5">
+                        <div class="demo-basic--circle">
+                          <div class="block"><el-avatar :size="60" :src="comment.avatar"></el-avatar></div>
+                        </div>
+                      </el-col>
+                    </el-row>
+                  </div>
+                </div></el-col>
+                <el-col :span="18"><div class="grid-content bg-purple">
+                  <div class="content-warp" >
+                    <div class="user-info" style="text-align:left">
+                      <div class="user-name" @click="access(comment.account)">
+
+                        <font size="6"><b>{{comment.name}}</b></b></font>
+
+
+                      </div>
+                    </div>
+                    <div class="root-comment">
+                      <div class="comment-content-container" style="margin:10px">
+                        <span>
+                          <p>{{comment.content}}</p>
+
+                        </span>
+                      </div>
+                      <div class="comment-info">
+                        <el-row :gutter="20">
+                          <el-col :span="6"><div class="grid-content bg-purple">
+                            <span class="comment-time">{{comment.time}}</span>
+                          </div></el-col>
+                          <el-col :span="5"><div class="grid-content bg-purple">
+                            <span class="comment-like">
+
+                              <span>
+                                <font size="3"><b>{{comment.like}}</b></b></font>
+
+                                <el-button type="text" @click="like(comment)"><font size="3"><b>点赞</b></b></font></el-button>
+                              </span>
+                            </span>
+                          </div></el-col>
+                          <el-col :span="3"><div class="grid-content bg-purple">
+                            <span class="sub-comment-button" >
+                                <el-button type="text" @click="callReplyBox(comment.uid,comment)"><font size="3"><b>回复</b></b></font></el-button>
+
+
                             </span>
                           </div></el-col>
                         </el-row>
@@ -298,16 +322,19 @@
             </div>
 
             <div class="see-sub-comment" style="margin-left:120px;margin-right:120px">
-              <el-collapse @change="getSubComments">
-                <el-collapse-item title="点击查看评论" name="1">
+              <el-collapse @change="getSubComments(1,comment.uid)">
+                <el-collapse-item title="点击查看评论">
                   <div class="sub-comment-container" v-for="subComment in comment.subComments" >
                     <div class="sub-comment-list" style="margin:40px;border-style:solid;border-width:2px;border-color:grey;padding:10px">
                       <div class="sub-comment-item">
-                        <div class="sub-comment-commnetor-info">
+                        <div class="sub-comment-commnetorcommentee-info">
 
                           <el-row>
                             <el-col :span="4"><div class="grid-content bg-purple">
-                              {{subComment.commentorInfo.name}}
+                              <div class="sub-comment-commentor-info" @click="access(subComment.commentorInfo.account)">
+                                <font size="2"><b>{{subComment.commentorInfo.name}}</b></b></font>
+                              </div>
+
                             </div></el-col>
 
                             <el-col :span="4"><div class="grid-content bg-purple">
@@ -315,31 +342,42 @@
                             </div></el-col>
 
                             <el-col :span="4"><div class="grid-content bg-purple">
-                              {{subComment.commenteeInfo.name}}
+                              <div class="sub-comment-commentee-info" @click="access(subComment.commenteeInfo.account)">
+                                <font size="2"><b>{{subComment.commenteeInfo.name}}</b></b></font>
+                              </div>
+
                             </div></el-col>
 
                           </el-row>
                         </div>
-                          <span class="sub-comment-container">
+                        <span class="sub-comment-container">
                           <p>{{subComment.content}}</p>
                         </span>
                         <div class="sub-comment-info" style="margin-top:10px">
 
                           <el-row>
-                            <el-col :span="8"><div class="grid-content bg-purple">
-                              <span class="sub-comment-time">
-                                {{subComment.time}}
+                            <el-col :span="10"><div class="grid-content bg-purple" >
+                              <span class="sub-comment-time" >
+                                <font size="4"><b> {{subComment.time}}</b></b></font>
+
                               </span>
                             </div></el-col>
                             <el-col :span="4"><div class="grid-content bg-purple-light">
                               <span class="sub-comment-like">
-                                <i class="el-icon-edit"></i>
-                                <span>{{subComment.like}}</span>
+                                <span>
+                                <font size="2"><b>{{subComment.like}}</b></b></font>
+
+                                <el-button type="text" @click="like(subComment)"><font size="2"><b>点赞</b></b></font></el-button>
+                                </span>
+
                               </span>
                             </div></el-col>
                             <el-col :span="4"><div class="grid-content bg-purple">
                                <span class="sub-comment-button" >
-                                  <el-button type="text" @click="dialogVisible = true">回复</el-button>
+                                 <el-button type="text" @click="callReplyBox(comment.uid,subComment.commentorInfo)">
+                                   <font size="2"><b>回复</b></b></font>
+                                 </el-button>
+
 
 
                               </span>
@@ -349,8 +387,7 @@
 
 
 
-
-                                  </div>
+                        </div>
 
                       </div>
                     </div>
@@ -359,7 +396,7 @@
                                  background
                                  layout="prev, pager, next"
                                  :total="1000"
-                                 @current-change="getSubComments">
+                                 @current-change="getSubComments($event,comment.uid)">
                   </el-pagination>
                 </el-collapse-item>
               </el-collapse>
@@ -367,7 +404,7 @@
 
 
           </div>
-
+          <el-divider></el-divider>
         </div>
         <el-pagination id="pagination-comment"
                 background
@@ -411,9 +448,201 @@
 <script>
     new Vue({
       el: '#app',
+      methods: {
+
+
+
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      },
+
+      //comment
+
+      like(comment)
+      {
+          axios({
+                method:'post',
+                url:'/user/like',
+                data:{
+                  uid:comment.uid
+                }
+            }).then(resp=>{
+
+            });
+
+           comment.like++;
+
+      },
+
+
+
+
+
+      //navigation-bar
+      accessPersonalPage(){
+           location.href="Personal.html";
+      },
+
+      backToMainPage(){
+          location.href="mainPage.html";
+      },
+
+      logOut(){
+           axios({
+                method:'post',
+                url:'/user/logout'
+            }).then(resp=>{
+                document.location="Login.html";
+            });
+      },
+
+
+      //comment
+
+        callReplyBox(uid,info){
+        this.dialogVisible = true;
+
+        this.commentee.name=info.name;
+        this.commentee.account=info.account;
+
+        this.receiverUid=uid;
+
+      },
+
+       reply()
+          {
+
+            this.dialogVisible = false;
+
+            axios({
+                method:"post",
+                url:'/user/sendComment',
+                data:{
+                 content:this.textareaToComment,
+                 receiver:this.receiverUid,
+                 commentee:this.commentee.account,
+                 type:0
+                }
+            }).then(resp=>{
+            });
+          },
+
+      send(){
+            axios({
+                method:"post",
+                url:'/user/sendComment',
+                data:{
+                 content:this.textareaToBlog,
+                 receiver:this.blog.uid,
+                 commentee:this.blogger.account,
+                 type:0
+                }
+            }).then(resp=>{
+            });
+          },
+
+
+
+          access(account){
+            location.href="BloggerPage.html?account="+account;
+          },
+
+          getSubComments(page,uid){
+
+
+              axios({
+                method:"post",
+                url:'/user/getSubComments',
+                data:{
+                  uid:uid,
+                  page:page
+                }
+            }).then(resp=>{
+                for(comment in this.comments)
+                {
+                  if(comment.uid==uid)
+                  {
+                    comment.subComments=resp.data;
+                    break;
+                  }
+                }
+
+            });
+          },
+
+
+
+
+          getComments(uid,page){
+            axios({
+                method:"post",
+                url:'/user/getComments',
+                data:{
+
+                  uid:this.blog.uid,
+                  page:page
+                }
+            }).then(resp=>{
+                this.comments=resp.data;
+            });
+          },
+
+
+
+         //get  info of blog
+          getBlogInfo(){
+          let reg = new RegExp("(^|&)" + "uid" + "=([^&]*)(&|$)");
+          let r = window.location.search.substr(1).match(reg);
+          if (r != null)
+          {
+              axios({
+                  method:"post",
+                  url:'/user/getBlog',
+                  data:{
+                      uid:unescape(r[2])
+                  }
+              }).then(resp=>{
+                  this.blog=resp.data;
+              });
+          }
+
+        },
+
+        getInfo(){
+          axios({
+                  method:"post",
+                  url:'/user/userInfo',
+
+              }).then(resp=>{
+                  this.user=resp.data;
+              });
+
+          axios({
+                  method:"post",
+                  url:'/user/getBloggerInfo',
+                  data:{
+                    uid:this.blog.uid
+                  }
+              }).then(resp=>{
+                  this.blogger=resp.data;
+              });
+      }
+    },
+
+
+
       mounted(){
 
-              $("#content").load("bunfortest.html");
+          getInfo();
+<!--          getBlogInfo();-->
+          $("#content").load("bunfortest.html");
 
 
         },
@@ -421,6 +650,15 @@
 
 
         return {
+
+        //reply-box:
+        textareaToComment:'',
+        receiverUid:122,
+        commentee:{
+          name:'',
+          account:''
+        },
+
 
         //footer
         drawer:false,
@@ -433,18 +671,31 @@
         visible: false,
                   dialogVisible: false,
 
-                  commentNum:12,
+
 
                   blog:{
-                    title:"none"
+                    title:"none",
+                    uid:098,
+                    comment:12,
+                    like:'',
+                    content:''
                   },
-              user:{
-              avatar:"user1-avatar.png",
-              name:"",
-              account:""
-              },
-              textareaToComment:'',
+
+                  blogger:{
+                    name:"",
+                    account:""
+                  },
+
+                  user:{
+                  avatar:"user1-avatar.png",
+                  name:"",
+                  account:""
+                  },
+
               textareaToBlog:'',
+
+
+
               comments:[
                 {
 
@@ -454,6 +705,7 @@
                     content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
                     time:"1145-1-4 11:45:14",
                     like:114,
+                    uid:1234234567,
                      subComments:[
                     {
                       content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
@@ -462,25 +714,26 @@
                       commentorInfo:{
                         name:"commentorInfo",
                         avatar:"",
-                        account:""
+                        account:12345
                       },
 
                       commenteeInfo:{
                         name:"commenteeInfo",
                         avatar:"",
-                        account:""
+                        account:12345
                       }
                     }
                   ]
                 },
                 {
 
-                    name:"sun",
+                    name:"sun2",
                     avatar:"user1-avatar.png",
                     account:123456,
                     content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
                     time:"1145-1-4 11:45:14",
                     like:114,
+                    uid:1234234567,
                      subComments:[
                     {
                       content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
@@ -489,26 +742,15 @@
                       commentorInfo:{
                         name:"commentorInfo",
                         avatar:"",
-                        account:""
+                        account:12345
                       },
 
                       commenteeInfo:{
                         name:"commenteeInfo",
                         avatar:"",
-                        account:""
+                        account:12345
                       }
-                    }
-                  ]
-                },
-                {
-
-                    name:"sun",
-                    avatar:"user1-avatar.png",
-                    account:123456,
-                    content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
-                    time:"1145-1-4 11:45:14",
-                    like:114,
-                     subComments:[
+                    },
                     {
                       content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
                       time:"1145-1-4 11:45:14",
@@ -516,67 +758,13 @@
                       commentorInfo:{
                         name:"commentorInfo",
                         avatar:"",
-                        account:""
+                        account:12345
                       },
 
                       commenteeInfo:{
                         name:"commenteeInfo",
                         avatar:"",
-                        account:""
-                      }
-                    }
-                  ]
-                },
-                {
-
-                    name:"sun",
-                    avatar:"user1-avatar.png",
-                    account:123456,
-                    content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
-                    time:"1145-1-4 11:45:14",
-                    like:114,
-                     subComments:[
-                    {
-                      content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
-                      time:"1145-1-4 11:45:14",
-                      like:114,
-                      commentorInfo:{
-                        name:"commentorInfo",
-                        avatar:"",
-                        account:""
-                      },
-
-                      commenteeInfo:{
-                        name:"commenteeInfo",
-                        avatar:"",
-                        account:""
-                      }
-                    }
-                  ]
-                },
-                {
-
-                    name:"sun",
-                    avatar:"user1-avatar.png",
-                    account:123456,
-                    content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
-                    time:"1145-1-4 11:45:14",
-                    like:114,
-                     subComments:[
-                    {
-                      content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
-                      time:"1145-1-4 11:45:14",
-                      like:114,
-                      commentorInfo:{
-                        name:"commentorInfo",
-                        avatar:"",
-                        account:""
-                      },
-
-                      commenteeInfo:{
-                        name:"commenteeInfo",
-                        avatar:"",
-                        account:""
+                        account:12345
                       }
                     }
                   ]
@@ -585,93 +773,7 @@
 
 
          }
-      },
-      methods: {
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      },
-
-
-      //navigation-bar
-      accessPersonalPage(){
-           location.href="/SkillsMaster/static/Personal.html";
-      },
-
-      backToMainPage(){
-          location.href="/SkillsMaster/static/mainPage.html";
-      },
-
-      logOut(){
-           axios({
-                method:'post',
-                url:'/user/logout'
-            }).then(resp=>{
-                document.location="./Login.html";
-            });
-      },
-      send(){
-            axios({
-                method:"post",
-                url:'user/sendComment',
-                data:{
-                 content:this.textareaToBlog,
-                 receiver:blog.uid
-                }
-            }).then(resp=>{
-            });
-          },
-
-          reply()
-          {
-            axios({
-                method:"post",
-                url:'user/sendComment',
-                data:{
-                 content:this.textareaToComment,
-                 receiver:this.blog.uid
-                }
-            }).then(resp=>{
-            });
-          },
-
-          access(account){
-            alert("access"+account);
-          },
-
-          getSubComments(uid,page){
-              axios({
-                method:"post",
-                url:'user/getSubComments',
-                data:{
-                  uid:uid,
-                  page:page
-                }
-            }).then(resp=>{
-                this.subComments=resp.data;
-            });
-          },
-
-          getComments(uid,page){
-            axios({
-                method:"post",
-                url:'user/getComments',
-                data:{
-
-                  uid:this.blog.uid,
-                  page:page
-                }
-            }).then(resp=>{
-                this.comments=resp.data;
-            });
-          }
-    }
+      }
 
 
     });

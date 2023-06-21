@@ -71,7 +71,8 @@
       .container {
         display: flex;
         padding: 10px;
-        background-color: #4474c8;
+        background-image: url('./img/demo-1-bg.jpg');
+        background-color: #343a40;
         color: #fff;
       }
       .container a {

@@ -80,26 +80,26 @@ public class UserController {
 
     /* 访问博主主页，获取博主个人信息*/
     @PostMapping("/user/accessBlogger")
-    public BloggerInfo getBloggerInfo(@RequestBody Map<String,Integer> request){
-        Integer account=request.get("account");
-        User user = userService.getOne(new QueryWrapper<User>().eq("account",account));
+    public BloggerInfo getBloggerInfo(@RequestBody Map<String, Integer> request) {
+        Integer account = request.get("account");
+        User user = userService.getOne(new QueryWrapper<User>().eq("account", account));
         BloggerInfo bloggerInfo = new BloggerInfo();
         bloggerInfo.setUsername(user.getUsername());
         bloggerInfo.setAvatar(user.getAvatar());
         bloggerInfo.setFans(followService.count(new QueryWrapper<Follow>().eq("blogger", account)));
-        bloggerInfo.setArticles(blogsService.count(new QueryWrapper<Blogs>().eq("owner",account)));
+        bloggerInfo.setArticles(blogsService.count(new QueryWrapper<Blogs>().eq("owner", account)));
         return bloggerInfo;
     }
 
     @PostMapping("/user/logout")
-    public void logOut(HttpSession session){
-        session.setAttribute("uid",null);
+    public void logOut(HttpSession session) {
+        session.setAttribute("uid", null);
     }
 
 
     @GetMapping("/getUserInfo")
     public User getUserInfo1(HttpSession session) {
-//        session.setAttribute("uid", 1);
+        session.setAttribute("uid", 1);
         Integer uid = (Integer) session.getAttribute("uid");
         User user = userService.getOne(new QueryWrapper<User>().eq("account", uid));
         user.setPassword("");
@@ -181,5 +181,14 @@ public class UserController {
         user.setState("D");
         userService.saveOrUpdate(user);
         return "success";
+    }
+
+    @GetMapping("/getname")
+    public String getUserName(HttpSession session) {
+        if (session.getAttribute("uid") == null) {
+            return "";
+        } else {
+            return userService.getById((Integer) session.getAttribute("uid")).getUsername();
+        }
     }
 }

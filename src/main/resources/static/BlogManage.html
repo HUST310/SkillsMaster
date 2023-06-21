@@ -7,7 +7,7 @@
     <!--    <link rel="stylesheet" href="css/leftColumn.css">-->
     <style>
         .el-header {
-            background-color: #B3C0D1;
+            background-color: #f1f1f1;
             color: #333;
             line-height: 60px;
         }
@@ -19,6 +19,9 @@
         .is-checked {
 
         }
+        body {
+            background-image: url('./img/demo-1-bg.jpg');
+        }
     </style>
 </head>
 <body>
@@ -26,8 +29,8 @@
 <!--<script src="element-ui/lib/index.js"></script>-->
 <script src="js/axios-0.18.0.js"></script>
 <div id="app">
-    <el-container style="height: 730px; border: 1px solid #eee">
-        <el-aside width="200px" style="background-color: rgb(52,58,64)">
+    <el-container style="height: 730px; border: 1px">
+        <el-aside width="200px" style="opacity:0.85; background-color: rgb(52,58,64)">
             <el-menu :default-openeds="['1', '3']" style="background-color: rgb(52,58,64)">
                 <i class="el-icon-edit" style="height: 50px;
                     font-size: 1.2em;
@@ -57,10 +60,11 @@
                 </el-menu-item>
                 <br/>
                 <div style="color: #f1f1f1; position: relative;
-                    left: 20px;">管理模块</div>
-                <el-menu-item index="3">
+                     margin-left: 20px;
+                     margin-bottom: 10px   ">管理模块</div>
+                <el-menu-item index="3" class="el-menu-item is-active" >
                     <i class="el-icon-s-management"></i>
-                    <span slot="title"> <el-link href="./BlogManage.html">博客管理</el-link></span>
+                    <span slot="title" > <el-link href="./BlogManage.html"><div style="color: #f1f1f1">博客管理</div></el-link></span>
                 </el-menu-item>
                 <el-menu-item index="4">
                     <i class="el-icon-price-tag"></i>
@@ -76,32 +80,33 @@
                 </el-menu-item>
                 <br/>
                 <div style="color: #f1f1f1; position: relative;
-                    left: 20px;">个人模块</div>
+                    margin-left: 20px;
+                    margin-bottom: 10px     ">个人模块</div>
                 <el-menu-item index="7">
                     <i class="el-icon-user"></i>
                     <span slot="title"><el-link href="./Information.html">个人信息</el-link></span>
                 </el-menu-item>
                 <el-menu-item index="9">
                     <i class="el-icon-error"></i>
-                    <span slot="title"><el-link href="./Login.html">退出登录</el-link></span>
+                    <span slot="title"><el-button type="text" @click="getout"><div style="color: #606266">退出登录</div></el-button></span>
                 </el-menu-item>
             </el-menu>
         </el-aside>
 
         <el-container>
-            <el-header style="text-align: right; font-size: 20px">
+            <el-header style="opacity:0.85;text-align: right; font-size: 20px">
                 <el-dropdown>
                     <i class="el-icon-s-help" style="margin-right: 15px"></i>
                 </el-dropdown>
                 <span><el-link href="./mainPage.html">回到首页</el-link></span>
             </el-header>
-            <div style="border-style: double;border-width: thick;">
+            <div style=" opacity:0.85 ;background-color: #d7d8d9; ">
                 <br/>
-                <el-form>
+                <el-form >
                     <el-row>
                         <el-col span="8">
-                            <i style="position:relative;left:10px;font-size: 1.2em;">博客管理</i>
-                            <div style="position:relative;left:10px;top:10px;">
+                            <i style="position:relative;left:30px;font-size: 1.2em;">博客管理</i>
+                            <div style="position:relative;left:30px;top:10px;">
                                 <el-link href="./Write.html">
                                     <el-button type="primary" icon="el-icon-circle-plus">新增</el-button>
                                 </el-link>
@@ -120,7 +125,7 @@
                 <el-main>
                     <el-table
                             :data="tableData.filter(data => !input || data.title.toLowerCase().includes(input.toLowerCase()))"
-                            height="500"
+                            height="543"
                             ref="multipleTable"
                             tooltip-effect="dark"
                             @selection-change="handleSelectionChange">
@@ -200,7 +205,7 @@
                 }
                 this.deleteSelection = this.multipleSelection;
                 this.multipleSelection = [];
-                alert(this.deleteSelection);
+
             },
             fetchname() {
                 axios
@@ -213,6 +218,17 @@
                             console.log("error");
                         }
                     )
+            },
+            getout(){
+                axios({
+                    method: "post",
+                    url: '/user/logout',
+                    data: {
+                    }
+                }).then(resp => {
+
+                })
+                location.href = "Login.html"
             },
             fetchdata() {
                 axios
