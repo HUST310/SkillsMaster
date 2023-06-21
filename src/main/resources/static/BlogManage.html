@@ -57,7 +57,8 @@
                 </el-menu-item>
                 <br/>
                 <div style="color: #f1f1f1; position: relative;
-                    left: 20px;">管理模块</div>
+                     margin-left: 20px;
+                     margin-bottom: 10px   ">管理模块</div>
                 <el-menu-item index="3">
                     <i class="el-icon-s-management"></i>
                     <span slot="title"> <el-link href="./BlogManage.html">博客管理</el-link></span>
@@ -76,7 +77,8 @@
                 </el-menu-item>
                 <br/>
                 <div style="color: #f1f1f1; position: relative;
-                    left: 20px;">个人模块</div>
+                    margin-left: 20px;
+                    margin-bottom: 10px     ">个人模块</div>
                 <el-menu-item index="7">
                     <i class="el-icon-user"></i>
                     <span slot="title"><el-link href="./Information.html">个人信息</el-link></span>
@@ -215,7 +217,14 @@
                     )
             },
             getout(){
-                sessionStorage.clear()
+                axios({
+                    method: "post",
+                    url: '/user/logout',
+                    data: {
+                    }
+                }).then(resp => {
+
+                })
                 location.href = "Login.html"
             },
             fetchdata() {
