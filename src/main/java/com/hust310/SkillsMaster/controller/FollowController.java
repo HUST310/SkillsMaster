@@ -51,7 +51,11 @@ public class FollowController {
     }
 
 
-
+    @PostMapping("/user/unFollow")
+    public void unfollow(@RequestBody Map<String,Integer> request, HttpSession session) {
+        //session.setAttribute("uid", 1);
+        followService.remove(new QueryWrapper<Follow>().eq("follower", session.getAttribute("uid")).eq("blogger", request.get("account")));
+    }
 
     @PostMapping("/follow/deleteFollow")
     public String unFollow(@RequestBody List<Integer> accounts, HttpSession session) {

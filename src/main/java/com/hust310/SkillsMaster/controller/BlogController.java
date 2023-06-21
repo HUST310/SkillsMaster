@@ -86,6 +86,45 @@ public class BlogController {
         return blogResponses;
     }
 
+    @PostMapping("/user/searchBlogs")
+    public List<BlogResponse> searchBlogs(@RequestBody Map<String,Object> request){
+        String input = (String) request.get("input");
+        List<BlogResponse> blogResponses=new ArrayList<>();
+        QueryWrapper<Blogs> queryWrapper = new QueryWrapper<Blogs>().like("title", input).or().like("content", input).orderByDesc("likes").orderByDesc("time");
+        List<Blogs> blogs = blogsService.page(new Page<Blogs>((Integer) request.get("page"), 10), queryWrapper).getRecords();
+        for (int i = 0; i < blogs.size(); i++) {
+            BlogResponse blogResponse = new BlogResponse();
+            Blogs blog = blogs.get(i);
+            blogResponse.setComment(blog.getComment());
+            blogResponse.setLike(blog.getLikes());
+            blogResponse.setTitle(blog.getTitle());
+            blogResponse.setContent(blog.getContent());
+            blogResponse.setTime(blog.getTime());
+            blogResponse.setUid(blog.getUid());
+            blogResponses.add(blogResponse);
+        }
+        return blogResponses;
+    }
+
+    @PostMapping("/user/searchBlogsOfBlogger")
+    public List<BlogResponse> searchBlogsOfBlogger(@RequestBody Map<String,Object> request){
+        String input = (String) request.get("input");
+        List<BlogResponse> blogResponses=new ArrayList<>();
+        QueryWrapper<Blogs> queryWrapper = new QueryWrapper<Blogs>().eq("owner",(Integer)request.get("account")).like("title", input).or().like("content", input).orderByDesc("likes").orderByDesc("time");
+        List<Blogs> blogs = blogsService.page(new Page<Blogs>((Integer) request.get("page"), 10), queryWrapper).getRecords();
+        for (int i = 0; i < blogs.size(); i++) {
+            BlogResponse blogResponse = new BlogResponse();
+            Blogs blog = blogs.get(i);
+            blogResponse.setComment(blog.getComment());
+            blogResponse.setLike(blog.getLikes());
+            blogResponse.setTitle(blog.getTitle());
+            blogResponse.setContent(blog.getContent());
+            blogResponse.setTime(blog.getTime());
+            blogResponse.setUid(blog.getUid());
+            blogResponses.add(blogResponse);
+        }
+        return blogResponses;
+    }
 
 
     @PostMapping("/user/getBlogs")

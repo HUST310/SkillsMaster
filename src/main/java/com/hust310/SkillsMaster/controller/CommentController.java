@@ -164,6 +164,28 @@ public class CommentController {
         return "success";
     }
 
+
+    @PostMapping("/user/sendComment")
+    public void addComment(@RequestBody Map<String, Object> map){
+        Integer type= (Integer)map.get("type");
+        if(type==1) {
+            Blogcomments comments=new Blogcomments();
+            comments.setContent((String)map.get("content"));
+            comments.setCommentor((Integer) map.get("commentor"));
+            comments.setCommentee((Integer) map.get("commentee"));
+            comments.setReceiver((Integer) map.get("receiver"));
+            blogcommentsService.save(comments);
+        }
+        else {
+            Ccomments comments=new Ccomments();
+            comments.setContent((String)map.get("content"));
+            comments.setCommentor((Integer) map.get("commentor"));
+            comments.setCommentee((Integer) map.get("commentee"));
+            comments.setReceiver((Integer) map.get("receiver"));
+            ccommentsService.save(comments);
+        }
+    }
+
     @PostMapping("/Comments/add2")
     public String addD(@RequestBody Map<String, Object> map) {
         Integer uid = (Integer) map.get("uid");

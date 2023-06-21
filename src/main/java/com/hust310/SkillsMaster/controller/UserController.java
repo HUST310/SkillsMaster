@@ -64,13 +64,18 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/userInfo")
+    @PostMapping("/user/userInfo")
     public User getUserInfo(HttpSession session) {
         //Integer uid = (Integer) session.getAttribute("uid");
         Integer uid = 1;
         User user = userService.getOne(new QueryWrapper<User>().eq("account", uid));
         user.setPassword(null);
         return user;
+    }
+
+    @PostMapping("/user/getBloggerInfo")
+    public User getUserInfo(@RequestBody Map<String,Integer> request) {
+        return userService.getById(request.get("account"));
     }
 
     /* 访问博主主页，获取博主个人信息*/
