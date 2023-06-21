@@ -149,7 +149,9 @@
                         <el-table-column prop="time" label="修改时间" width="200">
                         </el-table-column>
                         <el-table-column width="100" label="查看文章">
-                            <el-link href="./blog.html"><el-button type="primary">查看</el-button></el-link>
+                            <template slot-scope="scope">
+                                <el-button type="primary" @click="onSubmit(scope.row.uid)">查看</el-button>
+                            </template>
                         </el-table-column>
                     </el-table>
                 </el-main>
@@ -225,6 +227,9 @@
             this.fetchname()
         },
         methods: {
+            onSubmit(val){
+                location.href = "blog.html?uid="+val
+            },
             change() {
                 this.$confirm('是否修改内容?', '提示', {
                     confirmButtonText: '确定',
