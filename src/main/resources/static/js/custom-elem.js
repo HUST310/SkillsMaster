@@ -71,7 +71,7 @@
       .container {
         display: flex;
         padding: 10px;
-        background-color: #4474c8;
+        background-color: #343a40;
         color: #fff;
       }
       .container a {

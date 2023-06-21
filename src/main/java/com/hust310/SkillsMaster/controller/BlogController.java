@@ -12,7 +12,10 @@ import com.hust310.SkillsMaster.service.TagsService;
 import com.hust310.SkillsMaster.service.UserService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -87,7 +90,6 @@ public class BlogController {
     }
 
 
-
     @PostMapping("/user/getBlogs")
     public List<BlogResponse> getHot(@RequestBody Map<String, Integer> request) {
         List<BlogResponse> blogResponses = new ArrayList<>();
@@ -134,7 +136,7 @@ public class BlogController {
 
     @GetMapping("/blogManage/get")
     public List<Blogs> getAllBlogs(HttpSession session) {
-        session.setAttribute("uid", 1);
+//        session.setAttribute("uid", 1);
         List<Blogs> blogs = blogsService.list(new QueryWrapper<Blogs>().
                 eq("owner", session.getAttribute("uid")).eq("state", "N"));
         return blogs;
@@ -158,7 +160,7 @@ public class BlogController {
         Blogs blog = new Blogs();
 
         if (param.containsKey("uid")) {
-            blog.setUid((Integer) param.get("uid"));
+            blog.setUid(Integer.valueOf((String) param.get("uid")));
         }
         blog.setTitle((String) param.get("title"));
 
@@ -173,10 +175,10 @@ public class BlogController {
         return "success";
     }
 
-    @GetMapping("/Write/get")
-    public Map<String, Object> getBlog(@RequestParam("uid") Integer uid) {
+    @PostMapping("/Write/get")
+    public Map<String, Object> getBlog(@RequestBody Map<String, Object> param) {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-        Blogs byId = blogsService.getById(uid);
+        Blogs byId = blogsService.getById(Integer.valueOf((String) param.get("uid")));
         map.put("title", byId.getTitle());
         map.put("content", byId.getContent());
         map.put("value1", byId.getTag().split(","));
