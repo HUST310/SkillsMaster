@@ -122,11 +122,13 @@
                                 </h1>
                             </template>
                         </el-table-column>
-                        <el-table-column width="150" label="进入详情页">
-                            <el-button type="primary" @click="Reply()" icon="el-icon-edit">回复</el-button>
-                        </el-table-column>
+<!--                        <el-table-column width="150" label="进入详情页">-->
+<!--                            <el-button type="primary" @click="Reply()" icon="el-icon-edit">回复</el-button>-->
+<!--                        </el-table-column>-->
                         <el-table-column width="100" label="进入详情页">
-                            <el-link href="./blog.html"><el-button type="primary">查看</el-button></el-link>
+                            <template slot-scope="scope">
+                                <el-button type="primary" @click="onSubmit(scope.row.uid)">查看</el-button>
+                            </template>
                         </el-table-column>
                     </el-table>
                 </el-main>
@@ -178,6 +180,9 @@
             this.fetchname()
         },
         methods: {
+            onSubmit(val){
+                location.href = "blog.html?uid="+val
+            },
             add(val1, val2) {
                 axios({
                     method: "post",
@@ -204,28 +209,28 @@
                     this.fetchdata();
                 })
             },
-            Reply(){
-                this.$prompt('请输入回复内容', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消'
-                }).then(({ value }) => {
-                    axios({
-                        method: "post",
-                        url: '/Reply',
-                        data: value
-                    }).then(resp => {
-                        this.$message({
-                            message: '回复成功！',
-                            type: 'success'
-                        });
-                    })
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '取消回复'
-                    });
-                });
-            },
+            // Reply(){
+            //     this.$prompt('请输入回复内容', '提示', {
+            //         confirmButtonText: '确定',
+            //         cancelButtonText: '取消'
+            //     }).then(({ value }) => {
+            //         axios({
+            //             method: "post",
+            //             url: '/Reply',
+            //             data: value
+            //         }).then(resp => {
+            //             this.$message({
+            //                 message: '回复成功！',
+            //                 type: 'success'
+            //             });
+            //         })
+            //     }).catch(() => {
+            //         this.$message({
+            //             type: 'info',
+            //             message: '取消回复'
+            //         });
+            //     });
+            // },
             fetchname() {
                 axios
                     .get("/getname")

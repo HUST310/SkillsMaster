@@ -111,7 +111,9 @@
                         <el-table-column prop="time" label="关注时间" width="240">
                         </el-table-column>
                         <el-table-column width="120">
-                            <el-link href="./BloggerPage.html"><el-button type="primary">查看主页</el-button></el-link>
+                            <template slot-scope="scope">
+                                <el-button type="primary" @click="onSubmit(scope.row.account)">查看主页</el-button>
+                            </template>
                         </el-table-column>
                     </el-table>
                 </el-main>
@@ -154,6 +156,9 @@
             this.fetchname()
         },
         methods: {
+            onSubmit(val){
+                location.href = " ./BloggerPage.html?uid="+val
+            },
             handleSelectionChange(val) {
                 for (let item of val) {
                     this.multipleSelection.push(item.account);
