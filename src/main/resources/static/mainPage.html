@@ -363,7 +363,8 @@
           <el-pagination
                   background
                   layout="prev, pager, next"
-                  :total="1000">
+                  :total="1000"
+                  @current-change="changePage">
           </el-pagination>
         </div>
       </el-main>
@@ -414,6 +415,8 @@
 
       methods:{
 
+
+
        //updatedBlogs
        getUpdatedBlogs(){
           axios({
@@ -434,7 +437,7 @@
                 url:'/user/searchBlogs',
                 data:{
                   input:this.input,
-                  page:page
+                  page:this.page
                 }
             }).then(resp=>{
                 this.blogs=resp.data;
@@ -474,12 +477,12 @@
         },
 
 
-        getBlogs(page){
+        getBlogs(){
           axios({
                 method:"post",
                 url:'/user/getBlogs',
                 data:{
-                    page:page
+                    page:this.page
                 }
             }).then(resp=>{
                 this.blogs=resp.data;
@@ -488,13 +491,24 @@
 
          getUserInfo(){
         axios({
-            method:"get",
+            method:"post",
             url:'/user/userInfo'
           }).then(resp=>{
             this.userInfo=resp.data;
           });
 
-      }
+      },
+
+
+        changePage(page){
+            this.page=page;
+            if(type==1){
+              getBlogs();
+            }
+            else{
+              search();
+            }
+        }
 
 
       },
@@ -549,6 +563,10 @@
         //footer
         drawer:false,
         direction: 'rtl',
+        page:1,
+
+        //1:searched blogs 0:popular blogs
+        type:1,
 
 
         //search-box

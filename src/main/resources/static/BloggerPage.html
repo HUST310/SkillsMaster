@@ -13,6 +13,8 @@
   <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 
 
+
+
   <style>
   #search-container{
     margin:40px;
@@ -164,7 +166,7 @@
                 <el-row :gutter="20">
                   <el-col :span="6"><div class="grid-content bg-purple">
                     <div class="blogger-info-name">
-                      <font size="6"><b>{{blogger.name}}</b></font>
+                      <font size="6"><b>{{blogger.username}}</b></font>
                     </div>
                   </div></el-col>
 
@@ -182,7 +184,7 @@
                   <el-col :span="4"><div>
                     <div class="blogger-info-blogs">
                       <span>
-                        <font size="5"><b>{{blogger.blogs}}</b></font> 原创
+                        <font size="5"><b>{{blogger.articles}}</b></font> 原创
                       </span>
                       <el-divider direction="vertical"></el-divider>
                     </div>
@@ -191,7 +193,7 @@
                   <el-col :span="4"><div>
                     <div class="blogger-info-followers" style="text-align:left">
                       <span>
-                        <font size="5"><b>{{blogger.followers}}</b></font> 粉丝
+                        <font size="5"><b>{{blogger.fans}}</b></font> 粉丝
                       </span>
                     </div>
                   </div></el-col>
@@ -313,29 +315,6 @@
 
 
 
-
-        //blogger
-
-        getInfo(){
-           //get account of blogger
-          let reg = new RegExp("(^|&)" + "account" + "=([^&]*)(&|$)");
-          let r = window.location.search.substr(1).match(reg);
-          if (r != null)
-          {
-              axios({
-                  method:"post",
-                  url:'/user/getBloggerInfo',
-                  data:{
-                      account:unescape(r[2])
-                  }
-              }).then(resp=>{
-                  this.blogger=resp.data;
-              });
-          }
-
-        },
-
-
         subscribe()
         {
             if(this.followed==1)
@@ -347,7 +326,7 @@
 
               axios({
                   method:"post",
-                  url:'/user/UnFollow',
+                  url:'/user/unFollow',
                   data:{
                       account:this.blogger.account
                   }
@@ -430,16 +409,37 @@
 
             });
             location.href="Login.html";
+        },
+
+
+        //blogger
+        getInfo()
+        {
+           //get account of blogger
+          let reg = new RegExp("(^|&)" + "account" + "=([^&]*)(&|$)");
+          let r = window.location.search.substr(1).match(reg);
+          if (r != null)
+          {
+
+              this.blogger.account=unescape(r[2]);
+              axios({
+                  method:"post",
+                  url:'/user/getBloggerInfo',
+                  data:{
+                      account:unescape(r[2])
+                  }
+              }).then(resp=>{
+                  this.blogger=resp.data;
+              });
+          }
+
         }
+
+
+
       },
 
       mounted(){
-
-
-
-
-
-
 
 
         if(this.followed==1)
@@ -447,9 +447,9 @@
           $("#subscribeButton").prop("innerText","取消关注");
         }
 
-        getInfo();
+        this.getInfo();
 
-        getBlogs(1);
+        this.getBlogs(1);
 
 
       },
@@ -468,13 +468,14 @@
         direction: 'rtl',
 
            input:'',
+
            blogger:{
-            name:'DoE',
-            blogs:100,
-            followers:1000,
+            username:'DoE',
+            articles:100,
+            fans:1000,
             avatar:"user1-avatar.png",
-            account:123456,
-            signature:"用户未设置签名"
+            signature:"用户未设置签名",
+            account:''
 
 
           },
