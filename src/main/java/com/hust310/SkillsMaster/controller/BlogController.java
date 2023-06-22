@@ -2,6 +2,7 @@ package com.hust310.SkillsMaster.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hust310.SkillsMaster.config.BaiduAPI;
 import com.hust310.SkillsMaster.domain.*;
 import com.hust310.SkillsMaster.service.*;
 import org.apache.commons.io.FileUtils;
@@ -240,6 +241,9 @@ public class BlogController {
         blog.setContent("blogs/" + fileName);
         blog.setTag(String.join(",", (List<String>) param.get("value1")));
         blog.setOwner((Integer) session.getAttribute("uid"));
+        if(BaiduAPI.client.textCensorUserDefined(blog.toString()).get("conclusion").equals("不合规")){
+            return "violation";
+        }
         blogsService.saveOrUpdate(blog);
         return "success";
     }
