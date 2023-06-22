@@ -3,6 +3,7 @@ package com.hust310.SkillsMaster;
 import com.baidu.aip.contentcensor.AipContentCensor;
 import com.baidu.aip.contentcensor.EImgType;
 import com.hust310.SkillsMaster.config.BaiduAPI;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
@@ -15,12 +16,12 @@ public class BaiduApiTest {
 
 
     @Test
-    public void testText() {
+    public void testText() throws JSONException {
 
         //AipContentCensor client=new AipContentCensor(BaiduAPI.APP_ID, BaiduAPI.API_KEY, BaiduAPI.SECRET_KEY);
         String text="蔡英文";
         JSONObject response = BaiduAPI.client.textCensorUserDefined(text);
-        System.out.println(response.toString());
+        System.out.println(response.get("conclusion"));
     }
 
     @Test
