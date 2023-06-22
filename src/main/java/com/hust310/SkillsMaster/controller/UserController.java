@@ -1,6 +1,7 @@
 package com.hust310.SkillsMaster.controller;
 
 import com.baidu.aip.contentcensor.AipContentCensor;
+import com.baidu.aip.contentcensor.EImgType;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hust310.SkillsMaster.config.BaiduAPI;
 import com.hust310.SkillsMaster.domain.*;
@@ -23,10 +24,7 @@ import org.springframework.web.multipart.support.StandardMultipartHttpServletReq
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 public class UserController {
@@ -55,6 +53,9 @@ public class UserController {
 
     @PostMapping("/register")
     public Integer register(@RequestBody User user) {
+        if(BaiduAPI.client.textCensorUserDefined(user.getUsername()).get("conclusion").equals("不合规")){
+            return 0;
+        }
         if (userService.getOne(
                 new QueryWrapper<User>().
                         eq("username", user.getUsername())) == null) {
@@ -67,13 +68,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/user/test")
-    public String baiduAPITest(){
-        AipContentCensor client=new AipContentCensor(BaiduAPI.APP_ID, BaiduAPI.API_KEY, BaiduAPI.SECRET_KEY);
-        String text="蔡英文";
-        JSONObject response = client.textCensorUserDefined(text);
-        return response.toString();
-    }
+
 
 
     @PostMapping("/user/userInfo")
@@ -122,6 +117,13 @@ public class UserController {
 
     @PostMapping("/modifyUserInfo")
     public String modifyUserInfo(StandardMultipartHttpServletRequest request, HttpSession session) throws IOException {
+        for(Map.Entry<String, String[]> map:request.getParameterMap().entrySet()){
+            if(BaiduAPI.client.textCensorUserDefined(Arrays.toString(map.getValue()))
+                    .get("conclusion")
+                    .equals("不合规")){
+                return "violation";
+            }
+        }
         User user = new User();
         user.setAccount((Integer) session.getAttribute("uid"));
 
@@ -140,6 +142,10 @@ public class UserController {
             FileUtils.writeByteArrayToFile(file1, file.getBytes());
 
             user.setAvatar("img/" + fileName);
+            if(BaiduAPI.client.imageCensorUserDefined(file1.getAbsolutePath(), EImgType.FILE,null)
+                    .get("conclusion").equals("不合规")){
+                return "violation";
+            }
         }
         userService.saveOrUpdate(user);
         return "success";

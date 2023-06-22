@@ -100,7 +100,7 @@ public class CommentController {
     }
     @PostMapping("/getComments")
     public Page<Ccomments> getComments(Integer uid, Integer page) {
-        Page<Ccomments> ccommentsPage = ccommentsService.page(new Page<>(page, 5), new QueryWrapper<Ccomments>().eq("uid", uid));
+        Page<Ccomments> ccommentsPage = ccommentsService.page(new Page<>(page, 10), new QueryWrapper<Ccomments>().eq("uid", uid));
         return ccommentsPage;
     }
 
