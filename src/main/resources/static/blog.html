@@ -342,7 +342,7 @@
                           <el-row>
                             <el-col :span="4"><div class="grid-content bg-purple">
                               <div class="sub-comment-commentor-info" @click="access(subComment.commentorInfo.account)">
-                                <font size="2"><b>{{subComment.commentorInfo.name}}</b></b></font>
+                                <font size="2"><b>{{subComment.commentorInfo.username}}</b></b></font>
                               </div>
 
                             </div></el-col>
@@ -353,7 +353,7 @@
 
                             <el-col :span="4"><div class="grid-content bg-purple">
                               <div class="sub-comment-commentee-info" @click="access(subComment.commenteeInfo.account)">
-                                <font size="2"><b>{{subComment.commenteeInfo.name}}</b></b></font>
+                                <font size="2"><b>{{subComment.commenteeInfo.username}}</b></b></font>
                               </div>
 
                             </div></el-col>
@@ -520,7 +520,7 @@
         this.dialogVisible = true;
 
         this.commentee.name=info.username;
-        alert(this.commentee.name);
+
         this.commentee.account=info.account;
 
         this.receiverUid=uid;
@@ -542,6 +542,10 @@
                    type:0
                 }
             }).then(resp=>{
+                this.$message({
+                    message: '发布成功！',
+                    type: 'success'
+              });
             });
           },
 
@@ -556,6 +560,10 @@
                  type:1
                 }
             }).then(resp=>{
+                    this.$message({
+                    message: '发布成功！',
+                    type: 'success'
+              });
             });
           },
 
@@ -576,11 +584,17 @@
                   page:page
                 }
             }).then(resp=>{
-                for(comment in this.comments)
+                for(var i=0;i<this.comments.length;i++)
                 {
-                  if(comment.uid==uid)
+
+
+
+                  if(this.comments[i].uid==uid)
                   {
-                    comment.subComments=resp.data;
+
+                    this.comments[i].subComments=resp.data;
+
+
                     break;
                   }
                 }
@@ -602,30 +616,18 @@
                 }
             }).then(resp=>{
 
-<!--                var com={-->
-<!--                  commentorInfo:{-->
-<!--                      username:'',-->
-<!--                      avatar:'',-->
-<!--                      account:''-->
-<!--                    },-->
+                for(let i=0;i<resp.data.length;i++)
+                {
+                  this.comments[i].comment=resp.data[i].comment;
+                  this.comments[i].commentorInfo=resp.data[i].commentorInfo;
+                  this.comments[i].content=resp.data[i].content;
+                  this.comments[i].likes=resp.data[i].likes;
+                  this.comments[i].time=resp.data[i].time;
+                  this.comments[i].uid=resp.data[i].uid;
+                }
 
-<!--                    content:'',-->
-<!--                    time:'',-->
-<!--                    like:'',-->
-<!--                    uid:'',-->
 
-<!--                };-->
 
-<!--                com.commentorInfo.username=resp.data[0].commentorInfo.username;-->
-<!--                com.content=resp.data[0].content;-->
-<!--                com.like=resp.data[0].like;-->
-<!--                com.uid=resp.data[0].uid;-->
-<!--                com.time=resp.data[0].time;-->
-
-<!--                alert(com.like);-->
-                this.comments=resp.data;
-
-<!--                this.comments.push(com);-->
             });
           },
 
@@ -748,9 +750,6 @@
                       avatar:"user1-avatar.png",
                       account:123456
                     },
-
-
-
                     content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
                     time:"1145-1-4 11:45:14",
                     likes:114,
@@ -763,13 +762,13 @@
                         likes:114,
                         commentorInfo:
                         {
-                        name:"commentorInfo",
-                        avatar:"",
-                        account:12345
+                          username:"commentorInfo",
+                          avatar:"",
+                          account:12345
                         },
                         commenteeInfo:
                         {
-                          name:"commenteeInfo",
+                          username:"commenteeInfo",
                           avatar:"",
                           account:12345
                         }

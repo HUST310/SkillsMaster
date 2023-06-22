@@ -432,6 +432,7 @@
 
       //search-box
         search(){
+          this.type=0;
           axios({
                 method:"post",
                 url:'/user/searchBlogs',
@@ -502,11 +503,12 @@
 
         changePage(page){
             this.page=page;
-            if(type==1){
-              getBlogs();
+
+            if(this.type==1){
+              this.getBlogs();
             }
             else{
-              search();
+              this.search();
             }
         }
 
