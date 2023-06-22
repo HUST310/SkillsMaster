@@ -67,13 +67,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/user/test")
-    public String baiduAPITest(){
-        AipContentCensor client=new AipContentCensor(BaiduAPI.APP_ID, BaiduAPI.API_KEY, BaiduAPI.SECRET_KEY);
-        String text="蔡英文";
-        JSONObject response = client.textCensorUserDefined(text);
-        return response.toString();
-    }
+
 
 
     @PostMapping("/user/userInfo")

@@ -3,6 +3,7 @@ package com.hust310.SkillsMaster.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hust310.SkillsMaster.config.BaiduAPI;
 import com.hust310.SkillsMaster.domain.*;
 import com.hust310.SkillsMaster.domain.Blogcomments;
 import com.hust310.SkillsMaster.domain.Blogs;
@@ -11,6 +12,7 @@ import com.hust310.SkillsMaster.service.BlogcommentsService;
 import com.hust310.SkillsMaster.service.BlogsService;
 import com.hust310.SkillsMaster.service.CcommentsService;
 import com.hust310.SkillsMaster.service.UserService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -166,13 +168,19 @@ public class CommentController {
 
 
     @PostMapping("/user/sendComment")
-    public void addComment(@RequestBody Map<String, Object> map,HttpSession session){
+    public Integer addComment(@RequestBody Map<String, Object> map,HttpSession session){
         session.setAttribute("uid",1);
         Integer type= (Integer)map.get("type");
+        String content = (String)map.get("content");
+        JSONObject response = BaiduAPI.client.textCensorUserDefined(content);
+        String conclusion = (String) response.get("conclusion");
+        if(conclusion.equals("不合规")) {
+            return 0;
+        }
         if(type==1) {
             Integer receiver = (Integer) map.get("receiver");
             Blogcomments comments=new Blogcomments();
-            comments.setContent((String)map.get("content"));
+            comments.setContent(content);
             comments.setCommentor((Integer) session.getAttribute("uid"));
             comments.setCommentee((Integer) map.get("commentee"));
             comments.setReceiver(receiver);
@@ -193,6 +201,7 @@ public class CommentController {
             blogcomments.addComment();
             blogcommentsService.saveOrUpdate(blogcomments);
         }
+        return 1;
     }
 
     @PostMapping("/Comments/add2")
