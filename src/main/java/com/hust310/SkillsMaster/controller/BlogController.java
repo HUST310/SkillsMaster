@@ -64,27 +64,29 @@ public class BlogController {
 
     @PostMapping("/user/getUpdatedBlogs")
     public List<BlogResponse> getUpdatedBlogs(HttpSession session) {
-        session.setAttribute("uid", 1);
+        List<BlogResponse> blogResponses = new ArrayList<>();
+        session.setAttribute("uid", 3);
         Integer account = (Integer) session.getAttribute("uid");
         List<Integer> bloggers = followService.list(new QueryWrapper<Follow>().eq("follower", account))
                 .stream().map(Follow::getBlogger).collect(Collectors.toList());
-        List<BlogResponse> blogResponses = new ArrayList<>();
-        List<Blogs> followBlogs = blogsService.list(new QueryWrapper<Blogs>().in("owner", bloggers).orderByDesc("time"));
-        for (int i = 0; i < followBlogs.size(); i++) {
-            BlogResponse blogResponse = new BlogResponse();
-            Blogs followBlog = followBlogs.get(i);
-            Integer bloggerId = followBlog.getOwner();
-            User blogger = userService.getById(bloggerId);
-            blogResponse.setAccount(blogger.getAccount());
-            blogResponse.setAvatar(blogger.getAvatar());
-            blogResponse.setName(blogger.getUsername());
-            blogResponse.setComment(followBlog.getComment());
-            blogResponse.setLike(followBlog.getLikes());
-            blogResponse.setTitle(followBlog.getTitle());
-            blogResponse.setContent(followBlog.getContent());
-            blogResponse.setTime(followBlog.getTime());
-            blogResponse.setUid(followBlog.getUid());
-            blogResponses.add(blogResponse);
+        if(bloggers.size() > 0){
+            List<Blogs> followBlogs = blogsService.list(new QueryWrapper<Blogs>().in("owner", bloggers).orderByDesc("time"));
+            for (int i = 0; i < followBlogs.size(); i++) {
+                BlogResponse blogResponse = new BlogResponse();
+                Blogs followBlog = followBlogs.get(i);
+                Integer bloggerId = followBlog.getOwner();
+                User blogger = userService.getById(bloggerId);
+                blogResponse.setAccount(blogger.getAccount());
+                blogResponse.setAvatar(blogger.getAvatar());
+                blogResponse.setName(blogger.getUsername());
+                blogResponse.setComment(followBlog.getComment());
+                blogResponse.setLike(followBlog.getLikes());
+                blogResponse.setTitle(followBlog.getTitle());
+                blogResponse.setContent(followBlog.getContent());
+                blogResponse.setTime(followBlog.getTime());
+                blogResponse.setUid(followBlog.getUid());
+                blogResponses.add(blogResponse);
+            }
         }
         return blogResponses;
     }
