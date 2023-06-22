@@ -18,11 +18,11 @@ public class MvcConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(new HandlerInterceptor() {
             @Override
             public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//                System.out.println(request.getRequestURL());
-//                return HandlerInterceptor.super.preHandle(request, response, handler);
                 log.info(request.getRequestURI());
+                if (request.getSession().getAttribute("uid") == null)
+                    return true;
                 return true;
             }
-        }).addPathPatterns("/**").excludePathPatterns("/index");
+        }).addPathPatterns("/**").excludePathPatterns("/login*", "/register*");
     }
 }
