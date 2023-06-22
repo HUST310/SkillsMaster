@@ -2,14 +2,8 @@ package com.hust310.SkillsMaster.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hust310.SkillsMaster.domain.BlogResponse;
-import com.hust310.SkillsMaster.domain.Blogs;
-import com.hust310.SkillsMaster.domain.Follow;
-import com.hust310.SkillsMaster.domain.User;
-import com.hust310.SkillsMaster.service.BlogsService;
-import com.hust310.SkillsMaster.service.FollowService;
-import com.hust310.SkillsMaster.service.TagsService;
-import com.hust310.SkillsMaster.service.UserService;
+import com.hust310.SkillsMaster.domain.*;
+import com.hust310.SkillsMaster.service.*;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +29,11 @@ public class BlogController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BlogcommentsService blogcommentsService;
+
+    @Autowired
+    private CcommentsService ccommentsService;
 //    @PostMapping("/user/getUpdatedBlogs")
 //    public List<BlogResponse> getBlogs(HttpSession session, @RequestBody Map<String, Integer> request) {
 //        session.setAttribute("uid", 1);
@@ -200,6 +199,30 @@ public class BlogController {
         blogsService.saveOrUpdateBatch(blogs);
         return "success";
     }
+
+    @PostMapping("/user/like")
+    public void addLike(@RequestBody Map<String, Integer> request) {
+        Integer uid = request.get("uid");
+        Integer type=request.get("type");
+        if(type==0){
+            Blogs blog = blogsService.getById(uid);
+            blog.addLikes();
+            blogsService.saveOrUpdate(blog);
+        }
+        else if(type==1){
+            Blogcomments blogcomments = blogcommentsService.getById(uid);
+            blogcomments.addLikes();
+            blogcommentsService.saveOrUpdate(blogcomments);
+
+        }
+        else {
+            Ccomments ccomments = ccommentsService.getById(uid);
+            ccomments.addLikes();
+            ccommentsService.saveOrUpdate(ccomments);
+        }
+
+    }
+
 
     @PostMapping("/write")
     public String addBlog(@RequestBody Map<String, Object> param, HttpSession session) throws IOException {

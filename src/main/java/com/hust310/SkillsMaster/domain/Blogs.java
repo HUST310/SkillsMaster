@@ -69,4 +69,12 @@ public class Blogs implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    public void addLikes(){
+       ++likes;
+    }
+
+    public void addComment(){
+       ++comment;
+    }
 }

@@ -1,6 +1,8 @@
 package com.hust310.SkillsMaster.controller;
 
+import com.baidu.aip.contentcensor.AipContentCensor;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.hust310.SkillsMaster.config.BaiduAPI;
 import com.hust310.SkillsMaster.domain.*;
 import com.hust310.SkillsMaster.service.BlogcommentsService;
 import com.hust310.SkillsMaster.service.BlogsService;
@@ -8,6 +10,7 @@ import com.hust310.SkillsMaster.service.FollowService;
 import com.hust310.SkillsMaster.service.UserService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,6 +66,15 @@ public class UserController {
             return null;
         }
     }
+
+    @PostMapping("/user/test")
+    public String baiduAPITest(){
+        AipContentCensor client=new AipContentCensor(BaiduAPI.APP_ID, BaiduAPI.API_KEY, BaiduAPI.SECRET_KEY);
+        String text="蔡英文";
+        JSONObject response = client.textCensorUserDefined(text);
+        return response.toString();
+    }
+
 
     @PostMapping("/user/userInfo")
     public User getUserInfo(HttpSession session) {

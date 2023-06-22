@@ -57,7 +57,7 @@ public class CommentController {
             commentResponse.setCommentorInfo(commentor);
             commentResponse.setComment(blogcomment.getComment());
             commentResponse.setContent(blogcomment.getContent());
-            commentResponse.setLike(blogcomment.getLikes());
+            commentResponse.setLikes(blogcomment.getLikes());
             commentResponse.setTime(blogcomment.getTime());
             commentResponse.setUid(blogcomment.getUid());
             commentResponses.add(commentResponse);
@@ -91,7 +91,7 @@ public class CommentController {
             commentResponse.setCommentorInfo(commentor);
             commentResponse.setComment(cComment.getComment());
             commentResponse.setContent(cComment.getContent());
-            commentResponse.setLike(cComment.getLikes());
+            commentResponse.setLikes(cComment.getLikes());
             commentResponse.setTime(cComment.getTime());
             commentResponse.setUid(cComment.getUid());
             commentResponses.add(commentResponse);
@@ -166,23 +166,32 @@ public class CommentController {
 
 
     @PostMapping("/user/sendComment")
-    public void addComment(@RequestBody Map<String, Object> map){
+    public void addComment(@RequestBody Map<String, Object> map,HttpSession session){
+        session.setAttribute("uid",1);
         Integer type= (Integer)map.get("type");
         if(type==1) {
+            Integer receiver = (Integer) map.get("receiver");
             Blogcomments comments=new Blogcomments();
             comments.setContent((String)map.get("content"));
-            comments.setCommentor((Integer) map.get("commentor"));
+            comments.setCommentor((Integer) session.getAttribute("uid"));
             comments.setCommentee((Integer) map.get("commentee"));
-            comments.setReceiver((Integer) map.get("receiver"));
+            comments.setReceiver(receiver);
             blogcommentsService.save(comments);
+            Blogs blogs = blogsService.getById(receiver);
+            blogs.addComment();
+            blogsService.saveOrUpdate(blogs);
         }
         else {
+            Integer receiver = (Integer) map.get("receiver");
             Ccomments comments=new Ccomments();
             comments.setContent((String)map.get("content"));
-            comments.setCommentor((Integer) map.get("commentor"));
+            comments.setCommentor((Integer) session.getAttribute("uid"));
             comments.setCommentee((Integer) map.get("commentee"));
-            comments.setReceiver((Integer) map.get("receiver"));
+            comments.setReceiver(receiver);
             ccommentsService.save(comments);
+            Blogcomments blogcomments = blogcommentsService.getById(receiver);
+            blogcomments.addComment();
+            blogcommentsService.saveOrUpdate(blogcomments);
         }
     }
 

@@ -62,6 +62,13 @@ public class Ccomments implements Serializable {
      */
     private Object state;
 
+    public void addLikes(){
+        likes++;
+    }
+
+    public void addComment(){
+        ++comment;
+    }
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

@@ -10,7 +10,7 @@ public class CommentResponse {
     private User commenteeInfo;
     private Date time;
     private String title;
-    private Integer like;
+    private Integer likes;
     private Integer comment;
     private Integer uid;
     private String content;
