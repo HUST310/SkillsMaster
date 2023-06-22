@@ -17,17 +17,17 @@ public class BaiduApiTest {
     @Test
     public void testText() {
 
-        AipContentCensor client=new AipContentCensor(BaiduAPI.APP_ID, BaiduAPI.API_KEY, BaiduAPI.SECRET_KEY);
+        //AipContentCensor client=new AipContentCensor(BaiduAPI.APP_ID, BaiduAPI.API_KEY, BaiduAPI.SECRET_KEY);
         String text="蔡英文";
-        JSONObject response = client.textCensorUserDefined(text);
+        JSONObject response = BaiduAPI.client.textCensorUserDefined(text);
         System.out.println(response.toString());
     }
 
     @Test
     public void testImage() {
-        AipContentCensor client=new AipContentCensor(BaiduAPI.APP_ID, BaiduAPI.API_KEY, BaiduAPI.SECRET_KEY);
+        //AipContentCensor client=new AipContentCensor(BaiduAPI.APP_ID, BaiduAPI.API_KEY, BaiduAPI.SECRET_KEY);
         String url="https://tse4-mm.cn.bing.net/th/id/OIP-C.kHinIF0bOKfFmAOxpibyfwAAAA?w=132&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7";
-        JSONObject response = client.imageCensorUserDefined(url, EImgType.URL, null);
+        JSONObject response = BaiduAPI.client.imageCensorUserDefined(url, EImgType.URL, null);
         System.out.println(response.toString());
     }
 
