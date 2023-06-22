@@ -303,7 +303,7 @@
                           </div></el-col>
                           <el-col :span="3"><div class="grid-content bg-purple">
                             <span class="sub-comment-button" >
-                                <el-button type="text" @click="callReplyBox(comment.uid,comment)"><font size="3"><b>回复</b></b></font></el-button>
+                                <el-button type="text" @click="callReplyBox(comment.uid,comment.commentorInfo)"><font size="3"><b>回复</b></b></font></el-button>
 
 
                             </span>
@@ -449,9 +449,6 @@
     new Vue({
       el: '#app',
       methods: {
-
-
-
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
       },
@@ -487,7 +484,7 @@
 
       //navigation-bar
       accessPersonalPage(){
-           location.href="Personal.html";
+           location.href="Information.html";
       },
 
       backToMainPage(){
@@ -509,7 +506,8 @@
         callReplyBox(uid,info){
         this.dialogVisible = true;
 
-        this.commentee.name=info.name;
+        this.commentee.name=info.username;
+        alert(this.commentee.name);
         this.commentee.account=info.account;
 
         this.receiverUid=uid;
@@ -525,10 +523,10 @@
                 method:"post",
                 url:'/user/sendComment',
                 data:{
-                 content:this.textareaToComment,
-                 receiver:this.receiverUid,
-                 commentee:this.commentee.account,
-                 type:0
+                   content:this.textareaToComment,
+                   receiver:this.receiverUid,
+                   commentee:this.commentee.account,
+                   type:0
                 }
             }).then(resp=>{
             });
@@ -542,7 +540,7 @@
                  content:this.textareaToBlog,
                  receiver:this.blog.uid,
                  commentee:this.blogger.account,
-                 type:0
+                 type:1
                 }
             }).then(resp=>{
             });
@@ -620,13 +618,15 @@
 
 
 
-         //get  info of blog
-          getBlogInfo(){
+         //get necessary info
+          getInfo(){
           let reg = new RegExp("(^|&)" + "uid" + "=([^&]*)(&|$)");
           let r = window.location.search.substr(1).match(reg);
           if (r != null)
           {
               this.blog.uid=unescape(r[2]);
+              this.getComments(1,this.blog.uid);
+              this.getUserInfo();
               axios({
                   method:"post",
                   url:'/user/getBlog',
@@ -635,12 +635,18 @@
                   }
               }).then(resp=>{
                   this.blog=resp.data;
+
+                  $("#content").load(this.blog.content);
+
+
+
+
               });
           }
 
         },
 
-        getInfo(){
+        getUserInfo(){
           axios({
                   method:"post",
                   url:'/user/userInfo',
@@ -665,11 +671,12 @@
 
       mounted(){
 
-          this.getBlogInfo();
           this.getInfo();
 
-          $("#content").load(this.blog.content);
-          this.getComments(1,this.blog.uid);
+
+
+
+
 
         },
       data: function() {
