@@ -73,8 +73,7 @@ public class UserController {
 
     @PostMapping("/user/userInfo")
     public User getUserInfo(HttpSession session) {
-        //Integer uid = (Integer) session.getAttribute("uid");
-        Integer uid = 1;
+        Integer uid = (Integer) session.getAttribute("uid");
         User user = userService.getOne(new QueryWrapper<User>().eq("account", uid));
         user.setPassword(null);
         return user;
