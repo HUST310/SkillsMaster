@@ -123,7 +123,8 @@
                                 <el-form-item id="button1">
                                     <el-button type="primary" @click="register">注册</el-button>
                                     <el-link href="./Login.html" :underline="false" target="_blank"
-                                             style="position: relative;left:20px">返回登录</el-link>
+                                             style="position: relative;left:20px">返回登录
+                                    </el-link>
                                 </el-form-item>
                             </el-form>
                         </el-card>
@@ -172,15 +173,14 @@
                         }
                     }).then(resp => {
                         resp.data;
-                        if(resp.data>0 ){
-                        this.$alert('你的账号是:\n' + resp.data, '注册成功', {
-                            confirmButtonText: '确定',
-                            callback: action => {
-                                document.location = "./Login.html";
-                            }
-                        });
-                        }
-                        else{
+                        if (resp.data != '0') {
+                            this.$alert('你的账号是:\n' + resp.data, '注册成功', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    document.location = "./Login.html";
+                                }
+                            });
+                        } else {
                             this.$alert('用户名违规', {
                                 confirmButtonText: '确定',
                             });

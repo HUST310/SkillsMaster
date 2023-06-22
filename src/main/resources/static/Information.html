@@ -362,7 +362,7 @@
                     data: form
                 }).then(resp => {
                     resp.data;
-                    if(resp.data=='violations' ){
+                    if(resp.data!='violation' ){
                         this.$message({
                             message: '修改成功！',
                             type: 'success'
