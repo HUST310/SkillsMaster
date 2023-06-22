@@ -73,13 +73,13 @@ public class UserController {
         return user;
     }
 
-    @PostMapping("/user/getBloggerInfo")
-    public User getUserInfo(@RequestBody Map<String,Integer> request) {
-        return userService.getById(request.get("account"));
-    }
+//    @PostMapping("/user/getBloggerInfo")
+//    public User getUserInfo(@RequestBody Map<String,Integer> request) {
+//        return userService.getById(request.get("account"));
+//    }
 
     /* 访问博主主页，获取博主个人信息*/
-    @PostMapping("/user/accessBlogger")
+    @PostMapping("/user/getBloggerInfo")
     public BloggerInfo getBloggerInfo(@RequestBody Map<String, Integer> request) {
         Integer account = request.get("account");
         User user = userService.getOne(new QueryWrapper<User>().eq("account", account));
