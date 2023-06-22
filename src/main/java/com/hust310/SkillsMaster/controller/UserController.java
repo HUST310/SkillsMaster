@@ -75,7 +75,8 @@ public class UserController {
 
     @PostMapping("/user/getBloggerInfo")
     public User getUserInfo(@RequestBody Map<String,Integer> request) {
-        return userService.getById(request.get("account"));
+        Blogs blog = blogsService.getById(request.get("uid"));
+        return userService.getById(blog.getUid());
     }
 
     /* 访问博主主页，获取博主个人信息*/

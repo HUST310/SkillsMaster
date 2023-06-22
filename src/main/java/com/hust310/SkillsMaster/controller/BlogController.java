@@ -65,7 +65,7 @@ public class BlogController {
     @PostMapping("/user/getUpdatedBlogs")
     public List<BlogResponse> getUpdatedBlogs(HttpSession session) {
         List<BlogResponse> blogResponses = new ArrayList<>();
-        session.setAttribute("uid", 3);
+        session.setAttribute("uid", 1);
         Integer account = (Integer) session.getAttribute("uid");
         List<Integer> bloggers = followService.list(new QueryWrapper<Follow>().eq("follower", account))
                 .stream().map(Follow::getBlogger).collect(Collectors.toList());
@@ -153,6 +153,11 @@ public class BlogController {
             blogResponses.add(blogResponse);
         }
         return blogResponses;
+    }
+
+    @PostMapping("/user/getBlog")
+    public Blogs getABlog(@RequestBody Map<String, Integer> request){
+       return  blogsService.getById(request.get("uid"));
     }
 
     @PostMapping("/user/getBlogsOfBlogger")
