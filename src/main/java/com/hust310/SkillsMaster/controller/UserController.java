@@ -73,7 +73,7 @@ public class UserController {
         return user;
     }
 
-    @PostMapping("/user/getBloggerInfoByUidOfBlog\n")
+    @PostMapping("/user/getBloggerInfoByUidOfBlog")
     public User getUserInfo(@RequestBody Map<String,Integer> request) {
         Blogs blog = blogsService.getById(request.get("uid"));
         return userService.getById(blog.getUid());
@@ -100,7 +100,7 @@ public class UserController {
 
     @GetMapping("/getUserInfo")
     public User getUserInfo1(HttpSession session) {
-        session.setAttribute("uid", 1);
+        //session.setAttribute("uid", 1);
         Integer uid = (Integer) session.getAttribute("uid");
         User user = userService.getOne(new QueryWrapper<User>().eq("account", uid));
         user.setPassword("");

@@ -65,7 +65,7 @@ public class BlogController {
     @PostMapping("/user/getUpdatedBlogs")
     public List<BlogResponse> getUpdatedBlogs(HttpSession session) {
         List<BlogResponse> blogResponses = new ArrayList<>();
-        session.setAttribute("uid", 1);
+        //session.setAttribute("uid", 1);
         Integer account = (Integer) session.getAttribute("uid");
         List<Integer> bloggers = followService.list(new QueryWrapper<Follow>().eq("follower", account))
                 .stream().map(Follow::getBlogger).collect(Collectors.toList());
