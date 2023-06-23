@@ -1,6 +1,5 @@
 package com.hust310.SkillsMaster.controller;
 
-import com.baidu.aip.contentcensor.AipContentCensor;
 import com.baidu.aip.contentcensor.EImgType;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hust310.SkillsMaster.config.BaiduAPI;
@@ -9,6 +8,7 @@ import com.hust310.SkillsMaster.service.BlogcommentsService;
 import com.hust310.SkillsMaster.service.BlogsService;
 import com.hust310.SkillsMaster.service.FollowService;
 import com.hust310.SkillsMaster.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
@@ -24,8 +24,12 @@ import org.springframework.web.multipart.support.StandardMultipartHttpServletReq
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
+@Slf4j
 @RestController
 public class UserController {
     @Autowired
@@ -53,7 +57,9 @@ public class UserController {
 
     @PostMapping("/register")
     public Integer register(@RequestBody User user) {
-        if(BaiduAPI.client.textCensorUserDefined(user.getUsername()).get("conclusion").equals("不合规")){
+        JSONObject texted = BaiduAPI.client.textCensorUserDefined(user.getUsername());
+        if (!texted.has("conclusion") ||
+                texted.get("conclusion").equals("不合规")) {
             return 0;
         }
         if (userService.getOne(
@@ -69,19 +75,16 @@ public class UserController {
     }
 
 
-
-
     @PostMapping("/user/userInfo")
     public User getUserInfo(HttpSession session) {
-        //Integer uid = (Integer) session.getAttribute("uid");
-        Integer uid = 1;
+        Integer uid = (Integer) session.getAttribute("uid");
         User user = userService.getOne(new QueryWrapper<User>().eq("account", uid));
         user.setPassword(null);
         return user;
     }
 
     @PostMapping("/user/getBloggerInfoByUidOfBlog")
-    public User getUserInfo(@RequestBody Map<String,Integer> request) {
+    public User getUserInfo(@RequestBody Map<String, Integer> request) {
         Blogs blog = blogsService.getById(request.get("uid"));
         return userService.getById(blog.getUid());
     }
@@ -117,13 +120,6 @@ public class UserController {
 
     @PostMapping("/modifyUserInfo")
     public String modifyUserInfo(StandardMultipartHttpServletRequest request, HttpSession session) throws IOException {
-        for(Map.Entry<String, String[]> map:request.getParameterMap().entrySet()){
-            if(BaiduAPI.client.textCensorUserDefined(Arrays.toString(map.getValue()))
-                    .get("conclusion")
-                    .equals("不合规")){
-                return "violation";
-            }
-        }
         User user = new User();
         user.setAccount((Integer) session.getAttribute("uid"));
 
@@ -142,11 +138,19 @@ public class UserController {
             FileUtils.writeByteArrayToFile(file1, file.getBytes());
 
             user.setAvatar("img/" + fileName);
-            if(BaiduAPI.client.imageCensorUserDefined(file1.getAbsolutePath(), EImgType.FILE,null)
-                    .get("conclusion").equals("不合规")){
+            JSONObject imaged = BaiduAPI.client.imageCensorUserDefined(file1.getAbsolutePath(), EImgType.FILE, null);
+            log.info(imaged.toString());
+            if (!imaged.has("conclusion") ||
+                    imaged.get("conclusion").equals("不合规")) {
                 return "violation";
             }
         }
+        JSONObject texted = BaiduAPI.client.textCensorUserDefined(user.toString());
+        log.info(texted.toString());
+        if (!texted.has("conclusion") || texted.get("conclusion").equals("不合规")) {
+            return "violation";
+        }
+
         userService.saveOrUpdate(user);
         return "success";
     }

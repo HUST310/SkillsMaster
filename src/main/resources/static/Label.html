@@ -254,6 +254,16 @@
             onSubmit(val){
                 location.href = "blog.html?uid="+val
             },
+            getout(){
+                axios({
+                    method: "post",
+                    url: '/user/logout',
+                    data: {
+                    }
+                }).then(resp => {
+                })
+                location.href = "Login.html"
+            },
             change() {
                 this.$confirm('是否修改内容?', '提示', {
                     confirmButtonText: '确定',
@@ -297,7 +307,7 @@
                     .get("/getname")
                     .then(
                         response => {
-                            this.name = response.name;
+                            this.name = response.data;
                         },
                         response => {
                             console.log("error");

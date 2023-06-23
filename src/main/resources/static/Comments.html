@@ -253,7 +253,7 @@
                     .get("/getname")
                     .then(
                         response => {
-                            this.name = response.name;
+                            this.name = response.data;
                         },
                         response => {
                             console.log("error");
@@ -281,6 +281,16 @@
                             alert("请求失败");
                         }
                     )
+            },
+            getout(){
+                axios({
+                    method: "post",
+                    url: '/user/logout',
+                    data: {
+                    }
+                }).then(resp => {
+                })
+                location.href = "Login.html"
             },
             deleteByQuery() {
                 this.$confirm('是否删除内容?', '提示', {

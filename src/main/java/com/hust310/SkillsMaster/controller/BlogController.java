@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hust310.SkillsMaster.config.BaiduAPI;
 import com.hust310.SkillsMaster.domain.*;
 import com.hust310.SkillsMaster.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 
 @RestController
 public class BlogController {
@@ -69,7 +72,7 @@ public class BlogController {
         Integer account = (Integer) session.getAttribute("uid");
         List<Integer> bloggers = followService.list(new QueryWrapper<Follow>().eq("follower", account))
                 .stream().map(Follow::getBlogger).collect(Collectors.toList());
-        if(bloggers.size() > 0){
+        if (bloggers.size() > 0) {
             List<Blogs> followBlogs = blogsService.list(new QueryWrapper<Blogs>().in("owner", bloggers).orderByDesc("time"));
             for (int i = 0; i < followBlogs.size(); i++) {
                 BlogResponse blogResponse = new BlogResponse();
@@ -92,14 +95,19 @@ public class BlogController {
     }
 
     @PostMapping("/user/searchBlogs")
-    public List<BlogResponse> searchBlogs(@RequestBody Map<String,Object> request){
+    public List<BlogResponse> searchBlogs(@RequestBody Map<String, Object> request) {
         String input = (String) request.get("input");
-        List<BlogResponse> blogResponses=new ArrayList<>();
+        List<BlogResponse> blogResponses = new ArrayList<>();
         QueryWrapper<Blogs> queryWrapper = new QueryWrapper<Blogs>().like("title", input).or().like("content", input).orderByDesc("likes").orderByDesc("time");
         List<Blogs> blogs = blogsService.page(new Page<Blogs>((Integer) request.get("page"), 10), queryWrapper).getRecords();
         for (int i = 0; i < blogs.size(); i++) {
             BlogResponse blogResponse = new BlogResponse();
             Blogs blog = blogs.get(i);
+            Integer bloggerId = blog.getOwner();
+            User blogger = userService.getById(bloggerId);
+            blogResponse.setAccount(blogger.getAccount());
+            blogResponse.setAvatar(blogger.getAvatar());
+            blogResponse.setName(blogger.getUsername());
             blogResponse.setComment(blog.getComment());
             blogResponse.setLike(blog.getLikes());
             blogResponse.setTitle(blog.getTitle());
@@ -112,10 +120,10 @@ public class BlogController {
     }
 
     @PostMapping("/user/searchBlogsOfBlogger")
-    public List<BlogResponse> searchBlogsOfBlogger(@RequestBody Map<String,Object> request){
+    public List<BlogResponse> searchBlogsOfBlogger(@RequestBody Map<String, Object> request) {
         String input = (String) request.get("input");
-        List<BlogResponse> blogResponses=new ArrayList<>();
-        QueryWrapper<Blogs> queryWrapper = new QueryWrapper<Blogs>().eq("owner",(Integer)request.get("account")).like("title", input).or().like("content", input).orderByDesc("likes").orderByDesc("time");
+        List<BlogResponse> blogResponses = new ArrayList<>();
+        QueryWrapper<Blogs> queryWrapper = new QueryWrapper<Blogs>().eq("owner", (Integer) request.get("account")).like("title", input).or().like("content", input).orderByDesc("likes").orderByDesc("time");
         List<Blogs> blogs = blogsService.page(new Page<Blogs>((Integer) request.get("page"), 10), queryWrapper).getRecords();
         for (int i = 0; i < blogs.size(); i++) {
             BlogResponse blogResponse = new BlogResponse();
@@ -156,8 +164,8 @@ public class BlogController {
     }
 
     @PostMapping("/user/getBlog")
-    public Blogs getABlog(@RequestBody Map<String, Integer> request){
-       return  blogsService.getById(request.get("uid"));
+    public Blogs getABlog(@RequestBody Map<String, Integer> request) {
+        return blogsService.getById(request.get("uid"));
     }
 
     @PostMapping("/user/getBlogsOfBlogger")
@@ -204,19 +212,17 @@ public class BlogController {
     @PostMapping("/user/like")
     public void addLike(@RequestBody Map<String, Integer> request) {
         Integer uid = request.get("uid");
-        Integer type=request.get("type");
-        if(type==0){
+        Integer type = request.get("type");
+        if (type == 0) {
             Blogs blog = blogsService.getById(uid);
             blog.addLikes();
             blogsService.saveOrUpdate(blog);
-        }
-        else if(type==1){
+        } else if (type == 1) {
             Blogcomments blogcomments = blogcommentsService.getById(uid);
             blogcomments.addLikes();
             blogcommentsService.saveOrUpdate(blogcomments);
 
-        }
-        else {
+        } else {
             Ccomments ccomments = ccommentsService.getById(uid);
             ccomments.addLikes();
             ccommentsService.saveOrUpdate(ccomments);
@@ -241,7 +247,9 @@ public class BlogController {
         blog.setContent("blogs/" + fileName);
         blog.setTag(String.join(",", (List<String>) param.get("value1")));
         blog.setOwner((Integer) session.getAttribute("uid"));
-        if(BaiduAPI.client.textCensorUserDefined(blog.toString()).get("conclusion").equals("不合规")){
+        JSONObject texted = BaiduAPI.client.textCensorUserDefined(blog.toString());
+        log.info(texted.toString());
+        if (!texted.has("conclusion") || texted.get("conclusion").equals("不合规")) {
             return "violation";
         }
         blogsService.saveOrUpdate(blog);
