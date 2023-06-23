@@ -319,10 +319,10 @@
         {
             if(this.followed==1)
             {
-              alert("DeSubscribe"+this.blogger.account);
+
               $("#subscribeButton").prop("innerText"," +关注 ");
               this.followed=0;
-              this.blogger.followers--;
+              this.blogger.fans--;
 
               axios({
                   method:"post",
@@ -337,10 +337,10 @@
             }
             else
             {
-              alert("subscribe"+this.blogger.account);
+
               $("#subscribeButton").prop("innerText","取消关注");
               this.followed=1;
-              this.blogger.followers++;
+              this.blogger.fans++;
 
                axios({
                   method:"post",
