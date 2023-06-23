@@ -225,11 +225,20 @@ public class CommentController {
                 blogcomments.setUid(p.get(0));
                 blogcomments.setState("D");
                 blogcommentsService.saveOrUpdate(blogcomments);
+                Blogcomments byId = blogcommentsService.getById(p.get(0));
+                Blogs blog = blogsService.getById(byId.getReceiver());
+                blog.setComment(blog.getComment() - 1);
+                blogsService.saveOrUpdate(blog);
             } else {
                 Ccomments ccomments = new Ccomments();
                 ccomments.setUid(p.get(0));
                 ccomments.setState("D");
                 ccommentsService.saveOrUpdate(ccomments);
+                Ccomments ccomment = ccommentsService.getById(p.get(0));
+                Blogcomments blogcomment = blogcommentsService.getById(ccomment.getReceiver());
+                Blogs blog = blogsService.getById(blogcomment.getReceiver());
+                blog.setComment(blog.getComment() - 1);
+                blogsService.saveOrUpdate(blog);
             }
         }
         System.out.println(param);
