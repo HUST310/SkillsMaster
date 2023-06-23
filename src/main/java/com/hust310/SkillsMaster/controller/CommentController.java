@@ -5,9 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hust310.SkillsMaster.config.BaiduAPI;
 import com.hust310.SkillsMaster.domain.*;
-import com.hust310.SkillsMaster.domain.Blogcomments;
-import com.hust310.SkillsMaster.domain.Blogs;
-import com.hust310.SkillsMaster.domain.Ccomments;
 import com.hust310.SkillsMaster.service.BlogcommentsService;
 import com.hust310.SkillsMaster.service.BlogsService;
 import com.hust310.SkillsMaster.service.CcommentsService;
@@ -18,8 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -41,14 +36,14 @@ public class CommentController {
 
 
     @PostMapping("/user/getComments")
-    public List<CommentResponse> getPostComments(@RequestBody Map<String,Integer> request){
-        QueryWrapper<Blogcomments> blogcommentsQueryWrapper = new QueryWrapper<Blogcomments>().eq("receiver", request.get("uid")).eq("state",'N').orderByDesc("likes");
+    public List<CommentResponse> getPostComments(@RequestBody Map<String, Integer> request) {
+        QueryWrapper<Blogcomments> blogcommentsQueryWrapper = new QueryWrapper<Blogcomments>().eq("receiver", request.get("uid")).eq("state", 'N').orderByDesc("likes");
         List<Blogcomments> blogcomments = blogcommentsService.page(new Page<>(request.get("page"), 10), blogcommentsQueryWrapper).getRecords();
-        List<CommentResponse> commentResponses=new ArrayList<>();
+        List<CommentResponse> commentResponses = new ArrayList<>();
         for (int i = 0; i < blogcomments.size(); i++) {
             CommentResponse commentResponse = new CommentResponse();
             Blogcomments blogcomment = blogcomments.get(i);
-            Integer commentorId=blogcomment.getCommentor();
+            Integer commentorId = blogcomment.getCommentor();
             User commentor = userService.getById(commentorId);
             commentor.setPassword(null);
             commentor.setTime(null);
@@ -68,15 +63,15 @@ public class CommentController {
     }
 
     @PostMapping("/user/getSubComments")
-    public List<CommentResponse> getSubComments(@RequestBody Map<String,Integer> request){
-        QueryWrapper<Ccomments> ccommentsQueryWrapper = new QueryWrapper<Ccomments>().eq("receiver", request.get("uid")).eq("state",'N').orderByDesc("likes");
-        List<Ccomments> cComments = ccommentsService.page(new Page<>(request.get("page"), 10),ccommentsQueryWrapper ).getRecords();
-        List<CommentResponse> commentResponses=new ArrayList<>();
+    public List<CommentResponse> getSubComments(@RequestBody Map<String, Integer> request) {
+        QueryWrapper<Ccomments> ccommentsQueryWrapper = new QueryWrapper<Ccomments>().eq("receiver", request.get("uid")).eq("state", 'N').orderByDesc("likes");
+        List<Ccomments> cComments = ccommentsService.page(new Page<>(request.get("page"), 10), ccommentsQueryWrapper).getRecords();
+        List<CommentResponse> commentResponses = new ArrayList<>();
         for (int i = 0; i < cComments.size(); i++) {
             CommentResponse commentResponse = new CommentResponse();
             Ccomments cComment = cComments.get(i);
-            Integer commentorId=cComment.getCommentor();
-            Integer commenteeId=cComment.getCommentee();
+            Integer commentorId = cComment.getCommentor();
+            Integer commenteeId = cComment.getCommentee();
             User commentor = userService.getById(commentorId);
             User commentee = userService.getById(commenteeId);
             commentor.setPassword(null);
@@ -100,6 +95,7 @@ public class CommentController {
         }
         return commentResponses;
     }
+
     @PostMapping("/getComments")
     public Page<Ccomments> getComments(Integer uid, Integer page) {
         Page<Ccomments> ccommentsPage = ccommentsService.page(new Page<>(page, 10), new QueryWrapper<Ccomments>().eq("uid", uid));
@@ -168,18 +164,18 @@ public class CommentController {
 
 
     @PostMapping("/user/sendComment")
-    public Integer addComment(@RequestBody Map<String, Object> map,HttpSession session){
+    public Integer addComment(@RequestBody Map<String, Object> map, HttpSession session) {
         //session.setAttribute("uid",1);
-        Integer type= (Integer)map.get("type");
-        String content = (String)map.get("content");
+        Integer type = (Integer) map.get("type");
+        String content = (String) map.get("content");
         JSONObject response = BaiduAPI.client.textCensorUserDefined(content);
         String conclusion = (String) response.get("conclusion");
-        if(conclusion.equals("不合规")) {
+        if (conclusion.equals("不合规")) {
             return 0;
         }
-        if(type==1) {
+        if (type == 1) {
             Integer receiver = (Integer) map.get("receiver");
-            Blogcomments comments=new Blogcomments();
+            Blogcomments comments = new Blogcomments();
             comments.setContent(content);
             comments.setCommentor((Integer) session.getAttribute("uid"));
             comments.setCommentee((Integer) map.get("commentee"));
@@ -188,11 +184,10 @@ public class CommentController {
             Blogs blogs = blogsService.getById(receiver);
             blogs.addComment();
             blogsService.saveOrUpdate(blogs);
-        }
-        else {
+        } else {
             Integer receiver = (Integer) map.get("receiver");
-            Ccomments comments=new Ccomments();
-            comments.setContent((String)map.get("content"));
+            Ccomments comments = new Ccomments();
+            comments.setContent((String) map.get("content"));
             comments.setCommentor((Integer) session.getAttribute("uid"));
             comments.setCommentee((Integer) map.get("commentee"));
             comments.setReceiver(receiver);
@@ -218,6 +213,25 @@ public class CommentController {
             ccomments.setTime(null);
             ccommentsService.saveOrUpdate(ccomments);
         }
+        return "success";
+    }
+
+    @PostMapping("/Comments/deleteComments")
+    public String deleteComments(@RequestBody List<List<Integer>> param) {
+        for (List<Integer> p : param) {
+            if (p.get(1) == 1) {
+                Blogcomments blogcomments = new Blogcomments();
+                blogcomments.setUid(p.get(0));
+                blogcomments.setState("D");
+                blogcommentsService.saveOrUpdate(blogcomments);
+            } else {
+                Ccomments ccomments = new Ccomments();
+                ccomments.setUid(p.get(0));
+                ccomments.setState("D");
+                ccommentsService.saveOrUpdate(ccomments);
+            }
+        }
+        System.out.println(param);
         return "success";
     }
 }
