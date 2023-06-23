@@ -169,7 +169,7 @@ public class CommentController {
 
     @PostMapping("/user/sendComment")
     public Integer addComment(@RequestBody Map<String, Object> map,HttpSession session){
-        session.setAttribute("uid",1);
+        //session.setAttribute("uid",1);
         Integer type= (Integer)map.get("type");
         String content = (String)map.get("content");
         JSONObject response = BaiduAPI.client.textCensorUserDefined(content);
