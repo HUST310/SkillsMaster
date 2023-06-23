@@ -467,6 +467,12 @@
                    this.followed=resp.data;
 
 
+                   if(this.followed==1)
+        {
+                    $("#subscribeButton").prop("innerText","取消关注");
+                  }
+
+
               });
 
 
@@ -482,10 +488,7 @@
       mounted(){
 
 
-        if(this.followed==1)
-        {
-          $("#subscribeButton").prop("innerText","取消关注");
-        }
+
 
         this.getInfo();
 
