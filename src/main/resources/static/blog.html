@@ -388,15 +388,15 @@
 
                           </el-row>
                         </div>
-                        <span class="sub-comment-container">
-                          <p>{{subComment.content}}</p>
+                        <span class="sub-comment-container" >
+                          <p style="margin-left:20px">{{subComment.content}}</p>
                         </span>
                         <div class="sub-comment-info" style="margin-top:10px">
 
                           <el-row>
-                            <el-col :span="10"><div class="grid-content bg-purple" >
+                            <el-col :span="8" style="padding-top:6px"><div class="grid-content bg-purple" >
                               <span class="sub-comment-time" >
-                                <font size="4"><b> {{subComment.time}}</b></b></font>
+                                <font size="2"><b> {{subComment.time}}</b></b></font>
 
                               </span>
                             </div></el-col>
@@ -817,15 +817,15 @@
               [
                 {
                     commentorInfo:{
-                      username:'',
+                      username:1,
                       avatar:'',
-                      account:''
+                      account:1
                     },
-                    content:'',
-                    time:'',
+                    content:1,
+                    time:1,
 
                     likes:'',
-                    uid:'',
+                    uid:1,
                     subComments:[
                       {
                         commentorInfo:{
@@ -839,8 +839,8 @@
                           account:''
                         },
 
-                        content:'',
-                        time:'',
+                        content:"11",
+                        time:"2023-06-23 19:50:30",
                         like:'',
                         uid:''
 
