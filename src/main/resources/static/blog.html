@@ -365,21 +365,42 @@
                   <div class="sub-comment-container">
                     <div class="sub-comment-list" >
                       <div class="sub-comment-item"  v-for="subComment in comment.subComments" style="margin:40px;border-style:solid;border-width:2px;border-color:grey;padding:10px">
-                        <div class="sub-comment-commnetorcommentee-info">
+                        <div class="sub-comment-commnetorcommentee-info" style="padding-top:10px">
 
                           <el-row>
-                            <el-col :span="4"><div class="grid-content bg-purple">
+
+
+                            <el-col :span="6"><div class="grid-content bg-purple">
                               <div class="sub-comment-commentor-info" @click="access(subComment.commentorInfo.account)">
-                                <font size="2"><b>{{subComment.commentorInfo.username}}</b></b></font>
+                                <el-row :gutter="20">
+                                  <el-col :span="6"><div class="grid-content bg-purple">
+                                    <div class="sub-comment-commentor-info-avatar">
+                                      <el-row class="demo-avatar demo-basic">
+                                        <el-col :span="6">
+                                          <div class="demo-basic--circle">
+                                            <div class="block"><el-avatar :size="30" :src="subComment.commentorInfo.avatar"></el-avatar></div>
+                                          </div>
+                                        </el-col>
+                                      </el-row>
+                                    </div>
+                                  </div></el-col>
+                                  <el-col :span="18" style="text-align:left;padding-top:5px"><div class="grid-content bg-purple" >
+                                    <div class="sub-comment-commentor-info-name" >
+                                      <font size="2"><b>{{subComment.commentorInfo.username}}</b></b></font>
+                                    </div>
+                                  </div></el-col>
+                                </el-row>
                               </div>
+
 
                             </div></el-col>
 
-                            <el-col :span="4"><div class="grid-content bg-purple">
+
+                            <el-col :span="4" style="padding-top:5px"><div class="grid-content bg-purple">
                               回复
                             </div></el-col>
 
-                            <el-col :span="4"><div class="grid-content bg-purple">
+                            <el-col :span="4" style="padding-top:5px"><div class="grid-content bg-purple">
                               <div class="sub-comment-commentee-info" @click="access(subComment.commenteeInfo.account)">
                                 <font size="2"><b>{{subComment.commenteeInfo.username}}</b></b></font>
                               </div>
@@ -829,12 +850,12 @@
                     subComments:[
                       {
                         commentorInfo:{
-                          username:'',
+                          username:'111111',
                           avatar:'',
                           account:''
                         },
                         commenteeInfo:{
-                          username:'',
+                          username:'11111',
                           avatar:'',
                           account:''
                         },
