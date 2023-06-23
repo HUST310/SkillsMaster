@@ -97,9 +97,9 @@ public class BlogController {
 
     @PostMapping("/user/searchBlogs")
     public List<BlogResponse> searchBlogs(@RequestBody Map<String, Object> request) {
-//        List<String> input = (String) request.get("input");
-//        String [] tags = (String[]) request.get("tag");
-//        System.out.println(tags[1]);
+        String input = (String) request.get("input");
+//        List<String>tags = (List<String>) request.get("tag");
+//        System.out.println(tags.get(1));
         List<BlogResponse> blogResponses = new ArrayList<>();
         QueryWrapper<Blogs> queryWrapper = new QueryWrapper<Blogs>().eq("state",'N').like("title", input).or().like("content", input).orderByDesc("likes").orderByDesc("time");
         List<Blogs> blogs = blogsService.page(new Page<Blogs>((Integer) request.get("page"), 10), queryWrapper).getRecords();
