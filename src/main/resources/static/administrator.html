@@ -82,15 +82,15 @@
                             ref="multipleTable"
                             tooltip-effect="dark">
                         </el-table-column>
-                        <el-table-column prop="Account" label="账号" width="200">
+                        <el-table-column prop="account" label="账号" width="200">
                         </el-table-column>
-                        <el-table-column prop="Username" label="用户昵称" width="200">
+                        <el-table-column prop="username" label="用户昵称" width="200">
                         </el-table-column>
-                        <el-table-column prop="Time" label="用户创建时间" width="200">
+                        <el-table-column prop="time" label="用户创建时间" width="200">
                         </el-table-column>
-                        <el-table-column prop="State" label="账号状态" width="200">
+                        <el-table-column prop="state" label="账号状态" width="200">
                             <template slot-scope="scope">
-                                <h1 v-if="scope.row.State=='N'">
+                                <h1 v-if="scope.row.state=='N'">
                                     <i>账号正常 </i>
                                 </h1>
                                 <h1 v-else>
@@ -98,16 +98,16 @@
                                 </h1>
                             </template>
                         </el-table-column>
-                        <el-table-column width="100">
+                        <el-table-column width="120">
                             <template slot-scope="scope">
-                                <el-button @click="Banned(scope.row.Account)" icon="el-icon-circle-close" type="danger">
+                                <el-button @click="Banned(scope.row.account)" icon="el-icon-circle-close" type="danger">
                                     封禁
                                 </el-button>
                             </template>
                         </el-table-column>
-                        <el-table-column width="100">
+                        <el-table-column width="120">
                             <template slot-scope="scope">
-                                <el-button @click="Unblock(scope.row.Account)" icon="el-icon-circle-check"
+                                <el-button @click="Unblock(scope.row.account)" icon="el-icon-circle-check"
                                            type="success">解封
                                 </el-button>
                             </template>
@@ -131,20 +131,20 @@
             return {
                 input: '',
                 tableData: [{
-                    Account: '114514',
-                    Username: '刘萌象',
-                    Time: '2016-05-02',
-                    State: 'N',
+                    account: '114514',
+                    username: '刘萌象',
+                    time: '2016-05-02',
+                    state: 'N',
                 }, {
-                    Account: '114514',
-                    Username: '刘萌象',
-                    Time: '2016-05-02',
-                    State: 'C',
+                    account: '114514',
+                    username: '刘萌象',
+                    time: '2016-05-02',
+                    state: 'N',
                 }, {
-                    Account: '114514',
-                    Username: '刘萌象',
-                    Time: '2016-05-02',
-                    State: 'C',
+                    account: '114514',
+                    username: '刘萌象',
+                    time: '2016-05-02',
+                    state: 'N',
                 }],
             }
         },
@@ -157,8 +157,8 @@
                     method: "post",
                     url: '/administrator/Banned',
                     data: {
-                        State: 'C',
-                        Account: val,
+                        state: 'C',
+                        account: val,
                     }
                 }).then(resp => {
                     this.fetchdata();
@@ -169,8 +169,8 @@
                     method: "post",
                     url: '/administrator/Unblock',
                     data: {
-                        State: 'N',
-                        Account: val,
+                        state: 'N',
+                        account: val,
                     }
                 }).then(resp => {
                     this.fetchdata();
