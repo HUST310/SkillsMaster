@@ -154,6 +154,10 @@
                     {
                         this.$message.error('密码输入错误！');
                     }
+                    else if(resp.data=="banning")
+                    {
+                        this.$message.error('账号已封禁');
+                    }
                     else if(this.form.accountNumber==11||this.form.accountNumber=="11"){
                         this.$message({
                             message: '登录成功！',
