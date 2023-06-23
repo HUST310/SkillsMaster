@@ -192,7 +192,7 @@ public class UserController {
     @PostMapping("/administrator/Banned")
     public String ban(@RequestBody Map<String, Object> param) {
         User user = new User();
-        user.setAccount((Integer) param.get("Account"));
+        user.setAccount((Integer) param.get("account"));
         user.setState("C");
         userService.saveOrUpdate(user);
         return "success";
@@ -201,8 +201,8 @@ public class UserController {
     @PostMapping("/administrator/Unblock")
     public String unBan(@RequestBody Map<String, Object> param) {
         User user = new User();
-        user.setAccount((Integer) param.get("Account"));
-        user.setState("D");
+        user.setAccount((Integer) param.get("account"));
+        user.setState("N");
         userService.saveOrUpdate(user);
         return "success";
     }
