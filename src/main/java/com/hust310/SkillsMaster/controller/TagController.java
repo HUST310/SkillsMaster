@@ -16,6 +16,9 @@ public class TagController {
     @Autowired
     private BlogsService blogsService;
 
+
+
+
     @PostMapping("/label/change")
     public String changeLabels(@RequestBody List<Map<String, Object>> blogs) {
         ArrayList<Blogs> tags = new ArrayList<>();
@@ -30,4 +33,5 @@ public class TagController {
         blogsService.saveOrUpdateBatch(tags);
         return "success";
     }
+
 }

@@ -26,4 +26,6 @@ public class BlogResponse {
 
     private String name;
 
+    private String tag;
+
 }

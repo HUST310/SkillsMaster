@@ -88,6 +88,7 @@ public class BlogController {
                 blogResponse.setContent(followBlog.getContent());
                 blogResponse.setTime(followBlog.getTime());
                 blogResponse.setUid(followBlog.getUid());
+                blogResponse.setTag(followBlog.getTag());
                 blogResponses.add(blogResponse);
             }
         }
@@ -114,6 +115,7 @@ public class BlogController {
             blogResponse.setContent(blog.getContent());
             blogResponse.setTime(blog.getTime());
             blogResponse.setUid(blog.getUid());
+            blogResponse.setTag(blog.getTag());
             blogResponses.add(blogResponse);
         }
         return blogResponses;
@@ -134,6 +136,7 @@ public class BlogController {
             blogResponse.setContent(blog.getContent());
             blogResponse.setTime(blog.getTime());
             blogResponse.setUid(blog.getUid());
+            blogResponse.setTag(blog.getTag());
             blogResponses.add(blogResponse);
         }
         return blogResponses;
@@ -157,6 +160,7 @@ public class BlogController {
             blogResponse.setTitle(hotBlog.getTitle());
             blogResponse.setContent(hotBlog.getContent());
             blogResponse.setTime(hotBlog.getTime());
+            blogResponse.setTag(hotBlog.getTag());
             blogResponse.setUid(hotBlog.getUid());
             blogResponses.add(blogResponse);
         }
@@ -182,6 +186,7 @@ public class BlogController {
             blogResponse.setContent(blog.getContent());
             blogResponse.setTime(blog.getTime());
             blogResponse.setUid(blog.getUid());
+            blogResponse.setTag(blog.getTag());
             blogResponses.add(blogResponse);
         }
         return blogResponses;
