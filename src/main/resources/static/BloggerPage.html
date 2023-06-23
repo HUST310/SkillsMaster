@@ -238,6 +238,12 @@
           <el-divider></el-divider>
           <div class="blogs-container" v-for="blog in blogs">
             <div class="blog-container" >
+              <div class="blog-tag-container" style="text-align:left">
+
+                <el-tag v-for="tag in blog.tag" style="margin:10px;width:50px">{{tag}}</el-tag>
+
+
+              </div>
               <div class="blog-content" @click="readBlog(blog.uid)">
                   <div class="blog-title">
                     <p>{{blog.title}}</p>
