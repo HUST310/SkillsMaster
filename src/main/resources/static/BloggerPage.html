@@ -122,7 +122,7 @@
   <link rel="stylesheet" href="css/rowcol.css">
   <link rel="stylesheet" href="css/footer.css">
 </head>
-<body background="background.jpg">
+<body background="img/demo-1-bg.jpg">
 <div id="app">
   <el-container>
     <el-header>
@@ -460,7 +460,21 @@
                   }
               }).then(resp=>{
                   this.blogger=resp.data;
-                this.blogger.account=unescape(r[2]);
+                  this.blogger.account=unescape(r[2]);
+
+                  axios({
+                  method:"post",
+                  url:'/user/checkIfFollow',
+                  data:{
+                      account:this.blogger.account
+                  }
+                  }).then(resp=>{
+
+                   this.followed=resp.data;
+
+
+              });
+
 
               });
           }
