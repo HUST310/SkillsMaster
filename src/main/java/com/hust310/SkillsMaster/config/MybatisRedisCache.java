@@ -63,8 +63,8 @@ public class MybatisRedisCache implements Cache {
             return mapper.readValue(mapper.writeValueAsString(res),
                     mapper.getTypeFactory().constructParametricType(ArrayList.class, aClass));
         } catch (Exception e) {
-            e.printStackTrace();
-            log.error("缓存出错 ");
+//            e.printStackTrace();
+//            log.error("缓存出错 ");
         }
         return null;
     }
