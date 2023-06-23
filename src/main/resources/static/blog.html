@@ -131,7 +131,7 @@
   <link rel="stylesheet" href="css/rowcol.css">
   <link rel="stylesheet" href="css/footer.css">
 </head>
-<body background="background.jpg">
+<body background="img/demo-1-bg.jpg">
 <div id="app">
   <el-container>
     <el-header>
@@ -298,7 +298,7 @@
                       </div>
                       <div class="comment-info">
                         <el-row :gutter="20">
-                          <el-col :span="6"><div class="grid-content bg-purple">
+                          <el-col :span="12"><div class="grid-content bg-purple">
                             <span class="comment-time">{{comment.time}}</span>
                           </div></el-col>
                           <el-col :span="5"><div class="grid-content bg-purple">
@@ -553,6 +553,7 @@
                     message: '内容违规，发布失败！',
                     type: 'error'
                   });
+
               }
               else{
                 this.$message({
@@ -560,6 +561,8 @@
                       type: 'success'
                 });
               }
+
+              location.reload();
 
             });
           },
@@ -593,6 +596,8 @@
                       type: 'success'
                 });
               }
+
+              location.reload();
 
             });
           },

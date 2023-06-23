@@ -122,7 +122,7 @@
   <link rel="stylesheet" href="css/rowcol.css">
   <link rel="stylesheet" href="css/footer.css">
 </head>
-<body background="background.jpg">
+<body background="img/demo-1-bg.jpg">
 <div id="app">
   <el-container>
     <el-header>
@@ -233,18 +233,6 @@
                           v-model="input">
                   </el-input>
 
-                </div>
-              </div></el-col>
-              <el-col :span="6"><div class="grid-content bg-purple">
-                <div class="search-box-textarea">
-                  <el-select v-model="value1" multiple placeholder="请选择标签">
-                    <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </el-option>
-                  </el-select>
                 </div>
               </div></el-col>
 
@@ -460,7 +448,21 @@
                   }
               }).then(resp=>{
                   this.blogger=resp.data;
-                this.blogger.account=unescape(r[2]);
+                  this.blogger.account=unescape(r[2]);
+
+                  axios({
+                  method:"post",
+                  url:'/user/checkIfFollow',
+                  data:{
+                      account:this.blogger.account
+                  }
+                  }).then(resp=>{
+
+                   this.followed=resp.data;
+
+
+              });
+
 
               });
           }
@@ -490,35 +492,7 @@
 
       data: function() {
         return {
-          options: [{
-            value: '硬件',
-            label: '硬件'
-          }, {
-            value: '软件',
-            label: '软件'
-          }, {
-            value: 'Java',
-            label: 'Java'
-          }, {
-            value: 'C',
-            label: 'C'
-          }, {
-            value: 'C++',
-            label: 'C++'
-          }, {
-            value: 'Python',
-            label: 'Python'
-          }, {
-            value: '后端',
-            label: '后端'
-          }, {
-            value: '前端',
-            label: '前端'
-          }, {
-            value: '移动开发',
-            label: '移动开发'
-          }],
-          value1:'',
+
 
 
          //navigation-bar
