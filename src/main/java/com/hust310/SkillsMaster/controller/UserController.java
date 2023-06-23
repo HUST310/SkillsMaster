@@ -215,4 +215,9 @@ public class UserController {
             return userService.getById((Integer) session.getAttribute("uid")).getUsername();
         }
     }
+
+    @GetMapping("/administrator/get")
+    public List<User> getUsers() {
+        return userService.list();
+    }
 }

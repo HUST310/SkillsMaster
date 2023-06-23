@@ -265,7 +265,7 @@
                     <el-col :span="12"><div class="grid-content bg-purple">
                       <div class="blog-updated-time-info" style="margin-top:28px">
                       <span>
-                        <font size="3"><b>{{blog.time}}</b></b></font>
+                        <font size="2"><b>{{blog.time}}</b></b></font>
                       </span>
                       </div>
                     </div></el-col>
@@ -275,7 +275,7 @@
 
                 </div>
                 <div class="blog-tag-container" style="text-align:left">
-                  <el-tag v-for="tag in blog.tag" style="margin:10px;width:50px">{{blog.tag}}</el-tag>
+                  <el-tag v-for="tag in blog.tag" style="margin:10px;width:50px">{{tag}}</el-tag>
                 </div>
                 <div class="blog-updated-title" @click="readBlog(blog.uid)">
                   <span>
