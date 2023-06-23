@@ -282,10 +282,10 @@
 
             <div class="blogger-info-container">
               <el-row :gutter="20">
-                <el-col :span="12"><div class="grid-content bg-purple">
+                <el-col :span="18"><div class="grid-content bg-purple">
                   <div class="blogger-blogger-info-container" @click="access(blog.account)">
                     <el-row :gutter="20">
-                      <el-col :span="6"><div class="grid-content bg-purple">
+                      <el-col :span="4"><div class="grid-content bg-purple">
                         <div class="user-avatar" style="margin-top:15px">
                           <el-row class="demo-avatar demo-basic">
                             <el-col :span="12">
@@ -297,7 +297,7 @@
                           </el-row>
                         </div>
                       </div></el-col>
-                      <el-col :span="6"><div class="grid-content bg-purple">
+                      <el-col :span="20"><div class="grid-content bg-purple" style="text-align:left">
                         <div class="user-access-link">
                           <a>
                             <font size="5"><b>{{blog.name}}</b></b></font>
@@ -310,7 +310,7 @@
 
                   </div>
                 </div></el-col>
-                <el-col :span="12"><div class="grid-content bg-purple">
+                <el-col :span="6"><div class="grid-content bg-purple">
                   <div class="blogger-time-info-container" style="margin-top:10px">
                     <span>
                       <font size="3"><b>{{blog.time}}</b></b></font>
@@ -325,10 +325,8 @@
             </div>
             <div class="blogger-tag-container" style="text-align:left">
 
-              <el-tag>blog.tag</el-tag>
-              <el-tag>blog.tag</el-tag>
-              <el-tag>blog.tag</el-tag>
-              <el-tag>blog.tag</el-tag>
+              <el-tag v-for="tag in blog.tag" style="margin:10px;width:50px">{{tag}}</el-tag>
+
 
             </div>
             <div class="blog-content-container" @click="readBlog(blog.uid)">
