@@ -263,9 +263,9 @@
                                 </span>
           </el-dialog>
         </div>
-        <div class="comment-list" v-for="comment in comments">
+        <div class="comment-list">
 
-          <div class="comment-item" style="margin:80px;border-style:solid;border-width:2px;border-color:white;padding:50px">
+          <div class="comment-item" style="margin:80px;border-style:solid;border-width:2px;border-color:white;padding:50px"  v-for="comment in comments">
             <div class="root-comment-container">
               <el-row :gutter="20">
                 <el-col :span="3"><div class="grid-content bg-purple">
@@ -334,9 +334,9 @@
             <div class="see-sub-comment" style="margin-left:120px;margin-right:120px">
               <el-collapse @change="getSubComments(1,comment.uid)">
                 <el-collapse-item title="点击查看评论">
-                  <div class="sub-comment-container" v-for="subComment in comment.subComments" >
+                  <div class="sub-comment-container">
                     <div class="sub-comment-list" style="margin:40px;border-style:solid;border-width:2px;border-color:grey;padding:10px">
-                      <div class="sub-comment-item">
+                      <div class="sub-comment-item"  v-for="subComment in comment.subComments" >
                         <div class="sub-comment-commnetorcommentee-info">
 
                           <el-row>
@@ -615,10 +615,10 @@
                   if(this.comments[i].uid==uid)
                   {
 
-                    this.comments[i].subComments=resp.data;
 
+                        this.comments[i].subComments=resp.data;
 
-                    break;
+                        break;
                   }
                 }
 
@@ -639,14 +639,31 @@
                 }
             }).then(resp=>{
 
+<!--            this.comments=resp.data;-->
+
+
+                let key1="commentorInfo";
+                let key2="content";
+                let key3="likes";
+                let key4="time";
+                let key5="uid";
+                let key6="subComments";
+
                 for(let i=0;i<resp.data.length;i++)
                 {
-                  this.comments[i].comment=resp.data[i].comment;
                   this.comments[i].commentorInfo=resp.data[i].commentorInfo;
                   this.comments[i].content=resp.data[i].content;
                   this.comments[i].likes=resp.data[i].likes;
                   this.comments[i].time=resp.data[i].time;
                   this.comments[i].uid=resp.data[i].uid;
+
+
+<!--                  this.comments[i][key1]=resp.data[i].commentorInfo;-->
+<!--                  this.comments[i][key2]=resp.data[i].content;-->
+<!--                  this.comments[i][key3]=resp.data[i].likes;-->
+<!--                  this.comments[i][key4]=resp.data[i].time;-->
+<!--                  this.comments[i][key5]=resp.data[i].uid;-->
+
                 }
 
 
@@ -663,7 +680,7 @@
           if (r != null)
           {
               this.blog.uid=unescape(r[2]);
-              this.getComments(1,this.blog.uid);
+              this.getComments(this.blog.uid,1);
               this.getUserInfo();
               axios({
                   method:"post",
@@ -767,37 +784,154 @@
               comments:
               [
                 {
-
                     commentorInfo:{
-                      username:"sun",
-                      avatar:"user1-avatar.png",
-                      account:123456
+                      username:'',
+                      avatar:'',
+                      account:''
                     },
-                    content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
-                    time:"1145-1-4 11:45:14",
-                    likes:114,
-                    uid:1234234567,
-                    subComments:
-                    [
+                    content:'',
+                    time:'',
+
+                    likes:'',
+                    uid:'',
+                    subComments:[
                       {
-                        content:"元素用来将没有数字顺序的一组数据进行分组，并且它们的数字顺序是没有意义的。举个例子，无序列表的列表项通常通过一个字符进行装饰，这些字符的形式可以是点，圆乃至方形。虽然这个字符没有直接在页面上定义，但是可以用与之相关的 CSS 对其进行操作，例如使用 list-style-type 属性。",
-                        time:"1145-1-4 11:45:14",
-                        likes:114,
-                        commentorInfo:
-                        {
-                          username:"commentorInfo",
-                          avatar:"",
-                          account:12345
+                        commentorInfo:{
+                          username:'',
+                          avatar:'',
+                          account:''
                         },
-                        commenteeInfo:
-                        {
-                          username:"commenteeInfo",
-                          avatar:"",
-                          account:12345
-                        }
+                        commenteeInfo:{
+                          username:'',
+                          avatar:'',
+                          account:''
+                        },
+
+                        content:'',
+                        time:'',
+                        like:'',
+                        uid:''
+
                       }
                     ]
-                }
+                },
+                {
+                    commentorInfo:{
+                      username:'',
+                      avatar:'',
+                      account:''
+                    },
+                    content:'',
+                    time:'',
+
+                    likes:'',
+                    uid:'',
+                    subComments:[]
+                },
+                {
+                    commentorInfo:{
+                      username:'',
+                      avatar:'',
+                      account:''
+                    },
+                    content:'',
+                    time:'',
+
+                    likes:'',
+                    uid:'',
+                    subComments:[]
+                },
+                {
+                    commentorInfo:{
+                      username:'',
+                      avatar:'',
+                      account:''
+                    },
+                    content:'',
+                    time:'',
+
+                    likes:'',
+                    uid:'',
+                    subComments:[]
+                },
+                {
+                    commentorInfo:{
+                      username:'',
+                      avatar:'',
+                      account:''
+                    },
+                    content:'',
+                    time:'',
+
+                    likes:'',
+                    uid:'',
+                    subComments:[]
+                },
+                {
+                    commentorInfo:{
+                      username:'',
+                      avatar:'',
+                      account:''
+                    },
+                    content:'',
+                    time:'',
+
+                    likes:'',
+                    uid:'',
+                    subComments:[]
+                },
+                {
+                    commentorInfo:{
+                      username:'',
+                      avatar:'',
+                      account:''
+                    },
+                    content:'',
+                    time:'',
+
+                    likes:'',
+                    uid:'',
+                    subComments:[]
+                },
+                {
+                    commentorInfo:{
+                      username:'',
+                      avatar:'',
+                      account:''
+                    },
+                    content:'',
+                    time:'',
+
+                    likes:'',
+                    uid:'',
+                    subComments:[]
+                },
+                {
+                    commentorInfo:{
+                      username:'',
+                      avatar:'',
+                      account:''
+                    },
+                    content:'',
+                    time:'',
+
+                    likes:'',
+                    uid:'',
+                    subComments:[]
+                },
+                {
+                    commentorInfo:{
+                      username:'',
+                      avatar:'',
+                      account:''
+                    },
+                    content:'',
+                    time:'',
+
+                    likes:'',
+                    uid:'',
+                    subComments:[]
+                },
 
               ]
          }
