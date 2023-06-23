@@ -152,7 +152,7 @@
             <div class="user-info">
 
               <el-row>
-                <el-col :span="16"><div class="grid-content bg-purple">
+                <el-col :span="12"><div class="grid-content bg-purple">
                   <div class="user-info-avatar">
                     <el-row class="demo-avatar demo-basic">
                       <el-col :span="6">
@@ -164,7 +164,7 @@
                   </div>
                 </div></el-col>
 
-                <el-col :span="8"><div class="grid-content bg-purple">
+                <el-col :span="12"><div class="grid-content bg-purple">
                   <div class="user-info-name">
                     <font  size="5"><b>{{user.username}}</b></font>
                   </div>
@@ -744,6 +744,7 @@
               }).then(resp=>{
                   this.blog=resp.data;
 
+                  alert(this.blog.content);
                   $("#content").load(this.blog.content);
 
 
