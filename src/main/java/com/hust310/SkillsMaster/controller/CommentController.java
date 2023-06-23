@@ -104,7 +104,6 @@ public class CommentController {
 
     @GetMapping("/Comments/get")
     public List<Map<String, Object>> getComments(HttpSession session) {
-//        session.setAttribute("uid", 1);
         Integer uid = (Integer) session.getAttribute("uid");
         String username = userService.getById(uid).getUsername();
         ArrayList<Map<String, Object>> comments = new ArrayList<>();
@@ -114,6 +113,7 @@ public class CommentController {
                     .eq("receiver", blog.getUid()).ne("state", "D"));
             for (Blogcomments blogcomment : blogcomments) {
                 LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+                map.put("buid", blog.getUid());
                 map.put("uid", blogcomment.getUid());
                 map.put("text", blogcomment.getContent());
                 map.put("data", blogcomment.getTime());
@@ -132,6 +132,7 @@ public class CommentController {
                             .eq("receiver", comments.get(i).get("uid")).ne("state", "D"));
             for (Ccomments ccomment : ccomments) {
                 LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+                map.put("buid", comments.get(i).get("buid"));
                 map.put("uid", ccomment.getUid());
                 map.put("text", ccomment.getContent());
                 map.put("data", ccomment.getTime());
@@ -235,5 +236,3 @@ public class CommentController {
         return "success";
     }
 }
-//@Mapper
-//@CacheNamespace(implementation = MybatisRedisCache.class, eviction = MybatisRedisCache.class)
