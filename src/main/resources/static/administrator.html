@@ -69,7 +69,7 @@
                         <el-col span="6">
                             <el-form-item style="position:relative;right:80px;top:35px;">
                                 <el-input placeholder="请输入账号搜索"
-                                          v-model="input"
+                                          v-model="input1"
                                           clearable></el-input>
                             </el-form-item>
                         </el-col>
@@ -77,7 +77,7 @@
                 </el-form>
                 <el-main>
                     <el-table
-                            :data="tableData.filter(data => !input || data.Account.toLowerCase().includes(input.toLowerCase()))"
+                            :data="tableData.filter(data => !input1 || data.account.toLowerCase().includes(input1.toLowerCase()))"
                             height="500"
                             ref="multipleTable"
                             tooltip-effect="dark">
@@ -129,7 +129,7 @@
         el: '#app',
         data() {
             return {
-                input: '',
+                input1: '',
                 tableData: [{
                     account: '114514',
                     username: '刘萌象',

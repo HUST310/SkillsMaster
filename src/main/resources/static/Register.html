@@ -173,7 +173,7 @@
                         }
                     }).then(resp => {
                         resp.data;
-                        if (resp.data != '0') {
+                        if (resp.data != '0'&& resp.data != NULL) {
                             this.$alert('你的账号是:\n' + resp.data, '注册成功', {
                                 confirmButtonText: '确定',
                                 callback: action => {

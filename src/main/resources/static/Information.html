@@ -367,7 +367,6 @@
                             message: '修改成功！',
                             type: 'success'
                         });
-                        location.reload();
                     }
                     else{
                         this.$alert('内容违规', {
@@ -375,6 +374,7 @@
                         });
                     }
                 })
+                location.reload();
             },
             getout(){
                 axios({
