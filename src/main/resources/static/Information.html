@@ -169,7 +169,7 @@
                         <el-form ref="form" :model="sizeForm" label-width="80px" size="mini" id="ChangeList1"
                                  style="float: left;
                                   width: 500px;
-                                  height: 300px;
+                                  height: 330px;
                                   border-radius: 5px;
                                   border-style:solid;  border-color:#007bfe #000000 #000000 #000000;
                                   border-width:5px 2px 2px 2px; ">
@@ -217,7 +217,7 @@
                         <el-form ref="Password" :model="user" label-width="80px" size="mini" id="ChangeList2"
                                  style="float: left;left:30px;position: relative;
                                      width: 500px;
-                                     height: 300px;
+                                     height: 330px;
                                      border-style:solid;
                                      border-radius: 5px;
                                      border-color:#007bfe #000000 #000000 #000000;
@@ -367,6 +367,7 @@
                             message: '修改成功！',
                             type: 'success'
                         });
+                        location.reload();
                     }
                     else{
                         this.$alert('内容违规', {
