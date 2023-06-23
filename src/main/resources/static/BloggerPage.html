@@ -217,15 +217,37 @@
         <div class="blogs-container">
           <div class="search-box">
             <el-row :gutter="0">
-              <el-col :span="18"><div class="grid-content bg-purple">
+                <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </el-option>
+
+              </el-col>
+              <el-col :span="12"><div class="grid-content bg-purple">
                 <div class="search-box-textarea">
                   <el-input
                           placeholder="搜索TA的内容"
                           prefix-icon="el-icon-search"
                           v-model="input">
                   </el-input>
+
                 </div>
               </div></el-col>
+              <el-col :span="6"><div class="grid-content bg-purple">
+                <div class="search-box-textarea">
+                  <el-select v-model="value1" multiple placeholder="请选择标签">
+                    <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                  </el-select>
+                </div>
+              </div></el-col>
+
               <el-col :span="2"><div class="grid-content bg-purple">
                 <div class="search-box-button">
                   <el-row>
@@ -252,6 +274,10 @@
                   <el-col :span="6"><div class="grid-content bg-purple">
 
                     <span class="comment"><font size="4"><b>{{blog.comment}}</b></b></font>条评论 </span>
+                  </div></el-col>
+                  <el-col :span="12"><div class="grid-content bg-purple">
+
+                    <span ><b>{{blog.tag}}</b> </span>
                   </div></el-col>
                 </el-row>
 
@@ -380,6 +406,7 @@
                      page:page,
                      input:this.input,
                      account:this.blogger.account
+
                   }
               }).then(resp=>{
                   this.blogs=resp.data;
@@ -460,6 +487,35 @@
 
       data: function() {
         return {
+          options: [{
+            value: '硬件',
+            label: '硬件'
+          }, {
+            value: '软件',
+            label: '软件'
+          }, {
+            value: 'Java',
+            label: 'Java'
+          }, {
+            value: 'C',
+            label: 'C'
+          }, {
+            value: 'C++',
+            label: 'C++'
+          }, {
+            value: 'Python',
+            label: 'Python'
+          }, {
+            value: '后端',
+            label: '后端'
+          }, {
+            value: '前端',
+            label: '前端'
+          }, {
+            value: '移动开发',
+            label: '移动开发'
+          }],
+          value1:'',
 
 
          //navigation-bar
@@ -489,7 +545,8 @@
                 title:"元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组",
                 uid:123,
                 like:100,
-                comment:1000
+                comment:1000,
+                tag:'java'
               },
               {
                 title:"元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组",
