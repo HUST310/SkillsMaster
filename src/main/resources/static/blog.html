@@ -553,6 +553,7 @@
                     message: '内容违规，发布失败！',
                     type: 'error'
                   });
+
               }
               else{
                 this.$message({
@@ -560,6 +561,8 @@
                       type: 'success'
                 });
               }
+
+              location.reload();
 
             });
           },
@@ -593,6 +596,8 @@
                       type: 'success'
                 });
               }
+
+              location.reload();
 
             });
           },
