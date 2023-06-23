@@ -265,7 +265,7 @@
         </div>
         <div class="comment-list">
 
-          <div class="comment-item" style="margin:80px;border-style:solid;border-width:2px;border-color:white;padding:50px"  v-for="comment in comments">
+          <div class="comment-item" style="margin:80px;border-style:solid;border-width:2px;border-color:white;padding:50px"  v-for="comment in comments" v-if="comment.uid!=''">
             <div class="root-comment-container">
               <el-row :gutter="20">
                 <el-col :span="3"><div class="grid-content bg-purple">
@@ -335,8 +335,8 @@
               <el-collapse @change="getSubComments(1,comment.uid)">
                 <el-collapse-item title="点击查看评论">
                   <div class="sub-comment-container">
-                    <div class="sub-comment-list" style="margin:40px;border-style:solid;border-width:2px;border-color:grey;padding:10px">
-                      <div class="sub-comment-item"  v-for="subComment in comment.subComments" >
+                    <div class="sub-comment-list" >
+                      <div class="sub-comment-item"  v-for="subComment in comment.subComments" style="margin:40px;border-style:solid;border-width:2px;border-color:grey;padding:10px">
                         <div class="sub-comment-commnetorcommentee-info">
 
                           <el-row>
@@ -420,7 +420,7 @@
                 background
                 layout="prev, pager, next"
                 :total="1000"
-                 @current-change="getComments">
+                 @current-change="getComments(blog.uid,$event)">
         </el-pagination>
       </div>
     </el-main>
@@ -531,7 +531,10 @@
           {
 
             this.dialogVisible = false;
-
+            this.$message({
+                      message: '已发送，等待审核',
+                      type: 'success'
+                });
             axios({
                 method:"post",
                 url:'/user/sendComment',
@@ -562,6 +565,10 @@
           },
 
       send(){
+          this.$message({
+                          message: '已发送，等待审核',
+                          type: 'success'
+                    });
             axios({
                 method:"post",
                 url:'/user/sendComment',
@@ -639,16 +646,8 @@
                 }
             }).then(resp=>{
 
-<!--            this.comments=resp.data;-->
 
-
-                let key1="commentorInfo";
-                let key2="content";
-                let key3="likes";
-                let key4="time";
-                let key5="uid";
-                let key6="subComments";
-
+                let count=0;
                 for(let i=0;i<resp.data.length;i++)
                 {
                   this.comments[i].commentorInfo=resp.data[i].commentorInfo;
@@ -656,15 +655,15 @@
                   this.comments[i].likes=resp.data[i].likes;
                   this.comments[i].time=resp.data[i].time;
                   this.comments[i].uid=resp.data[i].uid;
-
-
-<!--                  this.comments[i][key1]=resp.data[i].commentorInfo;-->
-<!--                  this.comments[i][key2]=resp.data[i].content;-->
-<!--                  this.comments[i][key3]=resp.data[i].likes;-->
-<!--                  this.comments[i][key4]=resp.data[i].time;-->
-<!--                  this.comments[i][key5]=resp.data[i].uid;-->
-
+                  count++;
                 }
+
+                for(let i=9;i>=count;i--)
+                {
+                  this.comments[i].uid='';
+                }
+
+
 
 
 

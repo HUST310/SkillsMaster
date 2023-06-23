@@ -178,7 +178,7 @@
               active-text-color="#ffd04b">
         <el-menu-item index="1" @click="backToMainPage">首页</el-menu-item>
         <el-menu-item index="2" @click="accessPersonalPage">个人主页</el-menu-item>
-        <el-menu-item index="3" @click="logout">退出登录</el-menu-item>
+        <el-menu-item index="3"   @click="logout">退出登录</el-menu-item>
       </el-menu>
     </div>
   </el-header>
@@ -191,6 +191,19 @@
           <el-divider></el-divider>
         <div id="search-box">
           <el-row :gutter="20">
+            <el-col :span="24">
+              <el-select v-model="value1" multiple placeholder="请选择标签">
+                <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="24">
+               <div style="color: white">0</div>
+            </el-col>
             <el-col :span="18">
               <div class="grid-content bg-purple">
                 <el-input
@@ -200,6 +213,7 @@
                 </el-input>
               </div>
             </el-col>
+
             <el-col :span="6">
               <div class="grid-content bg-purple">
                 <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
@@ -242,6 +256,9 @@
                             <div class="blog-updated-blogger-info-name" style="margin-top:15px">
                               <font size="4"><b>{{blog.name}}</b></b></font>
                             </div>
+                            <div class="" style="margin-top:15px">
+                              <font size="4"><b>{{blog.tag}}</b></b></font>
+                            </div>
                           </div></el-col>
                         </el-row>
 
@@ -282,10 +299,10 @@
 
             <div class="blogger-info-container">
               <el-row :gutter="20">
-                <el-col :span="12"><div class="grid-content bg-purple">
+                <el-col :span="18"><div class="grid-content bg-purple">
                   <div class="blogger-blogger-info-container" @click="access(blog.account)">
                     <el-row :gutter="20">
-                      <el-col :span="6"><div class="grid-content bg-purple">
+                      <el-col :span="4"><div class="grid-content bg-purple">
                         <div class="user-avatar" style="margin-top:15px">
                           <el-row class="demo-avatar demo-basic">
                             <el-col :span="12">
@@ -297,7 +314,7 @@
                           </el-row>
                         </div>
                       </div></el-col>
-                      <el-col :span="6"><div class="grid-content bg-purple">
+                      <el-col :span="20"><div class="grid-content bg-purple" style="text-align:left">
                         <div class="user-access-link">
                           <a>
                             <font size="5"><b>{{blog.name}}</b></b></font>
@@ -310,16 +327,26 @@
 
                   </div>
                 </div></el-col>
-                <el-col :span="12"><div class="grid-content bg-purple">
+                <el-col :span="6"><div class="grid-content bg-purple">
                   <div class="blogger-time-info-container" style="margin-top:10px">
                     <span>
                       <font size="3"><b>{{blog.time}}</b></b></font>
+                    </span>
+                    <br/>
+                    <span>
+                      <font size="3"><b>{{blog.tag}}</b></b></font>
                     </span>
                   </div>
                 </div></el-col>
 
               </el-row>
 
+
+
+            </div>
+            <div class="blog-tag-container" style="text-align:left">
+
+              <el-tag v-for="tag in blog.tag" style="margin:10px;width:50px">{{tag}}</el-tag>
 
 
             </div>
@@ -412,7 +439,6 @@
     new Vue({
       el: '#app',
 
-
       methods:{
 
 
@@ -438,7 +464,8 @@
                 url:'/user/searchBlogs',
                 data:{
                   input:this.input,
-                  page:this.page
+                  page:this.page,
+                  tag:this.value1
                 }
             }).then(resp=>{
                 this.blogs=resp.data;
@@ -529,7 +556,35 @@
       },
       data: function() {
         return {
-
+          options: [{
+            value: '硬件',
+            label: '硬件'
+          }, {
+            value: '软件',
+            label: '软件'
+          }, {
+            value: 'Java',
+            label: 'Java'
+          }, {
+            value: 'C',
+            label: 'C'
+          }, {
+            value: 'C++',
+            label: 'C++'
+          }, {
+            value: 'Python',
+            label: 'Python'
+          }, {
+            value: '后端',
+            label: '后端'
+          }, {
+            value: '前端',
+            label: '前端'
+          }, {
+            value: '移动开发',
+            label: '移动开发'
+          }],
+          value1: [],
         //updatedBlogs
         updatedBlogs:[
                    {
@@ -542,7 +597,8 @@
                       like:11,
                       comment:11,
                       uid:"blog-1",
-                      content:''
+                      content:'',
+                     tag:'java'
                     },
                     {
 
@@ -554,7 +610,8 @@
                       like:11,
                       comment:11,
                       uid:"blog-1",
-                      content:''
+                      content:'',
+                      tag:'python'
                     }
                  ],
 
@@ -598,7 +655,8 @@
                       title:"元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据元素用来将没有数字顺序的一组数据进行分组元素用来将没有数字顺序的一组数据",
                       like:114,
                       comment:514,
-                      uid:1123
+                      uid:1123,
+                     tag:'龙须面'
                    }
 
                  ]
