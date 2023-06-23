@@ -42,7 +42,7 @@ public class CommentController {
 
     @PostMapping("/user/getComments")
     public List<CommentResponse> getPostComments(@RequestBody Map<String,Integer> request){
-        QueryWrapper<Blogcomments> blogcommentsQueryWrapper = new QueryWrapper<Blogcomments>().eq("receiver", request.get("uid")).orderByDesc("likes");
+        QueryWrapper<Blogcomments> blogcommentsQueryWrapper = new QueryWrapper<Blogcomments>().eq("receiver", request.get("uid")).eq("state",'N').orderByDesc("likes");
         List<Blogcomments> blogcomments = blogcommentsService.page(new Page<>(request.get("page"), 10), blogcommentsQueryWrapper).getRecords();
         List<CommentResponse> commentResponses=new ArrayList<>();
         for (int i = 0; i < blogcomments.size(); i++) {
@@ -69,7 +69,7 @@ public class CommentController {
 
     @PostMapping("/user/getSubComments")
     public List<CommentResponse> getSubComments(@RequestBody Map<String,Integer> request){
-        QueryWrapper<Ccomments> ccommentsQueryWrapper = new QueryWrapper<Ccomments>().eq("receiver", request.get("uid")).orderByDesc("likes");
+        QueryWrapper<Ccomments> ccommentsQueryWrapper = new QueryWrapper<Ccomments>().eq("receiver", request.get("uid")).eq("state",'N').orderByDesc("likes");
         List<Ccomments> cComments = ccommentsService.page(new Page<>(request.get("page"), 10),ccommentsQueryWrapper ).getRecords();
         List<CommentResponse> commentResponses=new ArrayList<>();
         for (int i = 0; i < cComments.size(); i++) {
