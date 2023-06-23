@@ -98,15 +98,18 @@ public class BlogController {
     @PostMapping("/user/searchBlogs")
     public List<BlogResponse> searchBlogs(@RequestBody Map<String, Object> request) {
         String input = (String) request.get("input");
-        QueryWrapper<Blogs> queryWrapper = new QueryWrapper<Blogs>();
+        QueryWrapper<Blogs> queryWrapper = new QueryWrapper<Blogs>().eq("state",'N');
 //        List<String>tags = (List<String>) request.get("tag");
 //        System.out.println(tags.get(1));
 //
 //        for (int i = 0; i < tags.size(); i++) {
-//            queryWrapper.like("tag",tags.get(i));
+//            if(i<=tags.size()-1){
+//                queryWrapper=queryWrapper.like("tag",tags.get(i)).or();
+//            }
+//            else {queryWrapper=queryWrapper.like("tag",tags.get(i));}
 //        }
         List<BlogResponse> blogResponses = new ArrayList<>();
-        queryWrapper.eq("state",'N').like("title", input).or().like("content", input).orderByDesc("likes").orderByDesc("time");
+        queryWrapper.like("title", input).or().like("content", input).orderByDesc("likes").orderByDesc("time");
         List<Blogs> blogs = blogsService.page(new Page<Blogs>((Integer) request.get("page"), 10), queryWrapper).getRecords();
         for (int i = 0; i < blogs.size(); i++) {
             BlogResponse blogResponse = new BlogResponse();
