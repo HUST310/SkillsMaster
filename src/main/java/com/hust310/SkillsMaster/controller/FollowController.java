@@ -50,6 +50,14 @@ public class FollowController {
         return true;
     }
 
+    @PostMapping("/user/checkIfFollow")
+    public Long checkFollow(HttpSession session,@RequestBody Map<String,Integer> request) {
+        //session.setAttribute("uid",1);
+        request.get("account");
+        QueryWrapper<Follow> queryWrapper = new QueryWrapper<Follow>().eq("follower", (Integer) session.getAttribute("uid")).eq("blogger", request.get("account"));
+        return followService.count(queryWrapper);
+
+    }
 
     @PostMapping("/user/unFollow")
     public void unfollow(@RequestBody Map<String,Integer> request, HttpSession session) {
