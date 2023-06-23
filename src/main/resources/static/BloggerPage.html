@@ -235,18 +235,6 @@
 
                 </div>
               </div></el-col>
-              <el-col :span="6"><div class="grid-content bg-purple">
-                <div class="search-box-textarea">
-                  <el-select v-model="value1" multiple placeholder="请选择标签">
-                    <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </el-option>
-                  </el-select>
-                </div>
-              </div></el-col>
 
               <el-col :span="2"><div class="grid-content bg-purple">
                 <div class="search-box-button">
@@ -504,35 +492,7 @@
 
       data: function() {
         return {
-          options: [{
-            value: '硬件',
-            label: '硬件'
-          }, {
-            value: '软件',
-            label: '软件'
-          }, {
-            value: 'Java',
-            label: 'Java'
-          }, {
-            value: 'C',
-            label: 'C'
-          }, {
-            value: 'C++',
-            label: 'C++'
-          }, {
-            value: 'Python',
-            label: 'Python'
-          }, {
-            value: '后端',
-            label: '后端'
-          }, {
-            value: '前端',
-            label: '前端'
-          }, {
-            value: '移动开发',
-            label: '移动开发'
-          }],
-          value1:'',
+
 
 
          //navigation-bar
