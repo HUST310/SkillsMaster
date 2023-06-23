@@ -86,7 +86,7 @@ public class UserController {
     @PostMapping("/user/getBloggerInfoByUidOfBlog")
     public User getUserInfo(@RequestBody Map<String, Integer> request) {
         Blogs blog = blogsService.getById(request.get("uid"));
-        return userService.getById(blog.getUid());
+        return userService.getById(blog.getOwner());
     }
 
     /* 访问博主主页，获取博主个人信息*/
@@ -97,6 +97,7 @@ public class UserController {
         BloggerInfo bloggerInfo = new BloggerInfo();
         bloggerInfo.setUsername(user.getUsername());
         bloggerInfo.setAvatar(user.getAvatar());
+        bloggerInfo.setSignature(user.getSignature());
         bloggerInfo.setFans(followService.count(new QueryWrapper<Follow>().eq("blogger", account)));
         bloggerInfo.setArticles(blogsService.count(new QueryWrapper<Blogs>().eq("owner", account)));
         return bloggerInfo;
