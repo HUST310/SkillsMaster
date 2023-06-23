@@ -123,8 +123,21 @@
 <script src='js/Rx.min.js'></script>
 <script src='js/rxcss.min.js'></script>
 <script src="js/index.js"></script>
-
+<!--禁止页面回退-->
 <script>
+　$(function() {
+　　if (window.history && window.history.pushState) {
+　　$(window).on('popstate', function () {
+　　window.history.pushState('forward', null, '#');
+　　window.history.forward(1);
+　　});
+　　}
+　　window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+　　window.history.forward(1);
+　　})
+</script>
+<script>
+
     new Vue( {
         el:"#app",
         data() {
@@ -153,6 +166,10 @@
                     else if(resp.data=="password error")
                     {
                         this.$message.error('密码输入错误！');
+                    }
+                    else if(resp.data=="banning")
+                    {
+                        this.$message.error('账号已封禁');
                     }
                     else if(this.form.accountNumber==11||this.form.accountNumber=="11"){
                         this.$message({
