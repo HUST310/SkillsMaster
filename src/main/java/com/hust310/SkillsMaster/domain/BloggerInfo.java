@@ -9,4 +9,5 @@ public class BloggerInfo {
     private Long articles;
     private String username;
     private String avatar;
+    private String signature;
 }

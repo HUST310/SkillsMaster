@@ -97,6 +97,7 @@ public class UserController {
         BloggerInfo bloggerInfo = new BloggerInfo();
         bloggerInfo.setUsername(user.getUsername());
         bloggerInfo.setAvatar(user.getAvatar());
+        bloggerInfo.setSignature(user.getSignature());
         bloggerInfo.setFans(followService.count(new QueryWrapper<Follow>().eq("blogger", account)));
         bloggerInfo.setArticles(blogsService.count(new QueryWrapper<Blogs>().eq("owner", account)));
         return bloggerInfo;
