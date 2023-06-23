@@ -375,6 +375,16 @@
                     }
                 })
             },
+            getout(){
+                axios({
+                    method: "post",
+                    url: '/user/logout',
+                    data: {
+                    }
+                }).then(resp => {
+                })
+                location.href = "Login.html"
+            },
             fetchname() {
                 axios
                     .get("/getname")
