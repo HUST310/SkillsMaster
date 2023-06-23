@@ -10,4 +10,5 @@ public class BloggerInfo {
     private String username;
     private String avatar;
     private String signature;
+    private Integer account;
 }
