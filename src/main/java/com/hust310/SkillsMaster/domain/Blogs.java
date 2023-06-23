@@ -77,4 +77,11 @@ public class Blogs implements Serializable {
     public void addComment(){
        ++comment;
     }
+
+    public String[] getTagArray(){
+        if(tag == null || tag.trim().length() == 0){
+            return null;
+        }
+        return tag.split(",");
+    }
 }

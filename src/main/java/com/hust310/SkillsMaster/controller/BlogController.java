@@ -88,7 +88,7 @@ public class BlogController {
                 blogResponse.setContent(followBlog.getContent());
                 blogResponse.setTime(followBlog.getTime());
                 blogResponse.setUid(followBlog.getUid());
-                blogResponse.setTag(followBlog.getTag());
+                blogResponse.setTag(followBlog.getTagArray());
                 blogResponses.add(blogResponse);
             }
         }
@@ -115,7 +115,7 @@ public class BlogController {
             blogResponse.setContent(blog.getContent());
             blogResponse.setTime(blog.getTime());
             blogResponse.setUid(blog.getUid());
-            blogResponse.setTag(blog.getTag());
+            blogResponse.setTag(blog.getTagArray());
             blogResponses.add(blogResponse);
         }
         return blogResponses;
@@ -136,7 +136,7 @@ public class BlogController {
             blogResponse.setContent(blog.getContent());
             blogResponse.setTime(blog.getTime());
             blogResponse.setUid(blog.getUid());
-            blogResponse.setTag(blog.getTag());
+            blogResponse.setTag(blog.getTagArray());
             blogResponses.add(blogResponse);
         }
         return blogResponses;
@@ -160,7 +160,7 @@ public class BlogController {
             blogResponse.setTitle(hotBlog.getTitle());
             blogResponse.setContent(hotBlog.getContent());
             blogResponse.setTime(hotBlog.getTime());
-            blogResponse.setTag(hotBlog.getTag());
+            blogResponse.setTag(hotBlog.getTagArray());
             blogResponse.setUid(hotBlog.getUid());
             blogResponses.add(blogResponse);
         }
@@ -186,7 +186,7 @@ public class BlogController {
             blogResponse.setContent(blog.getContent());
             blogResponse.setTime(blog.getTime());
             blogResponse.setUid(blog.getUid());
-            blogResponse.setTag(blog.getTag());
+            blogResponse.setTag(blog.getTagArray());
             blogResponses.add(blogResponse);
         }
         return blogResponses;

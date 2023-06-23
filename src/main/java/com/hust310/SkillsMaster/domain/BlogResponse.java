@@ -26,6 +26,6 @@ public class BlogResponse {
 
     private String name;
 
-    private String tag;
+    private String[] tag;
 
 }

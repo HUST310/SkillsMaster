@@ -44,4 +44,13 @@ class SkillsMasterApplicationTests {
                         .eq("owner", 1)));
     }
 
+
+    @Test
+    void testSplit(){
+        String tag="c,java,后端";
+        String[] split = tag.split(",");
+        System.out.println(split.length);
+        System.out.println(split[2]);
+    }
+
 }
