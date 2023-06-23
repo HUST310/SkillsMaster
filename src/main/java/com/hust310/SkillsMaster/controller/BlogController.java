@@ -70,7 +70,7 @@ public class BlogController {
         List<BlogResponse> blogResponses = new ArrayList<>();
         //session.setAttribute("uid", 1);
         Integer account = (Integer) session.getAttribute("uid");
-        List<Integer> bloggers = followService.list(new QueryWrapper<Follow>().eq("follower", account))
+        List<Integer> bloggers = followService.list(new QueryWrapper<Follow>().eq("state",'N').eq("follower", account))
                 .stream().map(Follow::getBlogger).collect(Collectors.toList());
         if (bloggers.size() > 0) {
             List<Blogs> followBlogs = blogsService.list(new QueryWrapper<Blogs>().in("owner", bloggers).orderByDesc("time"));
@@ -99,7 +99,7 @@ public class BlogController {
     public List<BlogResponse> searchBlogs(@RequestBody Map<String, Object> request) {
         String input = (String) request.get("input");
         List<BlogResponse> blogResponses = new ArrayList<>();
-        QueryWrapper<Blogs> queryWrapper = new QueryWrapper<Blogs>().like("title", input).or().like("content", input).orderByDesc("likes").orderByDesc("time");
+        QueryWrapper<Blogs> queryWrapper = new QueryWrapper<Blogs>().eq("state",'N').like("title", input).or().like("content", input).orderByDesc("likes").orderByDesc("time");
         List<Blogs> blogs = blogsService.page(new Page<Blogs>((Integer) request.get("page"), 10), queryWrapper).getRecords();
         for (int i = 0; i < blogs.size(); i++) {
             BlogResponse blogResponse = new BlogResponse();
@@ -145,7 +145,7 @@ public class BlogController {
     @PostMapping("/user/getBlogs")
     public List<BlogResponse> getHot(@RequestBody Map<String, Integer> request) {
         List<BlogResponse> blogResponses = new ArrayList<>();
-        Page<Blogs> hotPage = blogsService.page(new Page<Blogs>(request.get("page"), 10), new QueryWrapper<Blogs>().orderByDesc("likes"));
+        Page<Blogs> hotPage = blogsService.page(new Page<Blogs>(request.get("page"), 10), new QueryWrapper<Blogs>().eq("state",'N').orderByDesc("likes"));
         List<Blogs> hotBlogs = hotPage.getRecords();
         for (int i = 0; i < hotBlogs.size(); i++) {
             BlogResponse blogResponse = new BlogResponse();
@@ -175,7 +175,7 @@ public class BlogController {
     @PostMapping("/user/getBlogsOfBlogger")
     public List<BlogResponse> getBlogsOfBlogger(@RequestBody Map<String, Integer> request) {
         List<BlogResponse> blogResponses = new ArrayList<>();
-        QueryWrapper<Blogs> blogsQueryWrapper = new QueryWrapper<Blogs>().eq("owner", request.get("account")).orderByDesc("time");
+        QueryWrapper<Blogs> blogsQueryWrapper = new QueryWrapper<Blogs>().eq("owner", request.get("account")).eq("state",'N').orderByDesc("time");
         List<Blogs> blogs = blogsService.page(new Page<Blogs>(request.get("page"), 10), blogsQueryWrapper).getRecords();
         for (int i = 0; i < blogs.size(); i++) {
             BlogResponse blogResponse = new BlogResponse();
