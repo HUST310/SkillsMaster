@@ -264,6 +264,9 @@ public class BlogController {
     @PostMapping("/Write/get")
     public Map<String, Object> getBlog(@RequestBody Map<String, Object> param) {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+        if (!param.containsKey("uid")) {
+            return null;
+        }
         Blogs byId = blogsService.getById(Integer.valueOf((String) param.get("uid")));
         map.put("title", byId.getTitle());
         map.put("content", byId.getContent());
