@@ -3,7 +3,10 @@ package com.hust310.SkillsMaster.controller;
 import com.baidu.aip.contentcensor.EImgType;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hust310.SkillsMaster.config.BaiduAPI;
-import com.hust310.SkillsMaster.domain.*;
+import com.hust310.SkillsMaster.domain.BloggerInfo;
+import com.hust310.SkillsMaster.domain.Blogs;
+import com.hust310.SkillsMaster.domain.Follow;
+import com.hust310.SkillsMaster.domain.User;
 import com.hust310.SkillsMaster.service.BlogcommentsService;
 import com.hust310.SkillsMaster.service.BlogsService;
 import com.hust310.SkillsMaster.service.FollowService;
@@ -175,12 +178,13 @@ public class UserController {
     public Map<String, Object> getData(HttpSession session) {
 //        session.setAttribute("uid", 1);
         Integer uid = (Integer) session.getAttribute("uid");
-        List<Blogs> blogs = blogsService.list(new QueryWrapper<Blogs>().eq("owner", uid));
+        List<Blogs> blogs = blogsService.list(new QueryWrapper<Blogs>().eq("owner", uid).eq("state", "N"));
         long likes = 0;
         long comments = 0;
         for (Blogs blog : blogs) {
             likes += blog.getLikes();
-            comments += blogcommentsService.count(new QueryWrapper<Blogcomments>().eq("receiver", blog.getUid()));
+//            comments += blogcommentsService.count(new QueryWrapper<Blogcomments>().eq("receiver", blog.getUid()));
+            comments += blog.getComment();
         }
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
         map.put("viewNumber", likes);
