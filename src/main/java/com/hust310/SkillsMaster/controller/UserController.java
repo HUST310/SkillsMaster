@@ -218,6 +218,10 @@ public class UserController {
 
     @GetMapping("/administrator/get")
     public List<User> getUsers() {
-        return userService.list();
+        List<User> users = userService.list();
+        for (User user : users) {
+            user.setPassword("");
+        }
+        return users;
     }
 }
