@@ -100,6 +100,11 @@ public class BlogController {
         for (int i = 0; i < blogs.size(); i++) {
             BlogResponse blogResponse = new BlogResponse();
             Blogs blog = blogs.get(i);
+            Integer bloggerId = blog.getOwner();
+            User blogger = userService.getById(bloggerId);
+            blogResponse.setAccount(blogger.getAccount());
+            blogResponse.setAvatar(blogger.getAvatar());
+            blogResponse.setName(blogger.getUsername());
             blogResponse.setComment(blog.getComment());
             blogResponse.setLike(blog.getLikes());
             blogResponse.setTitle(blog.getTitle());
