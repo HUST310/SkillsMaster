@@ -256,12 +256,11 @@
                             <div class="blog-updated-blogger-info-name" style="margin-top:15px">
                               <font size="4"><b>{{blog.name}}</b></b></font>
                             </div>
-                            <div class="" style="margin-top:15px">
-                              <font size="4"><b>{{blog.tag}}</b></b></font>
-                            </div>
                           </div></el-col>
                         </el-row>
-
+                        <div class="blog-tag-container" style="text-align:left">
+                          <el-tag v-for="tag in blog.tag" style="margin:10px;width:50px">{{tag}}</el-tag>
+                        </div>
 
                       </div>
                     </div></el-col>
@@ -333,9 +332,6 @@
                       <font size="3"><b>{{blog.time}}</b></b></font>
                     </span>
                     <br/>
-                    <span>
-                      <font size="3"><b>{{blog.tag}}</b></b></font>
-                    </span>
                   </div>
                 </div></el-col>
 
@@ -598,7 +594,7 @@
                       comment:11,
                       uid:"blog-1",
                       content:'',
-                     tag:'java'
+                     tag:["java","python","硬件"]
                     },
                     {
 
@@ -611,7 +607,7 @@
                       comment:11,
                       uid:"blog-1",
                       content:'',
-                      tag:'python'
+                      tag:["java","python"]
                     }
                  ],
 
@@ -656,7 +652,7 @@
                       like:114,
                       comment:514,
                       uid:1123,
-                     tag:'龙须面'
+                     tag:["龙须面"]
                    }
 
                  ]
