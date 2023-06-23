@@ -212,7 +212,7 @@
                     .get("/getname")
                     .then(
                         response => {
-                            this.name = response.name;
+                            this.name = response.data;
                         },
                         response => {
                             console.log("error");
@@ -226,7 +226,6 @@
                     data: {
                     }
                 }).then(resp => {
-
                 })
                 location.href = "Login.html"
             },
