@@ -73,7 +73,7 @@ public class BlogController {
         List<Integer> bloggers = followService.list(new QueryWrapper<Follow>().eq("state",'N').eq("follower", account))
                 .stream().map(Follow::getBlogger).collect(Collectors.toList());
         if (bloggers.size() > 0) {
-            List<Blogs> followBlogs = blogsService.list(new QueryWrapper<Blogs>().in("owner", bloggers).orderByDesc("time"));
+            List<Blogs> followBlogs = blogsService.list(new QueryWrapper<Blogs>().in("owner", bloggers).eq("state",'N').orderByDesc("time"));
             for (int i = 0; i < followBlogs.size(); i++) {
                 BlogResponse blogResponse = new BlogResponse();
                 Blogs followBlog = followBlogs.get(i);
@@ -98,10 +98,15 @@ public class BlogController {
     @PostMapping("/user/searchBlogs")
     public List<BlogResponse> searchBlogs(@RequestBody Map<String, Object> request) {
         String input = (String) request.get("input");
+        QueryWrapper<Blogs> queryWrapper = new QueryWrapper<Blogs>();
 //        List<String>tags = (List<String>) request.get("tag");
 //        System.out.println(tags.get(1));
+//
+//        for (int i = 0; i < tags.size(); i++) {
+//            queryWrapper.like("tag",tags.get(i));
+//        }
         List<BlogResponse> blogResponses = new ArrayList<>();
-        QueryWrapper<Blogs> queryWrapper = new QueryWrapper<Blogs>().eq("state",'N').like("title", input).or().like("content", input).orderByDesc("likes").orderByDesc("time");
+        queryWrapper.eq("state",'N').like("title", input).or().like("content", input).orderByDesc("likes").orderByDesc("time");
         List<Blogs> blogs = blogsService.page(new Page<Blogs>((Integer) request.get("page"), 10), queryWrapper).getRecords();
         for (int i = 0; i < blogs.size(); i++) {
             BlogResponse blogResponse = new BlogResponse();
