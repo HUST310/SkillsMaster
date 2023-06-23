@@ -70,7 +70,7 @@ public class BlogController {
         List<BlogResponse> blogResponses = new ArrayList<>();
         //session.setAttribute("uid", 1);
         Integer account = (Integer) session.getAttribute("uid");
-        List<Integer> bloggers = followService.list(new QueryWrapper<Follow>().eq("state",'N').eq("follower", account))
+        List<Integer> bloggers = followService.list(new QueryWrapper<Follow>().eq("follower", account))
                 .stream().map(Follow::getBlogger).collect(Collectors.toList());
         if (bloggers.size() > 0) {
             List<Blogs> followBlogs = blogsService.list(new QueryWrapper<Blogs>().in("owner", bloggers).eq("state",'N').orderByDesc("time"));
