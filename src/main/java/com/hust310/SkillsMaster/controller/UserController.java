@@ -48,14 +48,15 @@ public class UserController {
     @PostMapping("/login")
     public String login(HttpSession session, @RequestBody User user) {
         User sqluser = userService.getById(user.getAccount());
-        if (sqluser.getState().equals("C")) {
-            return "banning";
-        }
+
         if (sqluser == null) {
             return "account error";
         } else if (!user.getPassword().equals(sqluser.getPassword())) {
             return "password error";
-        } else {
+        }else if (sqluser.getState().equals("C")){
+                return "banning";
+        }
+        else {
             session.setAttribute("uid", user.getAccount());
             return "success";
         }
